@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hym.project.mapper.TaskMapper">
+  <resultMap id="BaseResultMap" type="com.hym.project.domain.Task">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="total_sum" jdbcType="DECIMAL" property="totalSum" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_received" jdbcType="INTEGER" property="isReceived" />
+    <result column="token" jdbcType="DECIMAL" property="token" />
+    <result column="commission" jdbcType="INTEGER" property="commission" />
+    <result column="insert_user" jdbcType="VARCHAR" property="insertUser" />
+    <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
+    <result column="checker" jdbcType="VARCHAR" property="checker" />
+    <result column="release_user" jdbcType="VARCHAR" property="releaseUser" />
+    <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, description, icon, count, total_sum, start_date, end_date, status, is_received, 
+    token, commission, insert_user, insert_date, checker, release_user, release_time
+  </sql>
+  <select id="selectCount"  resultType="java.lang.Integer">
+    select sum(COUNT) count from task
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from task
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from task
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hym.project.domain.Task">
+    insert into task (id, title, description, 
+      icon, count, total_sum, 
+      start_date, end_date, status, 
+      is_received, token, commission, 
+      insert_user, insert_date, checker, 
+      release_user, release_time)
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{totalSum,jdbcType=DECIMAL}, 
+      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{isReceived,jdbcType=INTEGER}, #{token,jdbcType=DECIMAL}, #{commission,jdbcType=INTEGER}, 
+      #{insertUser,jdbcType=VARCHAR}, #{insertDate,jdbcType=TIMESTAMP}, #{checker,jdbcType=VARCHAR}, 
+      #{releaseUser,jdbcType=VARCHAR}, #{releaseTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hym.project.domain.Task">
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="totalSum != null">
+        total_sum,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isReceived != null">
+        is_received,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="commission != null">
+        commission,
+      </if>
+      <if test="insertUser != null">
+        insert_user,
+      </if>
+      <if test="insertDate != null">
+        insert_date,
+      </if>
+      <if test="checker != null">
+        checker,
+      </if>
+      <if test="releaseUser != null">
+        release_user,
+      </if>
+      <if test="releaseTime != null">
+        release_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="totalSum != null">
+        #{totalSum,jdbcType=DECIMAL},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isReceived != null">
+        #{isReceived,jdbcType=INTEGER},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=DECIMAL},
+      </if>
+      <if test="commission != null">
+        #{commission,jdbcType=INTEGER},
+      </if>
+      <if test="insertUser != null">
+        #{insertUser,jdbcType=VARCHAR},
+      </if>
+      <if test="insertDate != null">
+        #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checker != null">
+        #{checker,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseUser != null">
+        #{releaseUser,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.Task">
+    update task
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="totalSum != null">
+        total_sum = #{totalSum,jdbcType=DECIMAL},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isReceived != null">
+        is_received = #{isReceived,jdbcType=INTEGER},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=DECIMAL},
+      </if>
+      <if test="commission != null">
+        commission = #{commission,jdbcType=INTEGER},
+      </if>
+      <if test="insertUser != null">
+        insert_user = #{insertUser,jdbcType=VARCHAR},
+      </if>
+      <if test="insertDate != null">
+        insert_date = #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checker != null">
+        checker = #{checker,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseUser != null">
+        release_user = #{releaseUser,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hym.project.domain.Task">
+    update task
+    set title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      total_sum = #{totalSum,jdbcType=DECIMAL},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      is_received = #{isReceived,jdbcType=INTEGER},
+      token = #{token,jdbcType=DECIMAL},
+      commission = #{commission,jdbcType=INTEGER},
+      insert_user = #{insertUser,jdbcType=VARCHAR},
+      insert_date = #{insertDate,jdbcType=TIMESTAMP},
+      checker = #{checker,jdbcType=VARCHAR},
+      release_user = #{releaseUser,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

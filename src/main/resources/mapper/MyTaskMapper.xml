@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hym.project.mapper.MyTaskMapper">
+  <resultMap id="BaseResultMap" type="com.hym.project.domain.MyTask">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="tid" jdbcType="VARCHAR" property="tid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="token" jdbcType="DECIMAL" property="token" />
+    <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
+    <result column="finish_date" jdbcType="TIMESTAMP" property="finishDate" />
+    <result column="final_date" jdbcType="TIMESTAMP" property="finalDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uid, tid, title, status, icon, result, token, insert_date, finish_date, final_date
+  </sql>
+
+  <select id="selectCount"  resultType="java.lang.Integer">
+    select count(1) count from my_task
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from my_task
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from my_task
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hym.project.domain.MyTask">
+    insert into my_task (id, uid, tid, 
+      title, status, icon, 
+      result, token, insert_date, 
+      finish_date, final_date)
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{tid,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
+      #{result,jdbcType=VARCHAR}, #{token,jdbcType=DECIMAL}, #{insertDate,jdbcType=TIMESTAMP}, 
+      #{finishDate,jdbcType=TIMESTAMP}, #{finalDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hym.project.domain.MyTask">
+    insert into my_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="insertDate != null">
+        insert_date,
+      </if>
+      <if test="finishDate != null">
+        finish_date,
+      </if>
+      <if test="finalDate != null">
+        final_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="tid != null">
+        #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=DECIMAL},
+      </if>
+      <if test="insertDate != null">
+        #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishDate != null">
+        #{finishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalDate != null">
+        #{finalDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.MyTask">
+    update my_task
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="tid != null">
+        tid = #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=DECIMAL},
+      </if>
+      <if test="insertDate != null">
+        insert_date = #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishDate != null">
+        finish_date = #{finishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalDate != null">
+        final_date = #{finalDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hym.project.domain.MyTask">
+    update my_task
+    set uid = #{uid,jdbcType=VARCHAR},
+      tid = #{tid,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR},
+      token = #{token,jdbcType=DECIMAL},
+      insert_date = #{insertDate,jdbcType=TIMESTAMP},
+      finish_date = #{finishDate,jdbcType=TIMESTAMP},
+      final_date = #{finalDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
