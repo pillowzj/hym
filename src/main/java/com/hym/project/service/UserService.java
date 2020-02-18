@@ -13,8 +13,9 @@ public interface UserService {
 
     User selectByPrimaryKey(String id);
 
-    @Select("select * from user where openid=#{openid}")
-    User selectByOpenID(String openid);
+
+    User getOpenid(String openid);
+
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);

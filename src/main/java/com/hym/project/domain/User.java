@@ -1,7 +1,5 @@
 package com.hym.project.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 public class User {
@@ -29,6 +27,10 @@ public class User {
 
     private String email;
 
+    private String myInviteCode;
+
+    private String invitedCode;
+
     private String channel;
 
     private String userType;
@@ -45,10 +47,6 @@ public class User {
 
     private String address;
 
-    private String myInviteCode;
-
-    private String inviteCode;
-
     private String idPositive;
 
     private String idOpposite;
@@ -57,9 +55,9 @@ public class User {
 
     private String idExpirDate;
 
-    private String goodAt;
+    private String speciality;
 
-    private String personalResume;
+    private String profile;
 
     private Integer isAutho;
 
@@ -71,10 +69,16 @@ public class User {
 
     private String major;
 
+    private Integer payType;
+
+    private String payName;
+
+    private String payCode;
+
     private String lastLoginIp;
 
     private String lastLoginTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
     private Date insertTime;
 
     public String getId() {
@@ -173,6 +177,22 @@ public class User {
         this.email = email == null ? null : email.trim();
     }
 
+    public String getMyInviteCode() {
+        return myInviteCode;
+    }
+
+    public void setMyInviteCode(String myInviteCode) {
+        this.myInviteCode = myInviteCode == null ? null : myInviteCode.trim();
+    }
+
+    public String getInvitedCode() {
+        return invitedCode;
+    }
+
+    public void setInvitedCode(String invitedCode) {
+        this.invitedCode = invitedCode == null ? null : invitedCode.trim();
+    }
+
     public String getChannel() {
         return channel;
     }
@@ -237,22 +257,6 @@ public class User {
         this.address = address == null ? null : address.trim();
     }
 
-    public String getMyInviteCode() {
-        return myInviteCode;
-    }
-
-    public void setMyInviteCode(String myInviteCode) {
-        this.myInviteCode = myInviteCode == null ? null : myInviteCode.trim();
-    }
-
-    public String getInviteCode() {
-        return inviteCode;
-    }
-
-    public void setInviteCode(String inviteCode) {
-        this.inviteCode = inviteCode == null ? null : inviteCode.trim();
-    }
-
     public String getIdPositive() {
         return idPositive;
     }
@@ -285,20 +289,20 @@ public class User {
         this.idExpirDate = idExpirDate == null ? null : idExpirDate.trim();
     }
 
-    public String getGoodAt() {
-        return goodAt;
+    public String getSpeciality() {
+        return speciality;
     }
 
-    public void setGoodAt(String goodAt) {
-        this.goodAt = goodAt == null ? null : goodAt.trim();
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality == null ? null : speciality.trim();
     }
 
-    public String getPersonalResume() {
-        return personalResume;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setPersonalResume(String personalResume) {
-        this.personalResume = personalResume == null ? null : personalResume.trim();
+    public void setProfile(String profile) {
+        this.profile = profile == null ? null : profile.trim();
     }
 
     public Integer getIsAutho() {
@@ -339,6 +343,30 @@ public class User {
 
     public void setMajor(String major) {
         this.major = major == null ? null : major.trim();
+    }
+
+    public Integer getPayType() {
+        return payType;
+    }
+
+    public void setPayType(Integer payType) {
+        this.payType = payType;
+    }
+
+    public String getPayName() {
+        return payName;
+    }
+
+    public void setPayName(String payName) {
+        this.payName = payName == null ? null : payName.trim();
+    }
+
+    public String getPayCode() {
+        return payCode;
+    }
+
+    public void setPayCode(String payCode) {
+        this.payCode = payCode == null ? null : payCode.trim();
     }
 
     public String getLastLoginIp() {

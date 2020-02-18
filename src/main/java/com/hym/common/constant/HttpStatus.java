@@ -68,6 +68,15 @@ public interface HttpStatus
     public static final int BAD_METHOD = 405;
 
     /**
+     * 验证码错误
+     */
+    public static final int BAD_VERIFY_CODE = 406;
+    /**
+     * 两次密码不一致
+     */
+    public static final int BAD_REPWD = 407;
+
+    /**
      * 资源冲突，或者资源被锁
      */
     public static final int CONFLICT = 409;

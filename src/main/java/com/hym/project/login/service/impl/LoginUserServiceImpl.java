@@ -35,7 +35,7 @@ public class LoginUserServiceImpl implements LoginUserService {
     }
 
     @Override
-    public User selectByOpenID(String openid) {
+    public User getOpenid(String openid) {
 
         return userMapper.selectByOpenID(openid);
     }

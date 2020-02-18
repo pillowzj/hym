@@ -31,7 +31,7 @@ public class userServiceImpl implements UserService {
     }
 
     @Override
-    public User selectByOpenID(String openid) {
+    public User getOpenid(String openid) {
         return null;
     }
 

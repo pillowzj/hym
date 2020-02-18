@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
-        User user = dlUserService.selectByOpenID(username);
+        User user = dlUserService.getOpenid(username);
         if (StringUtils.isNull(user))
         {
             log.info("登录用户：{} 不存在.", username);

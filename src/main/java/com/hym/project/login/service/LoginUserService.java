@@ -11,7 +11,7 @@ public interface LoginUserService {
 
     User selectByPrimaryKey(String id);
 
-    User selectByOpenID(String openid);
+    User getOpenid(String openid);
 
     int updateByPrimaryKeySelective(User record);
 

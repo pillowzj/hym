@@ -127,8 +127,8 @@ public class CommonController
      * @param data
      * @return
      */
-    @PostMapping(value = "/sendMSG")
-    public String sendMSG(String data) {
+    @PostMapping(value = "/getVerifyCode")
+    public AjaxResult getVerifyCode(String data) {
 
 
 //        if (data == null || "".equals(data.trim())) {
@@ -139,9 +139,10 @@ public class CommonController
         String cellPhone = object.getString("cellPhone");
         boolean bool = true;
         bool = sendMessage.msgSend(cellPhone);
-//        if (Constant.IS_LOG) {
-//            logger.info(String.format("[[==============data:%b]]", bool));
-//        }
-        return JSON.toJSONString(new ResponseWraper("200", "OK", bool));
+        //        if (Constant.IS_LOG) {
+        //            logger.info(String.format("[[==============data:%b]]", bool));
+        //        }
+        return AjaxResult.success();
+//        JSON.toJSONString(new ResponseWraper("200", "OK", bool));
     }
 }

@@ -53,7 +53,7 @@ public class WXLoginService {
     }
     public Map login(String openid,String name,String face) {
 
-        User user = loginUserService.selectByOpenID(openid);
+        User user = loginUserService.getOpenid(openid);
 
         if(user == null){
             user = new User();
@@ -78,7 +78,7 @@ public class WXLoginService {
         // 生成token
         String token =tokenService.createToken(loginUser);
         Map map = new HashMap();
-        map.put("random","3467865432");
+
         map.put("face",face);
         map.put("name", name);
         map.put("openid",openid);
@@ -87,7 +87,7 @@ public class WXLoginService {
         map.put("cellPhone",user.getMobile());
         map.put("invitationCode",user.getMyInviteCode());
         map.put("status",user.getStatus());
-        // map.put("idNum",user.geti)
+        map.put("autho",user.getIsAutho());
         return map;
     }
     public boolean checkToken( String token) {

@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.hym.project.util.Matt;
 import com.hym.project.util.SessionUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -263,9 +262,14 @@ public class FileUploadUtils
         String uploadPath = HymConfig.getUploadPath()+"/" + fileName  + extension; // upload path
         HttpServletRequest request = SessionUtil.getRequest();
         String flag = request.getParameter("flag");
-        if(flag.equals("ID")){
-            uploadPath = HymConfig.getUploadPath()+"/id/" + fileName  + extension; //
+
+        String fileJia = HymConfig.getUploadPath()+"/"+flag;
+        File fileDir = new File(fileJia);
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
         }
+            uploadPath = fileJia +"/"+ fileName  + extension; //
+
         if (request.getContentLength() > 0) {
             InputStream inputStream = null;
             FileOutputStream outputStream = null;
