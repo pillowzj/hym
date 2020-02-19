@@ -24,32 +24,29 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 通用请求处理
- * 
+ *
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/api/hym")
-public class CommonController
-{
+@RequestMapping("/api/hym/comm")
+public class CommonController {
     private static final Logger log = LoggerFactory.getLogger(CommonController.class);
 
     @Autowired
     private ServerConfig serverConfig;
     @Autowired
     private SendMessage sendMessage;
+
     /**
      * 通用下载请求
-     * 
+     *
      * @param fileName 文件名称
-     * @param delete 是否删除
+     * @param delete   是否删除
      */
     @GetMapping("common/download")
-    public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request)
-    {
-        try
-        {
-            if (!FileUtils.isValidFilename(fileName))
-            {
+    public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
+        try {
+            if (!FileUtils.isValidFilename(fileName)) {
                 throw new Exception(StringUtils.format("文件名称({})非法，不允许下载。 ", fileName));
             }
             String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf("_") + 1);
@@ -60,13 +57,10 @@ public class CommonController
             response.setHeader("Content-Disposition",
                     "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, realFileName));
             FileUtils.writeBytes(filePath, response.getOutputStream());
-            if (delete)
-            {
+            if (delete) {
                 FileUtils.deleteFile(filePath);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("下载文件失败", e);
         }
     }
@@ -75,10 +69,8 @@ public class CommonController
      * 通用上传请求
      */
     @PostMapping("/common/upload")
-    public AjaxResult uploadFile(MultipartFile file) throws Exception
-    {
-        try
-        {
+    public AjaxResult uploadFile(MultipartFile file) throws Exception {
+        try {
             // 上传文件路径
             String filePath = HymConfig.getUploadPath();
             // 上传并返回新文件名称
@@ -88,9 +80,7 @@ public class CommonController
             ajax.put("fileName", fileName);
             ajax.put("url", url);
             return ajax;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return AjaxResult.error(e.getMessage());
         }
     }
@@ -107,14 +97,14 @@ public class CommonController
             fileName = FileUploadUtils.uploadFile(extension);
 
 
-                //logger.info(String.format("[[==============file Name %s]]", fileName));
+            //logger.info(String.format("[[==============file Name %s]]", fileName));
 
-            rw = new ResponseWraper("200", "ok",   fileName);
+            rw = new ResponseWraper("200", "ok", fileName);
         } catch (Exception e) {
             return AjaxResult.error(e.getMessage());
         }
 
-        String url = serverConfig.getUrl()+"/profile/upload/" + fileName;
+        String url = serverConfig.getUrl() + "/profile/upload/" + fileName;
         AjaxResult ajax = AjaxResult.success();
         ajax.put("fileName", fileName);
         ajax.put("url", url);

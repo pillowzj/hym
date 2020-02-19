@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class TaskServiceImpl implements TaskService {
 
-   @Autowired
+    @Autowired
     TaskMapper taskMapper;
+
     @Override
     public int deleteByPrimaryKey(String id) {
         return 0;
@@ -33,8 +35,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> selectAll(){
-       return taskMapper.selectAll();
+    public List<Task> selectAll() {
+        return taskMapper.selectAll();
     }
 
     @Override

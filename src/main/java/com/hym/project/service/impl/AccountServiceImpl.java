@@ -11,6 +11,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountMapper accountMapper;
+
     @Override
     public Account selectByPrimaryKey(String id) {
         return accountMapper.selectByPrimaryKey(id);
@@ -24,5 +25,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public int updateByPrimaryKeySelective(Account record) {
         return accountMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public Account getUserHYMByPrimaryKey(String id) {
+        return accountMapper.selectUserHYMByPrimaryKey(id);
     }
 }

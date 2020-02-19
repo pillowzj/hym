@@ -19,30 +19,32 @@ import java.util.stream.Collectors;
 
 /**
  * 任务
- *  @author lijun kou
+ *
+ * @author lijun kou
  */
 @RestController
-@RequestMapping("/api/hym")
+@RequestMapping("/api/hym/task")
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
     @Autowired
     private MyTaskService myTaskService;
+
     /**
-     *
      * 任务发放
+     *
      * @return
      * @Author lijun kou
      */
     @PostMapping("/gettasks")
-    public AjaxResult getTastList(String data){
+    public AjaxResult getTastList(String data) {
         JSONObject reqbody = JSON.parseObject(data);
         List<Task> tasks = taskService.selectAll();
 
         String uid = reqbody.getString("uid");
-        if(StringUtils.isEmpty(uid)){
-            return  AjaxResult.success(tasks);
+        if (StringUtils.isEmpty(uid)) {
+            return AjaxResult.success(tasks);
         }
         List<MyTask> myTasks = myTaskService.selectMyTask(uid);
 
@@ -51,28 +53,28 @@ public class TaskController {
 
         List<Task> collect = tasks.stream().filter(task -> myTasks.stream().noneMatch(myTask -> myTask.getTid().equals(task.getId()))).collect(Collectors.toList());
 
-        String str = JSON.toJSONString(new ResponseWraper("200", "ok",collect));
-        System.out.println(" List<Task> selectAll() --->"+str);
-        return  AjaxResult.success(collect);
+        String str = JSON.toJSONString(new ResponseWraper("200", "ok", collect));
+        System.out.println(" List<Task> selectAll() --->" + str);
+        return AjaxResult.success(collect);
     }
 
     @PostMapping("/getCount")
-    public AjaxResult getCount(){
+    public AjaxResult getCount() {
         int count = taskService.getCount();
-        int myCount= myTaskService.getCount();
+        int myCount = myTaskService.getCount();
         AjaxResult ajax = AjaxResult.success();
         ajax.put("count", count);
         ajax.put("yqCount", myCount);
-        ajax.put("wqCount",count-myCount);
+        ajax.put("wqCount", count - myCount);
 
         return ajax;
     }
 
     @PostMapping("/settask")
-    public AjaxResult setTast(){
+    public AjaxResult setTast() {
         List<Task> tasks = taskService.selectAll();
-        String str = JSON.toJSONString(new ResponseWraper("200", "ok",tasks));
-        System.out.println(" List<Task> selectAll() --->"+str);
-        return  AjaxResult.success(tasks);
+        String str = JSON.toJSONString(new ResponseWraper("200", "ok", tasks));
+        System.out.println(" List<Task> selectAll() --->" + str);
+        return AjaxResult.success(tasks);
     }
 }

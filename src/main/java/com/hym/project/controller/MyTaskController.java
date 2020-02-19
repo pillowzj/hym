@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * 我的任务
+ *
  * @Author lijun kou
  */
 @RestController
@@ -37,11 +38,12 @@ public class MyTaskController {
 
     /**
      * 领取任务
+     *
      * @param data
      * @return
      */
     @PostMapping("/createMyTask")
-    public AjaxResult createMyTask(String data){
+    public AjaxResult createMyTask(String data) {
         JSONObject reqbody = JSON.parseObject(data);
         String uid = reqbody.getString("uid");
         String tid = reqbody.getString("tid");
@@ -62,11 +64,12 @@ public class MyTaskController {
 
     /**
      * 我的任务
+     *
      * @param data
      * @return
      */
     @PostMapping("/getMyTask")
-    public AjaxResult getMyTask(String data){
+    public AjaxResult getMyTask(String data) {
         JSONObject reqbody = JSON.parseObject(data);
         String uid = reqbody.getString("uid");
         List<MyTask> myTasks = myTaskService.selectMyTask(uid);
@@ -77,16 +80,17 @@ public class MyTaskController {
     /**
      * 提交任务结果
      * 若任务在规定的时间（30分钟内）没有完成，任务自动释放。
+     *
      * @param data
      * @return
      */
     @PostMapping("/finishMyTask")
-    public AjaxResult finishMyTask(String data){
+    public AjaxResult finishMyTask(String data) {
         JSONObject reqbody = JSON.parseObject(data);
         String uid = reqbody.getString("uid");
         String id = reqbody.getString("id");
         String token = reqbody.getString("token");// my task id
-        List<String> pictrues = (List)reqbody.getJSONArray("pictrues");
+        List<String> pictrues = (List) reqbody.getJSONArray("pictrues");
 
         MyTask myTask = new MyTask();
         myTask.setId(id);

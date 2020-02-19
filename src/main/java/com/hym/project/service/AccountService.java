@@ -9,4 +9,6 @@ public interface AccountService {
     int insert(Account record);
 
     int updateByPrimaryKeySelective(Account record);
+
+    Account getUserHYMByPrimaryKey(String id);
 }

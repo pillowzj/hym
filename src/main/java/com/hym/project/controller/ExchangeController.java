@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.ResponseWraper;
-import com.hym.project.domain.Exchange;
-import com.hym.project.service.ExchangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +22,12 @@ public class ExchangeController {
 
     /**
      * Rate 0.1CNY
+     *
      * @param data
      * @return
      */
     @PostMapping("/exchange")
-    public AjaxResult exchange(String data){
+    public AjaxResult exchange(String data) {
         JSONObject reqbody = JSON.parseObject(data);
         String uid = reqbody.getString("uid");
         String token = reqbody.getString("token");
@@ -44,13 +43,13 @@ public class ExchangeController {
     }
 
     @PostMapping("/exchangeList")
-    public AjaxResult exchangeList(String data){
+    public AjaxResult exchangeList(String data) {
         JSONObject reqbody = JSON.parseObject(data);
         String uid = reqbody.getString("uid");
 
 
-        List<Exchange> exchanges= exchangeService.selectByUid(uid);
-        String str = JSON.toJSONString(new ResponseWraper("200", "ok",exchanges));
+        List<Exchange> exchanges = exchangeService.selectByUid(uid);
+        String str = JSON.toJSONString(new ResponseWraper("200", "ok", exchanges));
         return AjaxResult.success(exchanges);
     }
 }

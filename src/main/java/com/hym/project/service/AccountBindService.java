@@ -1,7 +1,5 @@
 package com.hym.project.service;
 
-import com.hym.project.domain.AccountBind;
-
 public interface AccountBindService {
     int deleteByPrimaryKey(String id);
 

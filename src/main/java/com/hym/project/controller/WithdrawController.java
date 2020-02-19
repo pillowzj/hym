@@ -9,13 +9,12 @@ import com.hym.framework.redis.RedisCache;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.ResponseWraper;
 import com.hym.project.domain.Account;
-import com.hym.project.domain.Withdraw;
 import com.hym.project.service.AccountService;
-import com.hym.project.service.WithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -28,8 +27,9 @@ public class WithdrawController {
     private AccountService accountService;
     @Autowired
     private RedisCache redisCache;
+
     @PostMapping("/createWithdrawal")
-    public AjaxResult createWithdrawal(String data){
+    public AjaxResult createWithdrawal(String data) {
 
         JSONObject reqbody = JSON.parseObject(data);
         String uid = reqbody.getString("uid");
@@ -39,9 +39,9 @@ public class WithdrawController {
         String tradePassword = reqbody.getString("tradePassword");
 
         //1 验证码验证
-        String vc = redisCache.getCacheObject("Constant.SMS_PREFIX"+cellPhone+verifyCode);
-        if(!vc.equals("Constant.SMS_PREFIX"+cellPhone+verifyCode)){
-          return AjaxResult.error("403", " verify is error");
+        String vc = redisCache.getCacheObject("Constant.SMS_PREFIX" + cellPhone + verifyCode);
+        if (!vc.equals("Constant.SMS_PREFIX" + cellPhone + verifyCode)) {
+            return AjaxResult.error("403", " verify is error");
         }
         //2 密码验证
         //3 创建提现订单
@@ -64,14 +64,14 @@ public class WithdrawController {
     }
 
     @PostMapping("/cashOutRecord")
-    public AjaxResult cashOutRecord(String data){
+    public AjaxResult cashOutRecord(String data) {
 
         JSONObject reqbody = JSON.parseObject(data);
         String uid = reqbody.getString("uid");
         int pageSize = reqbody.getInteger("pageSize");
         int pageNum = reqbody.getInteger("pageNum");
-        PageInfo<Withdraw> page = withdrawService.selectWithdrawPage(uid,pageNum,pageSize);
-        String str = JSON.toJSONString(new ResponseWraper("200", "ok",page));
+        PageInfo<Withdraw> page = withdrawService.selectWithdrawPage(uid, pageNum, pageSize);
+        String str = JSON.toJSONString(new ResponseWraper("200", "ok", page));
         return AjaxResult.success(page);
     }
 

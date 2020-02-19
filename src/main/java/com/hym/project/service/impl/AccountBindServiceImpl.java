@@ -1,7 +1,5 @@
 package com.hym.project.service.impl;
 
-import com.hym.project.domain.AccountBind;
-import com.hym.project.mapper.AccountBindMapper;
 import com.hym.project.service.AccountBindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

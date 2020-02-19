@@ -11,6 +11,12 @@
   <sql id="Base_Column_List">
     id, uid, cny, token, insert_date
   </sql>
+  <select id="selectUserHYMByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from account
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -2,6 +2,9 @@ package com.hym.project.mapper;
 
 import com.hym.project.domain.User;
 
+import java.lang.reflect.MalformedParameterizedTypeException;
+import java.util.Map;
+
 public interface UserMapper {
     int deleteByPrimaryKey(String id);
 
@@ -16,4 +19,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User selectByOpenID(String openid);
+
+    String selectUserHMYByStatus(Map map);
 }
