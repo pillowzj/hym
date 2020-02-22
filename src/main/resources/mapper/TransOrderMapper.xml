@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hym.project.mapper.TransOrderMapper">
+  <resultMap id="BaseResultMap" type="com.hym.project.domain.TransOrder">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="hym_count" jdbcType="DECIMAL" property="hymCount" />
+    <result column="hym_price" jdbcType="DECIMAL" property="hymPrice" />
+    <result column="total_sum" jdbcType="DECIMAL" property="totalSum" />
+    <result column="fee" jdbcType="DECIMAL" property="fee" />
+    <result column="seller_id" jdbcType="VARCHAR" property="sellerId" />
+    <result column="buyer_id" jdbcType="VARCHAR" property="buyerId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, hym_count, hym_price, total_sum, fee, seller_id, buyer_id, status, 
+    insert_date
+  </sql>
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from trans_order
+    where seller_id = #{sellerId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trans_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from trans_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hym.project.domain.TransOrder">
+    insert into trans_order (id, order_id, hym_count, 
+      hym_price, total_sum, fee, 
+      seller_id, buyer_id, status, 
+      insert_date)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{hymCount,jdbcType=DECIMAL}, 
+      #{hymPrice,jdbcType=DECIMAL}, #{totalSum,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, 
+      #{sellerId,jdbcType=VARCHAR}, #{buyerId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{insertDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.TransOrder">
+    update trans_order
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="hymCount != null">
+        hym_count = #{hymCount,jdbcType=DECIMAL},
+      </if>
+      <if test="hymPrice != null">
+        hym_price = #{hymPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalSum != null">
+        total_sum = #{totalSum,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null">
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerId != null">
+        buyer_id = #{buyerId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="insertDate != null">
+        insert_date = #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
