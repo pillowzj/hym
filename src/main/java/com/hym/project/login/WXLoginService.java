@@ -1,20 +1,17 @@
 package com.hym.project.login;
 
-import com.hym.common.constant.Constants;
 import com.hym.common.utils.IdUtils;
-import com.hym.common.utils.StringUtils;
 import com.hym.framework.redis.RedisCache;
 import com.hym.framework.security.LoginUser;
 import com.hym.framework.security.service.TokenService;
-import com.hym.project.domain.Account;
+import com.hym.project.domain.Asset;
 import com.hym.project.domain.User;
 import com.hym.project.login.domain.WXOpenInfo;
 import com.hym.project.login.service.LoginUserService;
-import com.hym.project.service.AccountService;
+import com.hym.project.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,7 +31,7 @@ public class WXLoginService {
     @Autowired
     private LoginUserService loginUserService;
     @Autowired
-    private AccountService accountService;
+    private AssetService assetService;
     @Autowired
     private RedisCache redisCache;
     /**
@@ -57,7 +54,7 @@ public class WXLoginService {
 
         if(user == null){
             user = new User();
-            user.setId(IdUtils.fastUUID());
+            user.setId(IdUtils.fastSimpleUUID());
             user.setOpenid(openid);
             user.setWxNickname(name);
             user.setWxAvatarUrl(face);
@@ -65,13 +62,13 @@ public class WXLoginService {
             user.setInsertTime(new Date());
             loginUserService.insert(user);
 
-            Account account = new Account();
-            account.setId(user.getId());
-            account.setUid(user.getId());
-            account.setCny(new BigDecimal(0));
-            account.setToken(new BigDecimal(0));
-            account.setInsertDate(new Date());
-            accountService.insert(account);
+            Asset asset = new Asset();
+            asset.setId(user.getId());
+            asset.setUid(user.getId());
+            asset.setFrozenToken(new BigDecimal(0));
+            asset.setToken(new BigDecimal(0));
+            asset.setInsertDate(new Date());
+            assetService.insert(asset);
         }
         LoginUser loginUser = new LoginUser();
         loginUser.setUser(user);

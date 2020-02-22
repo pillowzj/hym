@@ -2,6 +2,7 @@ package com.hym.project.login.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.hym.common.utils.StringUtils;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.ResponseWraper;
 import com.hym.project.login.WXLoginService;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/weixin")
+@RequestMapping("/api/hym/login")
 public class WxLoginController {
 
 
@@ -23,21 +24,28 @@ public class WxLoginController {
     private WXLoginService wxLoginService;
 
 
-    @PostMapping("/login")
+    @PostMapping
     public AjaxResult login(String data){
 
-        System.out.println("uniApp--->"+data);
+        if(StringUtils.isEmpty(data)){
+           return AjaxResult.error();
+        }
         JSONObject reqbody = JSON.parseObject(data);
         String openid = reqbody.getString("openid");
         String name = reqbody.getString("name");
         String face = reqbody.getString("face");
+        if(StringUtils.isEmpty(openid)){
+            return AjaxResult.error();
+        }
+
+
         Map res =  wxLoginService.login(openid,name,face);
         System.out.println("login -->JSON.toJSON-->"+JSON.toJSON(res));
         return  AjaxResult.success(res);
     }
 
-    @PostMapping("/wxlogin")
-    public AjaxResult wxLogin(String data){
+    @PostMapping("/getOpenid")
+    public AjaxResult getOpenid(String data){
 
     JSONObject reqbody = JSON.parseObject(data);
     String code = reqbody.getString("Code");

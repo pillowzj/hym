@@ -4,11 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.ResponseWraper;
-import com.hym.project.domain.Account;
+import com.hym.project.domain.Asset;
 import com.hym.project.domain.MyTask;
 import com.hym.project.domain.Task;
-import com.hym.project.mapper.MyTaskMapper;
-import com.hym.project.service.AccountService;
+import com.hym.project.service.AssetService;
 import com.hym.project.service.MyTaskService;
 import com.hym.project.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ import java.util.List;
  * @Author lijun kou
  */
 @RestController
-@RequestMapping("/api/hym")
+@RequestMapping("/api/hym/task")
 public class MyTaskController {
 
     @Autowired
@@ -34,7 +33,7 @@ public class MyTaskController {
     @Autowired
     TaskService taskService;
     @Autowired
-    AccountService accountService;
+    AssetService assetService;
 
     /**
      * 领取任务
@@ -101,11 +100,11 @@ public class MyTaskController {
 
 
         // 更新账户信息
-        Account account = accountService.selectByPrimaryKey(uid);
+        Asset asset = assetService.selectByPrimaryKey(uid);
         // 总token=获取当前任务的token+之前的token
-        account.setToken(account.getToken().add(new BigDecimal(token)));
+        asset.setToken(asset.getToken().add(new BigDecimal(token)).setScale(4));
         // 记录交易信息
-        accountService.updateByPrimaryKeySelective(account);
+        assetService.updateByPrimaryKeySelective(asset);
 //        String str = JSON.toJSONString(new ResponseWraper("200", "ok"));
         return AjaxResult.success();
     }

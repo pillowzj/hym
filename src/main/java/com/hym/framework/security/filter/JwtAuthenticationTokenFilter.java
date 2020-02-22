@@ -32,7 +32,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
             throws ServletException, IOException {
 //        System.out.println("request.getAuthType()--->"+request.getAuthType());
         System.out.println("request.getHeader(\"Authorization\")--->"+request.getHeader("Authorization"));
-        LoginUser loginUser = tokenService.getLoginUser(request);
+        LoginUser loginUser = tokenService.getLoginUser(request);//根据token 查询redis 是否存在这个用户信息
+
+
         if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication())) {
             tokenService.verifyToken(loginUser);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());

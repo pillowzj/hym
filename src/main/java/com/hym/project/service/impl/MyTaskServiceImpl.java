@@ -3,7 +3,7 @@ package com.hym.project.service.impl;
 import com.hym.common.utils.IdUtils;
 import com.hym.project.domain.MyTask;
 import com.hym.project.mapper.MyTaskMapper;
-import com.hym.project.service.AccountService;
+import com.hym.project.service.AssetService;
 import com.hym.project.service.MyTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class MyTaskServiceImpl implements MyTaskService {
     @Autowired
     private MyTaskMapper myTaskMapper;
     @Autowired
-    private AccountService accountService;
+    private AssetService accountService;
 
     @Override
     public int deleteByPrimaryKey(String id) {
@@ -26,7 +26,7 @@ public class MyTaskServiceImpl implements MyTaskService {
 
     @Override
     public int insert(MyTask record) {
-        record.setId(IdUtils.fastUUID());
+        record.setId(IdUtils.fastSimpleUUID());
         System.out.println(record.getId());
         record.setInsertDate(new Date());
         record.setStatus(0);

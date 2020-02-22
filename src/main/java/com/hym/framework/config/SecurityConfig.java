@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      * token认证过滤器
      */
     @Autowired
-    private JwtAuthenticationTokenFilter authenticationTokenFilter;
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     
     /**
      * 解决 无法直接注入 AuthenticationManager
@@ -89,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/**/login", "/**/wxlogin", "/captchaImage").anonymous()
+                .antMatchers("/**/login", "/**/getOpenid", "/captchaImage").anonymous()
                 .antMatchers(
                         HttpMethod.GET,
                         "/*.html",
@@ -113,7 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .headers().frameOptions().disable();
         httpSecurity.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
-        httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     

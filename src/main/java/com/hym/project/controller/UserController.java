@@ -6,11 +6,10 @@ import com.hym.common.constant.HttpStatus;
 import com.hym.framework.redis.RedisCache;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.ResponseWraper;
-import com.hym.project.domain.Account;
+import com.hym.project.domain.Asset;
 import com.hym.project.domain.User;
-import com.hym.project.service.AccountService;
+import com.hym.project.service.AssetService;
 import com.hym.project.service.UserService;
-import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +28,7 @@ public class UserController {
     private RedisCache redisCache;
 
     @Autowired
-    private AccountService accountService;
+    private AssetService assetService;
 
     @RequestMapping("/setTradePassword")
     public AjaxResult setTradePassword(String data) {
@@ -63,8 +62,8 @@ public class UserController {
         map.put("is_autho", isAutho);
         map.put("status", status);
         String id = userService.getUserHMY(map);
-        Account account = accountService.getUserHYMByPrimaryKey(id);
-        return AjaxResult.success(account);
+        Asset asset = assetService.getUserHYMByPrimaryKey(id);
+        return AjaxResult.success(asset);
     }
 
     @RequestMapping("/tradeHYK")
