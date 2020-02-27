@@ -7,12 +7,12 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="count" jdbcType="INTEGER" property="count" />
-    <result column="total_sum" jdbcType="DECIMAL" property="totalSum" />
+    <result column="total_sum" jdbcType="VARCHAR" property="totalSum" />
     <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
     <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="is_received" jdbcType="INTEGER" property="isReceived" />
-    <result column="token" jdbcType="DECIMAL" property="token" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="commission" jdbcType="INTEGER" property="commission" />
     <result column="insert_user" jdbcType="VARCHAR" property="insertUser" />
     <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
@@ -25,7 +25,13 @@
     token, commission, insert_user, insert_date, checker, release_user, release_time
   </sql>
   <select id="selectCount"  resultType="java.lang.Integer">
-    select sum(COUNT) count from task
+    select sum(COUNT) count from task where status = 2
+  </select>
+
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task where status = 2
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -46,9 +52,9 @@
       insert_user, insert_date, checker, 
       release_user, release_time)
     values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{icon,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{totalSum,jdbcType=DECIMAL}, 
+      #{icon,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{totalSum,jdbcType=VARCHAR},
       #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{isReceived,jdbcType=INTEGER}, #{token,jdbcType=DECIMAL}, #{commission,jdbcType=INTEGER}, 
+      #{isReceived,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, #{commission,jdbcType=INTEGER},
       #{insertUser,jdbcType=VARCHAR}, #{insertDate,jdbcType=TIMESTAMP}, #{checker,jdbcType=VARCHAR}, 
       #{releaseUser,jdbcType=VARCHAR}, #{releaseTime,jdbcType=TIMESTAMP})
   </insert>
@@ -124,7 +130,7 @@
         #{count,jdbcType=INTEGER},
       </if>
       <if test="totalSum != null">
-        #{totalSum,jdbcType=DECIMAL},
+        #{totalSum,jdbcType=VARCHAR},
       </if>
       <if test="startDate != null">
         #{startDate,jdbcType=TIMESTAMP},
@@ -139,7 +145,7 @@
         #{isReceived,jdbcType=INTEGER},
       </if>
       <if test="token != null">
-        #{token,jdbcType=DECIMAL},
+        #{token,jdbcType=VARCHAR},
       </if>
       <if test="commission != null">
         #{commission,jdbcType=INTEGER},
@@ -177,7 +183,7 @@
         count = #{count,jdbcType=INTEGER},
       </if>
       <if test="totalSum != null">
-        total_sum = #{totalSum,jdbcType=DECIMAL},
+        total_sum = #{totalSum,jdbcType=VARCHAR},
       </if>
       <if test="startDate != null">
         start_date = #{startDate,jdbcType=TIMESTAMP},
@@ -192,7 +198,7 @@
         is_received = #{isReceived,jdbcType=INTEGER},
       </if>
       <if test="token != null">
-        token = #{token,jdbcType=DECIMAL},
+        token = #{token,jdbcType=VARCHAR},
       </if>
       <if test="commission != null">
         commission = #{commission,jdbcType=INTEGER},
@@ -221,12 +227,12 @@
       description = #{description,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},
       count = #{count,jdbcType=INTEGER},
-      total_sum = #{totalSum,jdbcType=DECIMAL},
+      total_sum = #{totalSum,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=TIMESTAMP},
       end_date = #{endDate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       is_received = #{isReceived,jdbcType=INTEGER},
-      token = #{token,jdbcType=DECIMAL},
+      token = #{token,jdbcType=VARCHAR},
       commission = #{commission,jdbcType=INTEGER},
       insert_user = #{insertUser,jdbcType=VARCHAR},
       insert_date = #{insertDate,jdbcType=TIMESTAMP},

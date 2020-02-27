@@ -2,8 +2,9 @@ package com.hym.project.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
+import com.hym.common.utils.Arith;
 import com.hym.framework.web.domain.AjaxResult;
-import com.hym.project.ResponseWraper;
 import com.hym.project.domain.Asset;
 import com.hym.project.domain.MyTask;
 import com.hym.project.domain.Task;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -56,8 +56,6 @@ public class MyTaskController {
         myTask.setIcon(task.getIcon());
         myTask.setInsertDate(new Date());
         int flag = myTaskService.insert(myTask);
-        String str = JSON.toJSONString(new ResponseWraper("200", "ok"));
-
         return AjaxResult.success();
     }
 
@@ -71,7 +69,9 @@ public class MyTaskController {
     public AjaxResult getMyTask(String data) {
         JSONObject reqbody = JSON.parseObject(data);
         String uid = reqbody.getString("uid");
-        List<MyTask> myTasks = myTaskService.selectMyTask(uid);
+        int pageNum = reqbody.getInteger("pageNum");
+        int pageSize = reqbody.getInteger("pageSize");
+        PageInfo<MyTask> myTasks = myTaskService.selectMyTask(uid,9,pageNum,pageSize);
 //        String str = JSON.toJSONString(new ResponseWraper("200", "ok",myTasks));
         return AjaxResult.success(myTasks);
     }
@@ -93,7 +93,8 @@ public class MyTaskController {
 
         MyTask myTask = new MyTask();
         myTask.setId(id);
-        myTask.setFinalDate(new Date());
+        myTask.setFinishDate(new Date());
+//        myTask.setFinalDate(new Date());
         myTask.setStatus(1);
         myTask.setResult(pictrues.toString());
         myTaskService.updateByPrimaryKeySelective(myTask);
@@ -102,7 +103,8 @@ public class MyTaskController {
         // 更新账户信息
         Asset asset = assetService.selectByPrimaryKey(uid);
         // 总token=获取当前任务的token+之前的token
-        asset.setToken(asset.getToken().add(new BigDecimal(token)).setScale(4));
+
+        asset.setToken(Arith.add(asset.getToken(),token));
         // 记录交易信息
         assetService.updateByPrimaryKeySelective(asset);
 //        String str = JSON.toJSONString(new ResponseWraper("200", "ok"));

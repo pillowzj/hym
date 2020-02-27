@@ -3,9 +3,9 @@ package com.hym.project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hym.common.constant.HttpStatus;
+import com.hym.common.utils.StringUtils;
 import com.hym.framework.redis.RedisCache;
 import com.hym.framework.web.domain.AjaxResult;
-import com.hym.project.ResponseWraper;
 import com.hym.project.domain.Asset;
 import com.hym.project.domain.User;
 import com.hym.project.service.AssetService;
@@ -24,6 +24,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private RedisCache redisCache;
 
@@ -37,20 +38,15 @@ public class UserController {
         String verifyCode = reqbody.getString("verifyCode");
         String newTradePassword = reqbody.getString("newTradePassword");
         String cellPhone = reqbody.getString("cellPhone");
-
         //1 验证码验证
         String vc = redisCache.getCacheObject("Constant.SMS_PREFIX" + cellPhone + verifyCode);
         if (!vc.equals("Constant.SMS_PREFIX" + cellPhone + verifyCode)) {
             return AjaxResult.error("403", " verify is error");
         }
-
         User user = userService.selectByPrimaryKey(uid);
         user.setTradePassword(newTradePassword);
         userService.updateByPrimaryKeySelective(user);
-
-        String str = JSON.toJSONString(new ResponseWraper("200", "ok"));
         return AjaxResult.success();
-
     }
 
     @RequestMapping("/getUserHMY")
@@ -62,6 +58,9 @@ public class UserController {
         map.put("is_autho", isAutho);
         map.put("status", status);
         String id = userService.getUserHMY(map);
+        if(!StringUtils.isEmpty(id)){
+            return AjaxResult.error();
+        }
         Asset asset = assetService.getUserHYMByPrimaryKey(id);
         return AjaxResult.success(asset);
     }
@@ -117,8 +116,6 @@ public class UserController {
 //        user.setIdOpposite(idOpposite);
         user.setIsAutho(2); // 收款码已绑定 身份证已验证
         userService.updateByPrimaryKeySelective(user);
-
-        String str = JSON.toJSONString(new ResponseWraper("200", "ok"));
         return AjaxResult.success();
     }
 

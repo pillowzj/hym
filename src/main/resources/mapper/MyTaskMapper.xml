@@ -9,7 +9,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="result" jdbcType="VARCHAR" property="result" />
-    <result column="token" jdbcType="DECIMAL" property="token" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
     <result column="finish_date" jdbcType="TIMESTAMP" property="finishDate" />
     <result column="final_date" jdbcType="TIMESTAMP" property="finalDate" />
@@ -18,9 +18,32 @@
     id, uid, tid, title, status, icon, result, token, insert_date, finish_date, final_date
   </sql>
 
-  <select id="selectCount"  resultType="java.lang.Integer">
-    select count(1) count from my_task
+  <select id="selectMyTask" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from my_task where 1=1
+
+    <if test="status != 9" >
+      and status =  #{status,jdbcType=INTEGER}
+    </if>
+    <if test="uid != null and '' != uid" >
+      and uid =  #{uid,jdbcType=VARCHAR}
+    </if>
+
   </select>
+
+  <select id="selectCount"  parameterType="java.util.Map" resultType="java.lang.Integer" >
+    select count(1) count from my_task where 1=1
+    <if test="status != 9" >
+      and status =  #{status,jdbcType=INTEGER}
+    </if>
+
+    <if test="uid != null and '' != uid" >
+      and uid =  #{uid,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -38,7 +61,7 @@
       finish_date, final_date)
     values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{tid,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
-      #{result,jdbcType=VARCHAR}, #{token,jdbcType=DECIMAL}, #{insertDate,jdbcType=TIMESTAMP}, 
+      #{result,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{insertDate,jdbcType=TIMESTAMP},
       #{finishDate,jdbcType=TIMESTAMP}, #{finalDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hym.project.domain.MyTask">
@@ -101,7 +124,7 @@
         #{result,jdbcType=VARCHAR},
       </if>
       <if test="token != null">
-        #{token,jdbcType=DECIMAL},
+        #{token,jdbcType=VARCHAR},
       </if>
       <if test="insertDate != null">
         #{insertDate,jdbcType=TIMESTAMP},
@@ -136,7 +159,7 @@
         result = #{result,jdbcType=VARCHAR},
       </if>
       <if test="token != null">
-        token = #{token,jdbcType=DECIMAL},
+        token = #{token,jdbcType=VARCHAR},
       </if>
       <if test="insertDate != null">
         insert_date = #{insertDate,jdbcType=TIMESTAMP},
@@ -158,7 +181,7 @@
       status = #{status,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
       result = #{result,jdbcType=VARCHAR},
-      token = #{token,jdbcType=DECIMAL},
+      token = #{token,jdbcType=VARCHAR},
       insert_date = #{insertDate,jdbcType=TIMESTAMP},
       finish_date = #{finishDate,jdbcType=TIMESTAMP},
       final_date = #{finalDate,jdbcType=TIMESTAMP}

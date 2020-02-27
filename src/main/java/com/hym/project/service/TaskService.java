@@ -1,5 +1,6 @@
 package com.hym.project.service;
 
+import com.github.pagehelper.PageInfo;
 import com.hym.project.domain.Task;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public interface TaskService {
 
     Task selectByPrimaryKey(String id);
 
-    List<Task> selectAll();
+    PageInfo<Task> selectAll(int pageNum, int pageSize);
 
     int getCount();
 

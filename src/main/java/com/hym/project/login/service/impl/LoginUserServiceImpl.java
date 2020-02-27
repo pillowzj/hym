@@ -39,6 +39,10 @@ public class LoginUserServiceImpl implements LoginUserService {
 
         return userMapper.selectByOpenID(openid);
     }
+    @Override
+    public User loginByCellPhone(String cellPhone){
+        return userMapper.loginByCellPhone(cellPhone);
+    }
 
     @Override
     public int updateByPrimaryKeySelective(User record) {

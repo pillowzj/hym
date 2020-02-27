@@ -8,9 +8,9 @@ public class Asset {
 
     private String uid;
 
-    private BigDecimal frozenToken;
+    private String frozenToken;
 
-    private BigDecimal token;
+    private String token;
 
     private Date insertDate;
 
@@ -30,19 +30,19 @@ public class Asset {
         this.uid = uid == null ? null : uid.trim();
     }
 
-    public BigDecimal getFrozenToken() {
+    public String getFrozenToken() {
         return frozenToken;
     }
 
-    public void setFrozenToken(BigDecimal frozenToken) {
+    public void setFrozenToken(String frozenToken) {
         this.frozenToken = frozenToken;
     }
 
-    public BigDecimal getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(BigDecimal token) {
+    public void setToken(String token) {
         this.token = token;
     }
 

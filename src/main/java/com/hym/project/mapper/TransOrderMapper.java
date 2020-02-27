@@ -14,4 +14,5 @@ public interface TransOrderMapper {
     int updateByPrimaryKeySelective(TransOrder record);
 
     List<TransOrder> selectById(String sellerId);
+    int selectCountById(String sellerId);
 }

@@ -20,7 +20,7 @@ public class MyTask {
 
     private String result;
 
-    private BigDecimal token;
+    private String token;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date insertDate;
@@ -85,11 +85,11 @@ public class MyTask {
         this.result = result == null ? null : result.trim();
     }
 
-    public BigDecimal getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(BigDecimal token) {
+    public void setToken(String token) {
         this.token = token;
     }
 

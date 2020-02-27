@@ -4,10 +4,10 @@
   <resultMap id="BaseResultMap" type="com.hym.project.domain.TransOrder">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
-    <result column="hym_count" jdbcType="DECIMAL" property="hymCount" />
-    <result column="hym_price" jdbcType="DECIMAL" property="hymPrice" />
-    <result column="total_sum" jdbcType="DECIMAL" property="totalSum" />
-    <result column="fee" jdbcType="DECIMAL" property="fee" />
+    <result column="hym_count" jdbcType="VARCHAR" property="hymCount" />
+    <result column="hym_price" jdbcType="VARCHAR" property="hymPrice" />
+    <result column="total_sum" jdbcType="VARCHAR" property="totalSum" />
+    <result column="fee" jdbcType="VARCHAR" property="fee" />
     <result column="seller_id" jdbcType="VARCHAR" property="sellerId" />
     <result column="buyer_id" jdbcType="VARCHAR" property="buyerId" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -22,7 +22,21 @@
     <include refid="Base_Column_List" />
     from trans_order
     where seller_id = #{sellerId,jdbcType=VARCHAR}
+    order by insert_date desc
   </select>
+
+
+  <select id="selectCountById" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select
+    count(1) count
+    from trans_order
+    where seller_id = #{sellerId,jdbcType=VARCHAR}
+
+  </select>
+
+
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -38,8 +52,8 @@
       hym_price, total_sum, fee, 
       seller_id, buyer_id, status, 
       insert_date)
-    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{hymCount,jdbcType=DECIMAL}, 
-      #{hymPrice,jdbcType=DECIMAL}, #{totalSum,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{hymCount,jdbcType=VARCHAR},
+      #{hymPrice,jdbcType=VARCHAR}, #{totalSum,jdbcType=VARCHAR}, #{fee,jdbcType=VARCHAR},
       #{sellerId,jdbcType=VARCHAR}, #{buyerId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{insertDate,jdbcType=TIMESTAMP})
   </insert>
@@ -50,16 +64,16 @@
         order_id = #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="hymCount != null">
-        hym_count = #{hymCount,jdbcType=DECIMAL},
+        hym_count = #{hymCount,jdbcType=VARCHAR},
       </if>
       <if test="hymPrice != null">
-        hym_price = #{hymPrice,jdbcType=DECIMAL},
+        hym_price = #{hymPrice,jdbcType=VARCHAR},
       </if>
       <if test="totalSum != null">
-        total_sum = #{totalSum,jdbcType=DECIMAL},
+        total_sum = #{totalSum,jdbcType=VARCHAR},
       </if>
       <if test="fee != null">
-        fee = #{fee,jdbcType=DECIMAL},
+        fee = #{fee,jdbcType=VARCHAR},
       </if>
       <if test="sellerId != null">
         seller_id = #{sellerId,jdbcType=VARCHAR},

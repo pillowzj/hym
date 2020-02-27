@@ -4,6 +4,7 @@ import com.hym.project.domain.MyTask;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MyTaskMapper {
     int deleteByPrimaryKey(String id);
@@ -18,8 +19,7 @@ public interface MyTaskMapper {
 
     int updateByPrimaryKey(MyTask record);
 
-     int selectCount();
+     int selectCount(Map map);
 
-    @Select("select * from my_task where uid=#{uid}")
-    List<MyTask> selectMyTask(String uid);
+    List<MyTask> selectMyTask(Map map);
 }

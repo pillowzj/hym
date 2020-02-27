@@ -55,6 +55,15 @@
     from user
     where openid = #{openid,jdbcType=VARCHAR}
   </select>
+  <select id="loginByCellPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+
+
+
   <select id="selectUserHMYByStatus" parameterType="java.util.Map" resultType="java.lang.String">
     select id  from user
     where is_autho = #{is_autho,jdbcType=INTEGER} and status =  #{status,jdbcType=INTEGER}

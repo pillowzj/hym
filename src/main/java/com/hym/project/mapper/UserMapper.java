@@ -19,6 +19,8 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User selectByOpenID(String openid);
+    User loginByCellPhone(String cellPhone);
+
 
     String selectUserHMYByStatus(Map map);
 }

@@ -14,7 +14,7 @@ public interface TaskMapper {
 
     Task selectByPrimaryKey(String id);
 
-    @Select("select * from task")
+
     List<Task> selectAll();
 
     int selectCount();

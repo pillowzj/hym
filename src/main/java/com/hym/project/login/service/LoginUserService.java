@@ -12,6 +12,7 @@ public interface LoginUserService {
     User selectByPrimaryKey(String id);
 
     User getOpenid(String openid);
+    User loginByCellPhone(String cellPhone);
 
     int updateByPrimaryKeySelective(User record);
 

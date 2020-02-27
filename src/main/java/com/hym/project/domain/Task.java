@@ -16,7 +16,7 @@ public class Task {
 
     private Integer count;
 
-    private BigDecimal totalSum;
+    private String totalSum;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -26,7 +26,7 @@ public class Task {
 
     private Integer isReceived;
 
-    private BigDecimal token;
+    private String token;
 
     private Integer commission;
 
@@ -80,11 +80,11 @@ public class Task {
         this.count = count;
     }
 
-    public BigDecimal getTotalSum() {
+    public String getTotalSum() {
         return totalSum;
     }
 
-    public void setTotalSum(BigDecimal totalSum) {
+    public void setTotalSum(String totalSum) {
         this.totalSum = totalSum;
     }
 
@@ -120,11 +120,11 @@ public class Task {
         this.isReceived = isReceived;
     }
 
-    public BigDecimal getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(BigDecimal token) {
+    public void setToken(String token) {
         this.token = token;
     }
 

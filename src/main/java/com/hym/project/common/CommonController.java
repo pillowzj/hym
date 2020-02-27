@@ -9,7 +9,6 @@ import com.hym.common.utils.file.FileUtils;
 import com.hym.framework.config.HymConfig;
 import com.hym.framework.config.ServerConfig;
 import com.hym.framework.web.domain.AjaxResult;
-import com.hym.project.ResponseWraper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

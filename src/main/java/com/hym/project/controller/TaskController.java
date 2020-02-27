@@ -2,9 +2,9 @@ package com.hym.project.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.hym.common.utils.StringUtils;
 import com.hym.framework.web.domain.AjaxResult;
-import com.hym.project.ResponseWraper;
 import com.hym.project.domain.MyTask;
 import com.hym.project.domain.Task;
 import com.hym.project.service.MyTaskService;
@@ -40,28 +40,25 @@ public class TaskController {
     @PostMapping("/gettasks")
     public AjaxResult getTastList(String data) {
         JSONObject reqbody = JSON.parseObject(data);
-        List<Task> tasks = taskService.selectAll();
+        int pageNum = reqbody.getInteger("pageNum");
+        int pageSize = reqbody.getInteger("pageSize");
+        PageInfo<Task> tasks = taskService.selectAll(pageNum,pageSize);
 
         String uid = reqbody.getString("uid");
         if (StringUtils.isEmpty(uid)) {
             return AjaxResult.success(tasks);
         }
-        List<MyTask> myTasks = myTaskService.selectMyTask(uid);
-
+        List<MyTask> myTasks = myTaskService.selectMyTask(uid,9);
         //过滤获取 type=2的数据
-        //List<Task> list2 = tasks.stream().filter((Task a) -> ("2".equals(a.get("type").toString()))).collect(Collectors.toList());
-
-        List<Task> collect = tasks.stream().filter(task -> myTasks.stream().noneMatch(myTask -> myTask.getTid().equals(task.getId()))).collect(Collectors.toList());
-
-        String str = JSON.toJSONString(new ResponseWraper("200", "ok", collect));
-        System.out.println(" List<Task> selectAll() --->" + str);
-        return AjaxResult.success(collect);
+        List<Task> collect = tasks.getList().stream().filter(task -> myTasks.stream().noneMatch(myTask -> myTask.getTid().equals(task.getId()))).collect(Collectors.toList());
+        tasks.setList(collect);
+        return AjaxResult.success(tasks);
     }
 
     @PostMapping("/getCount")
     public AjaxResult getCount() {
         int count = taskService.getCount();
-        int myCount = myTaskService.getCount();
+        int myCount = myTaskService.getCount("",9);
         AjaxResult ajax = AjaxResult.success();
         ajax.put("count", count);
         ajax.put("yqCount", myCount);
@@ -70,11 +67,11 @@ public class TaskController {
         return ajax;
     }
 
-    @PostMapping("/settask")
-    public AjaxResult setTast() {
-        List<Task> tasks = taskService.selectAll();
-        String str = JSON.toJSONString(new ResponseWraper("200", "ok", tasks));
-        System.out.println(" List<Task> selectAll() --->" + str);
-        return AjaxResult.success(tasks);
-    }
+//    @PostMapping("/settask")
+//    public AjaxResult setTast() {
+//        List<Task> tasks = taskService.selectAll();
+//        String str = JSON.toJSONString(new ResponseWraper("200", "ok", tasks));
+//        System.out.println(" List<Task> selectAll() --->" + str);
+//        return AjaxResult.success(tasks);
+//    }
 }

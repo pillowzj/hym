@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.hym.project.domain.Asset">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="uid" jdbcType="VARCHAR" property="uid" />
-    <result column="frozen_token" jdbcType="DECIMAL" property="frozenToken" />
-    <result column="token" jdbcType="DECIMAL" property="token" />
+    <result column="frozen_token" jdbcType="VARCHAR" property="frozenToken" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -24,8 +24,8 @@
   <insert id="insert" parameterType="com.hym.project.domain.Asset">
     insert into asset (id, uid, frozen_token, 
       token, insert_date)
-    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{frozenToken,jdbcType=DECIMAL}, 
-      #{token,jdbcType=DECIMAL}, #{insertDate,jdbcType=TIMESTAMP})
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{frozenToken,jdbcType=VARCHAR},
+      #{token,jdbcType=VARCHAR}, #{insertDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hym.project.domain.Asset">
     insert into asset
@@ -54,10 +54,10 @@
         #{uid,jdbcType=VARCHAR},
       </if>
       <if test="frozenToken != null">
-        #{frozenToken,jdbcType=DECIMAL},
+        #{frozenToken,jdbcType=VARCHAR},
       </if>
       <if test="token != null">
-        #{token,jdbcType=DECIMAL},
+        #{token,jdbcType=VARCHAR},
       </if>
       <if test="insertDate != null">
         #{insertDate,jdbcType=TIMESTAMP},
@@ -71,10 +71,10 @@
         uid = #{uid,jdbcType=VARCHAR},
       </if>
       <if test="frozenToken != null">
-        frozen_token = #{frozenToken,jdbcType=DECIMAL},
+        frozen_token = #{frozenToken,jdbcType=VARCHAR},
       </if>
       <if test="token != null">
-        token = #{token,jdbcType=DECIMAL},
+        token = #{token,jdbcType=VARCHAR},
       </if>
       <if test="insertDate != null">
         insert_date = #{insertDate,jdbcType=TIMESTAMP},
@@ -85,8 +85,8 @@
   <update id="updateByPrimaryKey" parameterType="com.hym.project.domain.Asset">
     update asset
     set uid = #{uid,jdbcType=VARCHAR},
-      frozen_token = #{frozenToken,jdbcType=DECIMAL},
-      token = #{token,jdbcType=DECIMAL},
+      frozen_token = #{frozenToken,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
       insert_date = #{insertDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>

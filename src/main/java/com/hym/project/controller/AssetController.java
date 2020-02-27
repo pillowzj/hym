@@ -4,7 +4,6 @@ package com.hym.project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hym.framework.web.domain.AjaxResult;
-import com.hym.project.ResponseWraper;
 import com.hym.project.domain.Asset;
 import com.hym.project.service.AssetService;
 import com.hym.project.service.TansOrderService;

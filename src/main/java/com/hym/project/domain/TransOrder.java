@@ -10,13 +10,13 @@ public class TransOrder {
 
     private String orderId;
 
-    private BigDecimal hymCount;
+    private String hymCount;
 
-    private BigDecimal hymPrice;
+    private String hymPrice;
 
-    private BigDecimal totalSum;
+    private String totalSum;
 
-    private BigDecimal fee;
+    private String fee;
 
     private String sellerId;
 
@@ -42,35 +42,35 @@ public class TransOrder {
         this.orderId = orderId == null ? null : orderId.trim();
     }
 
-    public BigDecimal getHymCount() {
+    public String getHymCount() {
         return hymCount;
     }
 
-    public void setHymCount(BigDecimal hymCount) {
+    public void setHymCount(String hymCount) {
         this.hymCount = hymCount;
     }
 
-    public BigDecimal getHymPrice() {
+    public String getHymPrice() {
         return hymPrice;
     }
 
-    public void setHymPrice(BigDecimal hymPrice) {
+    public void setHymPrice(String hymPrice) {
         this.hymPrice = hymPrice;
     }
 
-    public BigDecimal getTotalSum() {
+    public String getTotalSum() {
         return totalSum;
     }
 
-    public void setTotalSum(BigDecimal totalSum) {
+    public void setTotalSum(String totalSum) {
         this.totalSum = totalSum;
     }
 
-    public BigDecimal getFee() {
+    public String getFee() {
         return fee;
     }
 
-    public void setFee(BigDecimal fee) {
+    public void setFee(String fee) {
         this.fee = fee;
     }
 

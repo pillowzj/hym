@@ -38,7 +38,7 @@ public class SendMessage {
     public  Boolean msgSend(String MobilePhone) {
 
         if(true){
-            String vCode ="1111";
+            String vCode ="6666";
             redisCache.setCacheObject("Constant.SMS_PREFIX" + MobilePhone+vCode, "Constant.SMS_PREFIX" + MobilePhone+vCode, 5, TimeUnit.MINUTES);
         return true;
         }
