@@ -67,6 +67,16 @@ public class IdUtils
         return orderid;
     }
 
+    public static Integer inviteCode(){
+        int max=10000,min=1;
+        int ran2 = (int) (Math.random()*(max-min)+min);
+//        String orderid = String.valueOf(ran2);
+        if(ran2<10)ran2=ran2*1000;
+        else if(ran2<100)ran2=ran2*100;
+        else if(ran2<1000)ran2=ran2*10;
+        return ran2;
+    }
+
 
 
     public static void main(String [] agrs){
@@ -75,5 +85,6 @@ public class IdUtils
 //        System.out.println(fastUUID());
         System.out.println(fastSimpleUUID());
         System.out.println(orderID());
+        System.out.println(inviteCode());
     }
 }

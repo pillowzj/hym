@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hym.project.mapper.InviteCodeMapper">
+  <resultMap id="BaseResultMap" type="com.hym.project.domain.InviteCode">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="invite_code" jdbcType="INTEGER" property="inviteCode" />
+    <id column="status" jdbcType="INTEGER" property="status" />
+
+    <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, invite_code,status, insert_date
+  </sql>
+  <select id="selectByPrimaryKey" resultType="INTEGER">
+    select  MAX(invite_code) inviteCode from invite_code
+    where invite_code = #{inviteCode,jdbcType=INTEGER} and status = 0
+  </select>
+
+  <insert id="insert" parameterType="com.hym.project.domain.InviteCode">
+    insert into invite_code (id, invite_code, status,insert_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{inviteCode,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{insertDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByInviteCode" parameterType="java.lang.Integer">
+    update invite_code
+    set status = 1
+    where invite_code = #{inviteCode,jdbcType=INTEGER}
+  </update>
+</mapper>

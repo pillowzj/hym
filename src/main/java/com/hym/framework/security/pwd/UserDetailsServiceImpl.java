@@ -1,4 +1,4 @@
-package com.hym.framework.security.service;
+package com.hym.framework.security.pwd;
 
 import com.hym.project.domain.User;
 import com.hym.project.login.service.LoginUserService;
@@ -30,8 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
         User user = dlUserService.getOpenid(username);
-        if (StringUtils.isNull(user))
-        {
+        if (StringUtils.isNull(user))  {
             log.info("登录用户：{} 不存在.", username);
             throw new UsernameNotFoundException("登录用户：" + username + " 不存在");
         }

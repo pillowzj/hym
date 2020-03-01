@@ -1,17 +1,14 @@
 package com.hym.project.service;
 
 import com.hym.project.domain.User;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.Map;
 
 public interface UserService {
 
-    int deleteByPrimaryKey(String id);
 
     int insert(User record);
 
-    int insertSelective(User record);
 
     User selectByPrimaryKey(String id);
 
@@ -20,7 +17,7 @@ public interface UserService {
 
     int updateByPrimaryKeySelective(User record);
 
-    int updateByPrimaryKey(User record);
+    User loginByCellPhone(String cellPhone);
 
     String getUserHMY(Map map);
 }

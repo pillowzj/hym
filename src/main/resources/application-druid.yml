@@ -9,7 +9,7 @@ spring:
 #                url: jdbc:mysql://127.0.0.1:3306/hym?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
 #                username: root
 #                password: root
-                url: jdbc:mysql://193.112.78.119:3306/hym?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://193.112.78.119:3306/hym?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&useAffectedRows=true
                 username: root
                 password: xiaoziAImeinv
             # 从库数据源

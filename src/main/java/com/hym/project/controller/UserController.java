@@ -3,7 +3,10 @@ package com.hym.project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hym.common.constant.HttpStatus;
+import com.hym.common.constant.WorkflowConstans;
 import com.hym.common.utils.StringUtils;
+import com.hym.framework.domain.RequestData;
+import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.redis.RedisCache;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.domain.Asset;
@@ -11,6 +14,8 @@ import com.hym.project.domain.User;
 import com.hym.project.service.AssetService;
 import com.hym.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,9 +36,19 @@ public class UserController {
     @Autowired
     private AssetService assetService;
 
-    @RequestMapping("/setTradePassword")
-    public AjaxResult setTradePassword(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    @GetMapping("/getUser")
+    public AjaxResult getUser(){
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
+        String uid = reqbody.getString("uid");
+        User user = userService.selectByPrimaryKey(uid);
+        return AjaxResult.success(user);
+    }
+
+    @PostMapping("/setTradePassword")
+    public AjaxResult setTradePassword() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
         String uid = reqbody.getString("uid");
         String verifyCode = reqbody.getString("verifyCode");
         String newTradePassword = reqbody.getString("newTradePassword");
@@ -49,9 +64,10 @@ public class UserController {
         return AjaxResult.success();
     }
 
-    @RequestMapping("/getUserHMY")
-    public AjaxResult getUserHMY(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    @GetMapping("/getUserHMY")
+    public AjaxResult getUserHMY() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
         String status = reqbody.getString("status");
         String isAutho = reqbody.getString("isAutho");
         Map map = new HashMap();
@@ -66,8 +82,9 @@ public class UserController {
     }
 
     @RequestMapping("/tradeHYK")
-    public AjaxResult tradeHYK(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    public AjaxResult tradeHYK() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
         String flag = reqbody.getString("flag");
         String isAutho = reqbody.getString("isAutho");
         return AjaxResult.success();
@@ -76,12 +93,12 @@ public class UserController {
     /**
      * 提现前身份信息采集
      *
-     * @param data
      * @return
      */
-    @RequestMapping("/verifyID")
-    public AjaxResult verifyID(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    @PostMapping("/verifyID")
+    public AjaxResult verifyID() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
         String uid = reqbody.getString("uid");
         List<String> idCards = (List) reqbody.getJSONArray("idCard");
         User user = userService.selectByPrimaryKey(uid);
@@ -114,14 +131,15 @@ public class UserController {
 //        user.setIdExpirDate(idExpirDate);
 //        user.setIdPositive(idPositive);
 //        user.setIdOpposite(idOpposite);
-        user.setIsAutho(2); // 收款码已绑定 身份证已验证
+        user.setIsAutho(WorkflowConstans.TWO); // 收款码已绑定 身份证已验证
         userService.updateByPrimaryKeySelective(user);
         return AjaxResult.success();
     }
 
-    @RequestMapping("/bindPayCode")
-    public AjaxResult bindPayCode(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    @PostMapping("/bindPayCode")
+    public AjaxResult bindPayCode() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
 
         String verifyCode = reqbody.getString("verifyCode");
         String cellPhone = reqbody.getString("celPhone");
@@ -139,14 +157,15 @@ public class UserController {
         user.setPayCode(payCode);
         user.setPayName(payName);
         user.setPayType(payType);
-        user.setIsAutho(1);//  1 已绑定收款码
+        user.setIsAutho(WorkflowConstans.ONE);//  1 已绑定收款码
         userService.updateByPrimaryKeySelective(user);
         return AjaxResult.success();
     }
 
-    @RequestMapping("/setTradePwd")
-    public AjaxResult setTradePwd(String data) {
-        JSONObject json = JSON.parseObject(data);
+    @PostMapping("/setTradePwd")
+    public AjaxResult setTradePwd() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject json = JSON.parseObject(requestData.getData());
         String verifyCode = json.getString("verifyCode");
         String cellPhone = json.getString("cellPhone");
         String pwd = json.getString("pwd");

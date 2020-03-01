@@ -1,6 +1,15 @@
 package com.hym.framework.config;
 
+import com.hym.framework.security.handle.AuthenticationEntryPointImpl;
+import com.hym.framework.security.handle.LogoutSuccessHandlerImpl;
+import com.hym.framework.security.mobile.MobileAuthenticationFilter;
+import com.hym.framework.security.mobile.MobileAuthenticationProvider;
+import com.hym.framework.security.mobile.handler.MobileAuthenticationSuccessHandler;
+import com.hym.framework.security.opeinid.WxAuthenticationFilter;
+import com.hym.framework.security.opeinid.WxAuthenticationProvider;
+import com.hym.framework.security.opeinid.handler.WxAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,27 +18,17 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import com.hym.framework.security.filter.JwtAuthenticationTokenFilter;
-import com.hym.framework.security.handle.AuthenticationEntryPointImpl;
-import com.hym.framework.security.handle.LogoutSuccessHandlerImpl;
 
 /**
  * spring security配置
- * 
+ *
  * @author hym
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter
-{
-    /**
-     * 自定义用户认证逻辑
-     */
-    @Autowired
-    private UserDetailsService userDetailsService;
-    
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
     /**
      * 认证失败处理类
      */
@@ -41,25 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      */
     @Autowired
     private LogoutSuccessHandlerImpl logoutSuccessHandler;
-
-    /**
-     * token认证过滤器
-     */
-    @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-    
-    /**
-     * 解决 无法直接注入 AuthenticationManager
-     *
-     * @return
-     * @throws Exception
-     */
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception
-    {
-        return super.authenticationManagerBean();
-    }
 
     /**
      * anyRequest          |   匹配所有请求路径
@@ -77,8 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      * authenticated       |   用户登录后可访问
      */
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception
-    {
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 // CRSF禁用，因为不使用session
                 .csrf().disable()
@@ -89,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/**/loginByCellPhone","/**/wxLogin", "/**/getOpenid", "/**/getVerifyCode").anonymous()
+                .antMatchers("/**/mobile", "/**/getOpenid", "/**/getVerifyCode").anonymous()
                 .antMatchers(
                         HttpMethod.GET,
                         "/*.html",
@@ -104,34 +83,72 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/webjars/**").anonymous()
                 .antMatchers("/*/api-docs").anonymous()
                 .antMatchers("/druid/**").anonymous()
-//                .antMatchers("/api/hym/gettasks").permitAll()
-//                .antMatchers("/api/weixin/**").anonymous()
-
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
         httpSecurity.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
-        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        //httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(mobileAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(wxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    
-    /**
-     * 强散列哈希加密实现
-     */
+
+    @Autowired
+    @Qualifier("authenticationManagerBean")
+    private AuthenticationManager authenticationManager;
+
+    @Override
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder()
-    {
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+    @Bean
+    public MobileAuthenticationFilter mobileAuthenticationFilter() {
+        System.out.println("SecurityConfig----------------> mobileAuthenticationFilter()");
+        MobileAuthenticationFilter mobileAuthenticationFilter = new MobileAuthenticationFilter("/**/mobile");
+        mobileAuthenticationFilter.setAuthenticationManager(authenticationManager);
+        mobileAuthenticationFilter.setAuthenticationSuccessHandler(mobileAuthenticationSuccessHandler());
+        return mobileAuthenticationFilter;
+    }
+    @Bean
+    public WxAuthenticationFilter wxAuthenticationFilter() {
+        System.out.println("SecurityConfig----------------> wxAuthenticationFilter()");
+        WxAuthenticationFilter wxAuthenticationFilter = new WxAuthenticationFilter("/**/getOpenid");
+        wxAuthenticationFilter.setAuthenticationManager(authenticationManager);
+        wxAuthenticationFilter.setAuthenticationSuccessHandler(mobileAuthenticationSuccessHandler());
+        return wxAuthenticationFilter;
     }
 
     /**
      * 身份认证接口
      */
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception
-    {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.
+                authenticationProvider(wxAuthenticationProvider())
+                .authenticationProvider(mobileAuthenticationProvider());
     }
+
+    @Bean
+    WxAuthenticationProvider wxAuthenticationProvider() {
+        return new WxAuthenticationProvider();
+    }
+
+    @Bean
+    MobileAuthenticationProvider mobileAuthenticationProvider() {
+        return new MobileAuthenticationProvider();
+    }
+
+    @Bean
+    public MobileAuthenticationSuccessHandler mobileAuthenticationSuccessHandler() {
+        return new MobileAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public WxAuthenticationSuccessHandler wxAuthenticationSuccessHandler() {
+        return new WxAuthenticationSuccessHandler();
+    }
+
 }

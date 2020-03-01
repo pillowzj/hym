@@ -3,12 +3,15 @@ package com.hym.project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.hym.framework.domain.RequestData;
+import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.domain.TransOrder;
 import com.hym.project.service.AssetService;
 import com.hym.project.service.TansOrderService;
 import com.hym.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +29,9 @@ public class OrderController {
     private TansOrderService orderService;
 
     @PostMapping("/submitMyOrder")
-    public AjaxResult submitMyOrder(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    public AjaxResult submitMyOrder() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
         String uid = reqbody.getString("uid");
         String isAutho = reqbody.getString("isAutho");
         String status = reqbody.getString("status");
@@ -41,9 +45,10 @@ public class OrderController {
         return AjaxResult.success();
     }
 
-       @PostMapping("/getMyOrder")
-    public AjaxResult getMyOrder(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+       @GetMapping("/getMyOrder")
+    public AjaxResult getMyOrder() {
+           RequestData requestData = ThreadCache.getPostRequestParams();
+           JSONObject reqbody = JSON.parseObject(requestData.getData());
         String uid = reqbody.getString("uid");
            int pageNum = reqbody.getInteger("pageNum");
            int pageSize = reqbody.getInteger("pageSize");
@@ -56,9 +61,10 @@ public class OrderController {
     }
 
 
-    @PostMapping("/getMyOrderDetail")
-    public AjaxResult getMyOrderDetail(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    @GetMapping("/getMyOrderDetail")
+    public AjaxResult getMyOrderDetail() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
         String id = reqbody.getString("id");
         TransOrder ts = orderService.getOrderById(id);
         return AjaxResult.success(ts);

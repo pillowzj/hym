@@ -1,4 +1,4 @@
-package com.hym.framework.security.filter;
+package com.hym.framework.security.pwd;
 
 import com.hym.common.utils.SecurityUtils;
 import com.hym.common.utils.StringUtils;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,7 +21,7 @@ import java.io.IOException;
  * 
  * @author hym
  */
-@Component
+//@Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
 {
     @Autowired
@@ -31,11 +30,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-//        System.out.println("request.getHeader(\"Authorization\")--->"+request.getHeader("Authorization"));
-//        String data  = request.getParameter("data");
-//        System.out.println("request data ---->"+data);
-
+        System.out.println("request.getHeader(\"Authorization\")--->"+request.getHeader("Authorization"));
         LoginUser loginUser = tokenService.getLoginUser(request);//根据token 查询redis 是否存在这个用户信息
+        //Authentication  authentication = SecurityUtils.getAuthentication();
         if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication())) {
             tokenService.verifyToken(loginUser);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());

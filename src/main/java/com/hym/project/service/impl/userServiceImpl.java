@@ -14,17 +14,11 @@ public class userServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public int deleteByPrimaryKey(String id) {
-        return 0;
+    public User loginByCellPhone(String cellPhone){
+        return userMapper.loginByCellPhone(cellPhone);
     }
-
     @Override
     public int insert(User record) {
-        return 0;
-    }
-
-    @Override
-    public int insertSelective(User record) {
         return 0;
     }
 
@@ -41,11 +35,6 @@ public class userServiceImpl implements UserService {
     @Override
     public int updateByPrimaryKeySelective(User record) {
         return userMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Override
-    public int updateByPrimaryKey(User record) {
-        return 0;
     }
 
     @Override

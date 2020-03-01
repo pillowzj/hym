@@ -2,7 +2,6 @@ package com.hym.project.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Task {
@@ -39,6 +38,18 @@ public class Task {
     private String releaseUser;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date releaseTime;
+    public Task(){}
+
+    public Task(String id,String title, String description, String icon, Integer status,String totalSum, String token, Date insertDate) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.icon = icon;
+        this.status = status;
+        this.totalSum = totalSum;
+        this.token = token;
+        this.insertDate = insertDate;
+    }
 
     public String getId() {
         return id;

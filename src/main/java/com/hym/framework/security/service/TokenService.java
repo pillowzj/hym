@@ -1,14 +1,6 @@
 package com.hym.framework.security.service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import javax.servlet.http.HttpServletRequest;
-
 import com.alibaba.fastjson.JSON;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import com.hym.common.constant.Constants;
 import com.hym.common.utils.IdUtils;
 import com.hym.common.utils.ServletUtils;
@@ -21,6 +13,14 @@ import eu.bitwalker.useragentutils.UserAgent;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * token验证处理
@@ -71,6 +71,7 @@ public class TokenService
         }
         return null;
     }
+
 
     /**
      * 获取用户身份信息
@@ -163,15 +164,15 @@ public class TokenService
     public void refreshToken(LoginUser loginUser)
     {
         loginUser.setLoginTime(System.currentTimeMillis());
-//        loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
-        //loginUser.setExpireTime(loginUser.getLoginTime() +30*24*2* expireTime * MILLIS_MINUTE);
-        loginUser.setExpireTime(loginUser.getLoginTime() + 12 * 60 * MILLIS_MINUTE); // 12小时
+        loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
+        //loginUser.setExpireTime(loginUser.getLoginTime() +30*24*2* expireTime * MILLIS_MINUTE);// one month
+//        loginUser.setExpireTime(loginUser.getLoginTime() + 12 * 60 * MILLIS_MINUTE); // 12小时
         // 根据uuid将loginUser缓存
         String userKey = getTokenKey(loginUser.getToken());
         System.out.println("-----------Refresh Token----------->"+JSON.toJSON(loginUser));
-//        redisCache.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
+        redisCache.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
 //        redisCache.setCacheObject(userKey, loginUser, 30*24*2*expireTime, TimeUnit.MINUTES);
-        redisCache.setCacheObject(userKey, loginUser, 12 * 60, TimeUnit.MINUTES); // 12小时
+//        redisCache.setCacheObject(userKey, loginUser, 12 * 60, TimeUnit.MINUTES); // 12小时
     }
     
     /**

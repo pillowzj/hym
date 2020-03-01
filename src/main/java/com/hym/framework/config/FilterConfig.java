@@ -1,14 +1,19 @@
 package com.hym.framework.config;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.servlet.DispatcherType;
+import com.hym.common.utils.StringUtils;
+import com.hym.common.xss.XssFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.hym.common.utils.StringUtils;
-import com.hym.common.xss.XssFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import javax.servlet.DispatcherType;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Filter配置
@@ -16,7 +21,7 @@ import com.hym.common.xss.XssFilter;
  * @author hym
  */
 @Configuration
-public class FilterConfig
+public class FilterConfig  implements WebMvcConfigurer
 {
     @Value("${xss.enabled}")
     private String enabled;
@@ -26,6 +31,15 @@ public class FilterConfig
 
     @Value("${xss.urlPatterns}")
     private String urlPatterns;
+
+    @Autowired
+    private HandlerInterceptorAdapter securityInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(securityInterceptor)
+                .addPathPatterns("/api/hym/**");
+    }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Bean
@@ -43,4 +57,6 @@ public class FilterConfig
         registration.setInitParameters(initParameters);
         return registration;
     }
+
+
 }

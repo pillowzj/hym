@@ -8,14 +8,12 @@ import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.redis.RedisCache;
 import com.hym.framework.web.domain.AjaxResult;
-import com.hym.project.login.WXLoginService;
-import com.hym.project.login.domain.WXOpenInfo;
+import com.hym.project.domain.User;
+import com.hym.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/hym/login")
@@ -23,31 +21,8 @@ public class WxLoginController {
 
     @Autowired
     private RedisCache redisCache;
-
     @Autowired
-    private WXLoginService wxLoginService;
-
-    @PostMapping("/loginByCellPhone")
-    public AjaxResult loginByCellPhone() {
-        RequestData requestData = ThreadCache.getPostRequestParams();
-        JSONObject reqbody = JSON.parseObject(requestData.getData());
-
-        if (StringUtils.isEmpty(reqbody)) {
-            return AjaxResult.error();
-        }
-        String cellPhone = reqbody.getString("cellPhone");
-        String verifyCode = reqbody.getString("verifyCode");
-        //1 验证码验证
-        String vc = redisCache.getCacheObject("Constant.SMS_PREFIX" + cellPhone + verifyCode);
-        if (!vc.equals("Constant.SMS_PREFIX" + cellPhone + verifyCode)) {
-            return AjaxResult.error(HttpStatus.BAD_REPWD, " verify is error");
-        }
-
-
-        Map res = wxLoginService.loginByCellPhone(cellPhone, verifyCode);
-        System.out.println("login -->JSON.toJSON-->" + JSON.toJSON(res));
-        return AjaxResult.success(res);
-    }
+    private UserService userService;
 
     @PostMapping("/wxLogin")
     public AjaxResult wxLogin() {
@@ -56,54 +31,24 @@ public class WxLoginController {
         if (StringUtils.isEmpty(reqbody)) {
             return AjaxResult.error();
         }
-        String openid = reqbody.getString("openid");
+        String uid = reqbody.getString("uid");
         String name = reqbody.getString("name");
         String face = reqbody.getString("face");
         String cellPhone = reqbody.getString("cellPhone");
         String verifyCode = reqbody.getString("verifyCode");
-        if (StringUtils.isEmpty(openid)) {
-            return AjaxResult.error();
-        }
+
         //1 验证码验证
         String vc = redisCache.getCacheObject("Constant.SMS_PREFIX" + cellPhone + verifyCode);
         if (!vc.equals("Constant.SMS_PREFIX" + cellPhone + verifyCode)) {
             return AjaxResult.error(HttpStatus.BAD_REPWD, " verify is error");
         }
-
-        Map res = wxLoginService.wxLogin(openid, name, face,cellPhone,verifyCode);
-        System.out.println("login -->JSON.toJSON-->" + JSON.toJSON(res));
-        return AjaxResult.success(res);
-    }
-
-    @PostMapping("/getOpenid")
-    public AjaxResult getOpenid() {
-        RequestData requestData = ThreadCache.getPostRequestParams();
-        JSONObject reqbody = JSON.parseObject(requestData.getData());
-        String code = reqbody.getString("Code");
-        WXOpenInfo res = wxLoginService.getWXInfo(code);
-
-        System.out.println("wxlogin-->WXOpenInfo --->" + JSON.toJSON(res));
-        return AjaxResult.success(res);
+        User user = userService.selectByPrimaryKey(uid);
+        if(StringUtils.isEmpty(user.getMobile())){
+            user = new User(uid,name,face,cellPhone);
+            userService.updateByPrimaryKeySelective(user);
+        }
+        return AjaxResult.success(user);
     }
 
 
-    @PostMapping("/register")
-    public AjaxResult register(String data) {
-
-        JSONObject reqbody = JSON.parseObject(data);
-        String iv = reqbody.getString("iv");
-        String code = reqbody.getString("code");
-        String rawData = reqbody.getString("rawData");
-        String signature = reqbody.getString("signature");
-        String encryptedData = reqbody.getString("encryptedData");
-        System.out.println("iv--->" + iv);
-        System.out.println("code--->" + code);
-        System.out.println("rawData--->" + rawData);
-        System.out.println("signature--->" + signature);
-        System.out.println("encryptedData--->" + encryptedData);
-
-//        boolean isTrue =  wxLoginService.checkToken(token);
-//        if(isTrue)return  AjaxResult.success();
-        return AjaxResult.success();
-    }
 }

@@ -2,13 +2,15 @@ package com.hym.project.common;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.hym.project.util.SendMessage;
 import com.hym.common.utils.StringUtils;
 import com.hym.common.utils.file.FileUploadUtils;
 import com.hym.common.utils.file.FileUtils;
 import com.hym.framework.config.HymConfig;
 import com.hym.framework.config.ServerConfig;
+import com.hym.framework.domain.RequestData;
+import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.web.domain.AjaxResult;
+import com.hym.project.util.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,19 +92,12 @@ public class CommonController {
     @PostMapping(value = "/uploadFile")
     public AjaxResult uploadFile(String extension) {
         String fileName = null;
-        ResponseWraper rw = null;
         try {
-
             fileName = FileUploadUtils.uploadFile(extension);
-
-
             //logger.info(String.format("[[==============file Name %s]]", fileName));
-
-            rw = new ResponseWraper("200", "ok", fileName);
         } catch (Exception e) {
             return AjaxResult.error(e.getMessage());
         }
-
         String url = serverConfig.getUrl() + "/profile/upload/" + fileName;
         AjaxResult ajax = AjaxResult.success();
         ajax.put("fileName", fileName);
@@ -113,18 +108,18 @@ public class CommonController {
     /**
      * 发送验证码
      *
-     * @param data
      * @return
      */
-    @PostMapping(value = "/getVerifyCode")
-    public AjaxResult getVerifyCode(String data) {
+    @GetMapping(value = "/getVerifyCode")
+    public AjaxResult getVerifyCode() {
 
 
 //        if (data == null || "".equals(data.trim())) {
 //            //log.info("前端参数为空...");
 //            throw new MissingParamException("前端参数为空...");
 //        }
-        JSONObject object = JSON.parseObject(data);
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject object = JSON.parseObject(requestData.getData());
         String cellPhone = object.getString("cellPhone");
         boolean bool = true;
         bool = sendMessage.msgSend(cellPhone);
@@ -132,6 +127,5 @@ public class CommonController {
         //            logger.info(String.format("[[==============data:%b]]", bool));
         //        }
         return AjaxResult.success();
-//        JSON.toJSONString(new ResponseWraper("200", "OK", bool));
     }
 }

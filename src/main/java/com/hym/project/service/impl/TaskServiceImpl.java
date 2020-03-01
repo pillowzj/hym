@@ -2,7 +2,6 @@ package com.hym.project.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hym.project.domain.MyTask;
 import com.hym.project.domain.Task;
 import com.hym.project.mapper.TaskMapper;
 import com.hym.project.service.TaskService;
@@ -25,12 +24,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public int insert(Task record) {
-        return 0;
-    }
-
-    @Override
-    public int insertSelective(Task record) {
-        return 0;
+        return taskMapper.insert(record);
     }
 
     @Override
@@ -55,11 +49,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public int updateByPrimaryKeySelective(Task record) {
-        return 0;
+        return taskMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Override
-    public int updateByPrimaryKey(Task record) {
-        return 0;
-    }
+
 }

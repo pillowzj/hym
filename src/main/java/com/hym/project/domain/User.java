@@ -21,6 +21,8 @@ public class User {
 
     private String openid;
 
+    private String sessionkey;
+
     private String wxAvatarUrl;
 
     private String mobile;
@@ -51,6 +53,8 @@ public class User {
 
     private String idOpposite;
 
+    private String idHand;
+
     private String idAuthoIssue;
 
     private String idExpirDate;
@@ -61,7 +65,7 @@ public class User {
 
     private Integer isAutho;
 
-    private String status;
+    private Integer status;
 
     private String university;
 
@@ -80,6 +84,15 @@ public class User {
     private String lastLoginTime;
 
     private Date insertTime;
+    public User() {
+
+    }
+    public User(String id, String wxNickname, String wxAvatarUrl,String mobile) {
+        this.id = id;
+        this.wxNickname = wxNickname;
+        this.wxAvatarUrl = wxAvatarUrl;
+        this.mobile = mobile;
+    }
 
     public String getId() {
         return id;
@@ -151,6 +164,14 @@ public class User {
 
     public void setOpenid(String openid) {
         this.openid = openid == null ? null : openid.trim();
+    }
+
+    public String getSessionkey() {
+        return sessionkey;
+    }
+
+    public void setSessionkey(String sessionkey) {
+        this.sessionkey = sessionkey == null ? null : sessionkey.trim();
     }
 
     public String getWxAvatarUrl() {
@@ -273,6 +294,14 @@ public class User {
         this.idOpposite = idOpposite == null ? null : idOpposite.trim();
     }
 
+    public String getIdHand() {
+        return idHand;
+    }
+
+    public void setIdHand(String idHand) {
+        this.idHand = idHand == null ? null : idHand.trim();
+    }
+
     public String getIdAuthoIssue() {
         return idAuthoIssue;
     }
@@ -313,12 +342,12 @@ public class User {
         this.isAutho = isAutho;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getUniversity() {

@@ -3,7 +3,10 @@ package com.hym.project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.hym.common.constant.WorkflowConstans;
 import com.hym.common.utils.Arith;
+import com.hym.framework.domain.RequestData;
+import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.domain.Asset;
 import com.hym.project.domain.MyTask;
@@ -12,6 +15,9 @@ import com.hym.project.service.AssetService;
 import com.hym.project.service.MyTaskService;
 import com.hym.project.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,8 +48,9 @@ public class MyTaskController {
      * @return
      */
     @PostMapping("/createMyTask")
-    public AjaxResult createMyTask(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    public AjaxResult createMyTask() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
         String uid = reqbody.getString("uid");
         String tid = reqbody.getString("tid");
 
@@ -65,13 +72,14 @@ public class MyTaskController {
      * @param data
      * @return
      */
-    @PostMapping("/getMyTask")
-    public AjaxResult getMyTask(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    @GetMapping("/getMyTask")
+    public AjaxResult getMyTask() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
         String uid = reqbody.getString("uid");
         int pageNum = reqbody.getInteger("pageNum");
         int pageSize = reqbody.getInteger("pageSize");
-        PageInfo<MyTask> myTasks = myTaskService.selectMyTask(uid,9,pageNum,pageSize);
+        PageInfo<MyTask> myTasks = myTaskService.selectMyTask(uid, WorkflowConstans.NINE,pageNum,pageSize);
 //        String str = JSON.toJSONString(new ResponseWraper("200", "ok",myTasks));
         return AjaxResult.success(myTasks);
     }
@@ -84,8 +92,10 @@ public class MyTaskController {
      * @return
      */
     @PostMapping("/finishMyTask")
-    public AjaxResult finishMyTask(String data) {
-        JSONObject reqbody = JSON.parseObject(data);
+    @Transactional
+    public AjaxResult finishMyTask() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
         String uid = reqbody.getString("uid");
         String id = reqbody.getString("id");
         String token = reqbody.getString("token");// my task id
@@ -95,18 +105,23 @@ public class MyTaskController {
         myTask.setId(id);
         myTask.setFinishDate(new Date());
 //        myTask.setFinalDate(new Date());
-        myTask.setStatus(1);
+        myTask.setStatus(WorkflowConstans.ONE);
         myTask.setResult(pictrues.toString());
-        myTaskService.updateByPrimaryKeySelective(myTask);
-
 
         // 更新账户信息
         Asset asset = assetService.selectByPrimaryKey(uid);
         // 总token=获取当前任务的token+之前的token
 
         asset.setToken(Arith.add(asset.getToken(),token));
-        // 记录交易信息
-        assetService.updateByPrimaryKeySelective(asset);
+
+        try{
+            myTaskService.updateByPrimaryKeySelective(myTask);
+            // 记录交易信息
+            assetService.updateByPrimaryKeySelective(asset);
+        }catch (Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        throw  new RuntimeException("rockback-----");
+        }
 //        String str = JSON.toJSONString(new ResponseWraper("200", "ok"));
         return AjaxResult.success();
     }

@@ -1,13 +1,5 @@
 package com.hym.common.utils.file;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import com.hym.project.util.SessionUtil;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.web.multipart.MultipartFile;
 import com.hym.common.constant.Constants;
 import com.hym.common.exception.file.FileNameLengthLimitExceededException;
 import com.hym.common.exception.file.FileSizeLimitExceededException;
@@ -16,10 +8,17 @@ import com.hym.common.utils.DateUtils;
 import com.hym.common.utils.StringUtils;
 import com.hym.common.utils.security.Md5Utils;
 import com.hym.framework.config.HymConfig;
+import com.hym.project.util.SessionUtil;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 文件上传工具类
@@ -262,8 +261,13 @@ public class FileUploadUtils
         String uploadPath = HymConfig.getUploadPath()+"/" + fileName  + extension; // upload path
         HttpServletRequest request = SessionUtil.getRequest();
         String flag = request.getParameter("flag");
+        String mytid = request.getParameter("mytid");
 
         String fileJia = HymConfig.getUploadPath()+"/"+flag;
+        if(!StringUtils.isEmpty(mytid)){
+            fileJia = fileJia+"/"+mytid;
+        }
+
         File fileDir = new File(fileJia);
         if (!fileDir.exists()) {
             fileDir.mkdirs();

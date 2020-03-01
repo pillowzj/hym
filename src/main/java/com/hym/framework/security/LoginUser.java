@@ -1,11 +1,11 @@
 package com.hym.framework.security;
 
-import java.util.Collection;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hym.project.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Collection;
 
 /**
  * 登录用户身份权限

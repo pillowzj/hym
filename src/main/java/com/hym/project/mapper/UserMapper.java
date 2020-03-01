@@ -2,7 +2,6 @@ package com.hym.project.mapper;
 
 import com.hym.project.domain.User;
 
-import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.Map;
 
 public interface UserMapper {
@@ -20,7 +19,5 @@ public interface UserMapper {
 
     User selectByOpenID(String openid);
     User loginByCellPhone(String cellPhone);
-
-
     String selectUserHMYByStatus(Map map);
 }
