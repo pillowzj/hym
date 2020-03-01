@@ -53,7 +53,7 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return (MobileAuthenticationToken.class.isAssignableFrom(authentication));
+        return (MobileAuthenticationToken.class.equals(authentication));
     }
 
     private void createAsset(User user) {

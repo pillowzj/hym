@@ -8,6 +8,7 @@ import com.hym.framework.security.mobile.handler.MobileAuthenticationSuccessHand
 import com.hym.framework.security.opeinid.WxAuthenticationFilter;
 import com.hym.framework.security.opeinid.WxAuthenticationProvider;
 import com.hym.framework.security.opeinid.handler.WxAuthenticationSuccessHandler;
+import com.hym.framework.security.pwd.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -68,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/**/mobile", "/**/getOpenid", "/**/getVerifyCode").anonymous()
+                .antMatchers("/**/mobile", "/**/getOpenid","/**/getVerifyCode").anonymous()
                 .antMatchers(
                         HttpMethod.GET,
                         "/*.html",
@@ -89,11 +90,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable();
         httpSecurity.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
-        //httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(mobileAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(wxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity
+                .addFilterBefore(wxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(mobileAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
 
     @Autowired
     @Qualifier("authenticationManagerBean")
@@ -104,6 +105,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+        System.out.println("SecurityConfig----------------> JwtAuthenticationTokenFilter()");
+        return new JwtAuthenticationTokenFilter();
+    }
+
     @Bean
     public MobileAuthenticationFilter mobileAuthenticationFilter() {
         System.out.println("SecurityConfig----------------> mobileAuthenticationFilter()");
@@ -112,12 +120,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         mobileAuthenticationFilter.setAuthenticationSuccessHandler(mobileAuthenticationSuccessHandler());
         return mobileAuthenticationFilter;
     }
+
     @Bean
     public WxAuthenticationFilter wxAuthenticationFilter() {
         System.out.println("SecurityConfig----------------> wxAuthenticationFilter()");
         WxAuthenticationFilter wxAuthenticationFilter = new WxAuthenticationFilter("/**/getOpenid");
         wxAuthenticationFilter.setAuthenticationManager(authenticationManager);
-        wxAuthenticationFilter.setAuthenticationSuccessHandler(mobileAuthenticationSuccessHandler());
+        wxAuthenticationFilter.setAuthenticationSuccessHandler(wxAuthenticationSuccessHandler());
         return wxAuthenticationFilter;
     }
 

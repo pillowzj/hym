@@ -2,9 +2,10 @@ package com.hym.framework.security.opeinid.handler;
 
 import cn.hutool.http.ContentType;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Maps;
 import com.hym.framework.security.LoginUser;
-import com.hym.framework.security.opeinid.WxAuthenticationToken;
 import com.hym.framework.security.service.TokenService;
 import com.hym.framework.web.domain.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +29,9 @@ public class WxAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        // 使用jwt管理，所以封装用户信息生成jwt响应给前端
-        WxAuthenticationToken wxAppletAuthenticationToken = null;
-        if (authentication instanceof WxAuthenticationToken) {
-            wxAppletAuthenticationToken = (WxAuthenticationToken) authentication;
-        }
-        Object object = wxAppletAuthenticationToken.getPrincipal();
-        LoginUser loginUser =(LoginUser)object;
-
-
+        String json = JSONObject.toJSONString(authentication.getPrincipal(), SerializerFeature.WriteMapNullValue);
+        System.out.println("-1---WxAuthenticationSuccessHandler-----------JSON.toJSONString(json)----》"+json);
+        LoginUser loginUser = JSON.parseObject(json, LoginUser.class);
         String token = tokenService.createToken(loginUser);
         Map<String, Object> result = Maps.newHashMap();
         result.put("token", token);

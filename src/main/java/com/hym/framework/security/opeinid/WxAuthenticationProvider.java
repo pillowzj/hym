@@ -31,15 +31,20 @@ public class WxAuthenticationProvider implements AuthenticationProvider {
         if (authentication instanceof WxAuthenticationToken) {
             wxAppletAuthenticationToken = (WxAuthenticationToken) authentication;
         }
-        String openid = ((LoginUser) wxAppletAuthenticationToken.getPrincipal()).getUser().getOpenid();
-        User user = loginUserService.getOpenid(openid);
-        LoginUser loginUser = new LoginUser();
+        LoginUser loginUser = (LoginUser) wxAppletAuthenticationToken.getPrincipal();
+//        String openid = ((LoginUser) wxAppletAuthenticationToken.getPrincipal()).getUser().getOpenid();
+
+        User user = null;
+        if(!StringUtils.isEmpty(loginUser.getUser().getMobile())){
+            user = loginUserService.loginByCellPhone(loginUser.getUser().getMobile());
+        }else if(!StringUtils.isEmpty(loginUser.getUser().getOpenid())){
+            user = loginUserService.getOpenid(loginUser.getUser().getOpenid());
+        }
 
         //执行注册逻辑
         if (StringUtils.isNull(user)) {
             user = new User();
             user.setId(IdUtils.fastSimpleUUID());
-            user.setOpenid(openid);
             user.setIsAutho(WorkflowConstans.ZERO);
             user.setStatus(WorkflowConstans.ZERO);
             user.setInsertTime(new Date());
@@ -53,7 +58,7 @@ public class WxAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return (WxAuthenticationToken.class.isAssignableFrom(authentication));
+        return (WxAuthenticationToken.class.equals(authentication));
     }
 
     private void createAsset(User user) {

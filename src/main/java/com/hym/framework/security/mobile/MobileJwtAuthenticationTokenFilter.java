@@ -21,7 +21,6 @@ import java.io.IOException;
  * @author lijun kou
  * @Date 03012020
  */
-@Component
 public class MobileJwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired

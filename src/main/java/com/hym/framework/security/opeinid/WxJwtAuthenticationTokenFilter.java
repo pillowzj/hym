@@ -7,7 +7,6 @@ import com.hym.framework.security.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -20,7 +19,6 @@ import java.io.IOException;
  * @author lijun kou
  * @Date 03012020
  */
-@Component
 public class WxJwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired

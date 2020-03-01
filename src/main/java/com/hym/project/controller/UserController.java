@@ -142,7 +142,7 @@ public class UserController {
         JSONObject reqbody = JSON.parseObject(requestData.getData());
 
         String verifyCode = reqbody.getString("verifyCode");
-        String cellPhone = reqbody.getString("celPhone");
+        String cellPhone = reqbody.getString("cellPhone");
         //1 验证码验证
         String vc = redisCache.getCacheObject("Constant.SMS_PREFIX" + cellPhone + verifyCode);
         if (!vc.equals("Constant.SMS_PREFIX" + cellPhone + verifyCode)) {
