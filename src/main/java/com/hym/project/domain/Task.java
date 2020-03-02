@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Task {
     private String id;
-
+    private String uid;
     private String title;
 
     private String description;
@@ -14,7 +14,8 @@ public class Task {
     private String icon;
 
     private Integer count;
-
+    private Integer people;
+    private String rmbSum;
     private String totalSum;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
@@ -40,13 +41,16 @@ public class Task {
     private Date releaseTime;
     public Task(){}
 
-    public Task(String id,String title, String description, String icon, Integer status,String totalSum, String token, Date insertDate) {
+    public Task(String id,String uid,String title, String description, String icon, Integer status, Integer people,String rmbSum,String totalSum, String token, Date insertDate) {
         this.id = id;
+        this.uid = uid;
         this.title = title;
         this.description = description;
         this.icon = icon;
         this.status = status;
+        this.people = people;
         this.totalSum = totalSum;
+        this.rmbSum =rmbSum;
         this.token = token;
         this.insertDate = insertDate;
     }
@@ -57,6 +61,14 @@ public class Task {
 
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getTitle() {
@@ -89,6 +101,22 @@ public class Task {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public Integer getPeople() {
+        return people;
+    }
+
+    public void setPeople(Integer people) {
+        this.people = people;
+    }
+
+    public String getRmbSum() {
+        return rmbSum;
+    }
+
+    public void setRmbSum(String rmbSum) {
+        this.rmbSum = rmbSum;
     }
 
     public String getTotalSum() {

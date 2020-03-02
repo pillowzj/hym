@@ -24,13 +24,6 @@ public class WxLoginController {
     @Autowired
     private UserService userService;
 
-
-//    @GetMapping("/getOpenid")
-//    public AjaxResult getOpenid() {
-//
-//        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-//        return AjaxResult.success();
-//    }
     @PostMapping("/wxLogin")
     public AjaxResult wxLogin() {
         RequestData requestData = ThreadCache.getPostRequestParams();

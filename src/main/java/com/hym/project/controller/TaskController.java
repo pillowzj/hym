@@ -3,7 +3,8 @@ package com.hym.project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.hym.common.constant.WorkflowConstans;
+import com.hym.common.constant.WorkflowConstants;
+import com.hym.common.utils.Arith;
 import com.hym.common.utils.IdUtils;
 import com.hym.common.utils.StringUtils;
 import com.hym.framework.domain.RequestData;
@@ -41,20 +42,26 @@ public class TaskController {
     public AjaxResult createTask(){
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject reqbody = JSON.parseObject(requestData.getData());
-
+        System.out.println(reqbody);
+        String uid = reqbody.getString("uid");
         String type = reqbody.getString("type");
         String title = reqbody.getString("title");
         String description = reqbody.getString("description");
         String icon = reqbody.getString("icon");
         String token = reqbody.getString("token");
+        String rmbSum = reqbody.getString("rmbSum");
         String totalSum = reqbody.getString("totalSum");
-        String hym = reqbody.getString("hym");
+        Integer people = reqbody.getInteger("people");
+        people =  people*10000;
+        rmbSum =  Arith.mul(rmbSum,10000);
+        totalSum =  Arith.mul(totalSum,10000);
+
         if(reqbody.containsKey("id")){
             String id = reqbody.getString("id");
-            Task task = new Task(id,title,description,icon, WorkflowConstans.ZERO,totalSum,token,new Date());
+            Task task = new Task(id,uid,title,description,icon, WorkflowConstants.ZERO,people,rmbSum,totalSum,token,new Date());
             taskService.updateByPrimaryKeySelective(task);
         }else{
-            Task task = new Task(IdUtils.fastSimpleUUID(),title,description,icon,WorkflowConstans.ZERO,totalSum,token,new Date());
+            Task task = new Task(IdUtils.fastSimpleUUID(),uid,title,description,icon, WorkflowConstants.ZERO,people,rmbSum,totalSum,token,new Date());
             taskService.insert(task);
         }
         return AjaxResult.success();
@@ -78,7 +85,7 @@ public class TaskController {
         if (StringUtils.isEmpty(uid)) {
             return AjaxResult.success(tasks);
         }
-        List<MyTask> myTasks = myTaskService.selectMyTask(uid,WorkflowConstans.NINE);
+        List<MyTask> myTasks = myTaskService.selectMyTask(uid, WorkflowConstants.NINE);
         //过滤获取 type=2的数据
         List<Task> collect = tasks.getList().stream().filter(task -> myTasks.stream().noneMatch(myTask -> myTask.getTid().equals(task.getId()))).collect(Collectors.toList());
         tasks.setList(collect);
@@ -88,7 +95,7 @@ public class TaskController {
     @GetMapping("/getCount")
     public AjaxResult getCount() {
         int count = taskService.getCount();
-        int myCount = myTaskService.getCount("",WorkflowConstans.NINE);
+        int myCount = myTaskService.getCount("", WorkflowConstants.NINE);
         AjaxResult ajax = AjaxResult.success();
         ajax.put("count", count);
         ajax.put("yqCount", myCount);

@@ -110,22 +110,27 @@ public class CommonController {
      *
      * @return
      */
+    @GetMapping(value = "/getVerifyCode_v1_wx")
+    public AjaxResult getVerifyCode0() {
+        SendMsg();
+        return AjaxResult.success();
+    }
+    @GetMapping(value = "/getVerifyCode_v1_mobile")
+    public AjaxResult getVerifyCode1() {
+        SendMsg();
+        return AjaxResult.success();
+    }
     @GetMapping(value = "/getVerifyCode")
     public AjaxResult getVerifyCode() {
+        SendMsg();
+        return AjaxResult.success();
+    }
 
-
-//        if (data == null || "".equals(data.trim())) {
-//            //log.info("前端参数为空...");
-//            throw new MissingParamException("前端参数为空...");
-//        }
+    private void SendMsg() {
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject object = JSON.parseObject(requestData.getData());
         String cellPhone = object.getString("cellPhone");
         boolean bool = true;
         bool = sendMessage.msgSend(cellPhone);
-        //        if (Constant.IS_LOG) {
-        //            logger.info(String.format("[[==============data:%b]]", bool));
-        //        }
-        return AjaxResult.success();
     }
 }

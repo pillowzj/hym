@@ -3,7 +3,7 @@ package com.hym.project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.hym.common.constant.WorkflowConstans;
+import com.hym.common.constant.WorkflowConstants;
 import com.hym.common.utils.Arith;
 import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;
@@ -79,7 +79,7 @@ public class MyTaskController {
         String uid = reqbody.getString("uid");
         int pageNum = reqbody.getInteger("pageNum");
         int pageSize = reqbody.getInteger("pageSize");
-        PageInfo<MyTask> myTasks = myTaskService.selectMyTask(uid, WorkflowConstans.NINE,pageNum,pageSize);
+        PageInfo<MyTask> myTasks = myTaskService.selectMyTask(uid, WorkflowConstants.NINE,pageNum,pageSize);
 //        String str = JSON.toJSONString(new ResponseWraper("200", "ok",myTasks));
         return AjaxResult.success(myTasks);
     }
@@ -105,7 +105,7 @@ public class MyTaskController {
         myTask.setId(id);
         myTask.setFinishDate(new Date());
 //        myTask.setFinalDate(new Date());
-        myTask.setStatus(WorkflowConstans.ONE);
+        myTask.setStatus(WorkflowConstants.ONE);
         myTask.setResult(pictrues.toString());
 
         // 更新账户信息

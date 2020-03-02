@@ -98,4 +98,11 @@ public class Constants
      * 资源映射路径 前缀
      */
     public static final String RESOURCE_PREFIX = "/profile";
+
+    /**
+     * HYM小数点
+     */
+    public static final Integer DECIMAL_POINT = 4;
+    public static final Integer ZERO = 0;
 }
+

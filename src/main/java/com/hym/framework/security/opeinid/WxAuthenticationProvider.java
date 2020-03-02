@@ -1,6 +1,7 @@
 package com.hym.framework.security.opeinid;
 
-import com.hym.common.constant.WorkflowConstans;
+import com.hym.common.constant.Constants;
+import com.hym.common.constant.WorkflowConstants;
 import com.hym.common.utils.IdUtils;
 import com.hym.common.utils.StringUtils;
 import com.hym.framework.security.LoginUser;
@@ -45,12 +46,24 @@ public class WxAuthenticationProvider implements AuthenticationProvider {
         if (StringUtils.isNull(user)) {
             user = new User();
             user.setId(IdUtils.fastSimpleUUID());
-            user.setIsAutho(WorkflowConstans.ZERO);
-            user.setStatus(WorkflowConstans.ZERO);
+            user.setOpenid(loginUser.getUser().getOpenid());
+            user.setSessionkey(loginUser.getUser().getSessionkey());
+            user.setIsAutho(WorkflowConstants.ZERO);
+            user.setStatus(WorkflowConstants.ZERO);
             user.setInsertTime(new Date());
-            if (loginUserService.insert(user) > 0) {
-                this.createAsset(user);
-            }
+
+            Asset asset = new Asset();
+            asset.setId(user.getId());
+            asset.setUid(user.getId());
+            String tokenInit = new BigDecimal(Constants.ZERO).setScale(Constants.DECIMAL_POINT).toString();
+            asset.setFrozenToken(tokenInit);
+            asset.setToken(tokenInit);
+            asset.setInsertDate(new Date());
+
+            int i =loginUserService.insert(user);
+                   assetService.insert(asset);
+             System.out.println("----------i-------->"+i);
+
         }
         loginUser.setUser(user);
         return new WxAuthenticationToken(loginUser, null, null);
@@ -61,14 +74,5 @@ public class WxAuthenticationProvider implements AuthenticationProvider {
         return (WxAuthenticationToken.class.equals(authentication));
     }
 
-    private void createAsset(User user) {
-        Asset asset = new Asset();
-        asset.setId(user.getId());
-        asset.setUid(user.getId());
-        String tokenInit = new BigDecimal(WorkflowConstans.ZERO).setScale(WorkflowConstans.FOUR).toString();
-        asset.setFrozenToken(tokenInit);
-        asset.setToken(tokenInit);
-        asset.setInsertDate(new Date());
-        assetService.insert(asset);
-    }
+
 }

@@ -1,6 +1,6 @@
 package com.hym.common.constant;
 
-public class WorkflowConstans {
+public class WorkflowConstants {
 
 //    user --> is_autho 0 未认证（未绑卡） 1（ID 未认证） 2 已认证
 //             status 0 正常 1 冻结
@@ -14,4 +14,7 @@ public class WorkflowConstans {
     public static final Integer THERE = 3;
     public static final Integer FOUR = 4;
     public static final Integer NINE = 9;
+
+
+
 }

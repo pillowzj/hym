@@ -3,7 +3,7 @@ package com.hym.project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hym.common.constant.HttpStatus;
-import com.hym.common.constant.WorkflowConstans;
+import com.hym.common.constant.WorkflowConstants;
 import com.hym.common.utils.StringUtils;
 import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;
@@ -131,7 +131,7 @@ public class UserController {
 //        user.setIdExpirDate(idExpirDate);
 //        user.setIdPositive(idPositive);
 //        user.setIdOpposite(idOpposite);
-        user.setIsAutho(WorkflowConstans.TWO); // 收款码已绑定 身份证已验证
+        user.setIsAutho(WorkflowConstants.TWO); // 收款码已绑定 身份证已验证
         userService.updateByPrimaryKeySelective(user);
         return AjaxResult.success();
     }
@@ -157,7 +157,7 @@ public class UserController {
         user.setPayCode(payCode);
         user.setPayName(payName);
         user.setPayType(payType);
-        user.setIsAutho(WorkflowConstans.ONE);//  1 已绑定收款码
+        user.setIsAutho(WorkflowConstants.ONE);//  1 已绑定收款码
         userService.updateByPrimaryKeySelective(user);
         return AjaxResult.success();
     }

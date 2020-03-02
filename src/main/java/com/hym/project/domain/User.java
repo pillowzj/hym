@@ -84,6 +84,7 @@ public class User {
     private String lastLoginTime;
 
     private Date insertTime;
+
     public User() {
 
     }
@@ -93,7 +94,6 @@ public class User {
         this.wxAvatarUrl = wxAvatarUrl;
         this.mobile = mobile;
     }
-
     public String getId() {
         return id;
     }

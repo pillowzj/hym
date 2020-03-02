@@ -1,5 +1,7 @@
 package com.hym.common.utils;
 
+import com.hym.common.constant.Constants;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -84,6 +86,13 @@ public class Arith
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.multiply(b2).doubleValue();
+    }
+
+    public static String mul(String v1, double v2)
+    {
+        BigDecimal b1 = new BigDecimal(v1);
+        BigDecimal b2 = new BigDecimal(v2);
+        return b1.multiply(b2).setScale(Constants.DECIMAL_POINT).toString();
     }
 
     /**

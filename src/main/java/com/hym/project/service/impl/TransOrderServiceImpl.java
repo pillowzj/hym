@@ -2,6 +2,7 @@ package com.hym.project.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hym.common.constant.Constants;
 import com.hym.common.utils.Arith;
 import com.hym.common.utils.IdUtils;
 import com.hym.project.domain.Asset;
@@ -16,9 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TransOrderServiceImpl implements TansOrderService {
@@ -61,10 +60,10 @@ public class TransOrderServiceImpl implements TansOrderService {
         TransOrder order = new TransOrder();
         order.setId(IdUtils.fastSimpleUUID());
         order.setOrderId(IdUtils.orderID());
-        order.setHymPrice(new BigDecimal(hymPrice).setScale(4).toString());
-        order.setTotalSum(new BigDecimal(totalSum).setScale(4).toString());
-        order.setHymCount(new BigDecimal(hymCount).setScale(4).toString());
-        order.setFee(new BigDecimal(fee).setScale(4).toString());
+        order.setHymPrice(new BigDecimal(hymPrice).setScale(Constants.DECIMAL_POINT).toString());
+        order.setTotalSum(new BigDecimal(totalSum).setScale(Constants.DECIMAL_POINT).toString());
+        order.setHymCount(new BigDecimal(hymCount).setScale(Constants.DECIMAL_POINT).toString());
+        order.setFee(new BigDecimal(fee).setScale(Constants.DECIMAL_POINT).toString());
         order.setSellerId(sellUid);
         order.setBuyerId("0f803c86-0b23-4173-bcdd-b3b43262654f");
         order.setStatus(1);// 交易中

@@ -1,6 +1,8 @@
 package com.hym.framework.security.mobile;
 
-import com.hym.common.constant.WorkflowConstans;
+
+import com.hym.common.constant.Constants;
+import com.hym.common.constant.WorkflowConstants;
 import com.hym.common.utils.IdUtils;
 import com.hym.common.utils.StringUtils;
 import com.hym.framework.security.LoginUser;
@@ -40,8 +42,8 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
             user = new User();
             user.setId(IdUtils.fastSimpleUUID());
             user.setMobile(mobile);
-            user.setIsAutho(WorkflowConstans.ZERO);
-            user.setStatus(WorkflowConstans.ZERO);
+            user.setIsAutho(WorkflowConstants.ZERO);
+            user.setStatus(WorkflowConstants.ZERO);
             user.setInsertTime(new Date());
             if (loginUserService.insert(user) > 0) {
                 this.createAsset(user);
@@ -60,7 +62,7 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
         Asset asset = new Asset();
         asset.setId(user.getId());
         asset.setUid(user.getId());
-        String tokenInit = new BigDecimal(WorkflowConstans.ZERO).setScale(WorkflowConstans.FOUR).toString();
+        String tokenInit = new BigDecimal(Constants.ZERO).setScale(Constants.DECIMAL_POINT).toString();
         asset.setFrozenToken(tokenInit);
         asset.setToken(tokenInit);
         asset.setInsertDate(new Date());
