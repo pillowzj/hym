@@ -25,16 +25,12 @@ public class WxAuthenticationProvider implements AuthenticationProvider {
     private AssetService assetService;
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
-        System.out.println("----------WxAuthenticationProvider------------");
-
+//        System.out.println("----------WxAuthenticationProvider------------");
         WxAuthenticationToken wxAppletAuthenticationToken = null;
         if (authentication instanceof WxAuthenticationToken) {
             wxAppletAuthenticationToken = (WxAuthenticationToken) authentication;
         }
         LoginUser loginUser = (LoginUser) wxAppletAuthenticationToken.getPrincipal();
-//        String openid = ((LoginUser) wxAppletAuthenticationToken.getPrincipal()).getUser().getOpenid();
-
         User user = null;
         if(!StringUtils.isEmpty(loginUser.getUser().getMobile())){
             user = loginUserService.loginByCellPhone(loginUser.getUser().getMobile());

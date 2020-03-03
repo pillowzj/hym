@@ -31,15 +31,13 @@ public class MobileAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         // 使用jwt管理，所以封装用户信息生成jwt响应给前端
         String json = JSONObject.toJSONString(authentication.getPrincipal(), SerializerFeature.WriteMapNullValue);
-        System.out.println("-1---MobileAuthenticationSuccessHandler-----------JSON.toJSONString(json)----》"+json);
+//        System.out.println("-1---MobileAuthenticationSuccessHandler-----------JSON.toJSONString(json)----》"+json);
         LoginUser loginUser = JSON.parseObject(json, LoginUser.class);
         String token = tokenService.createToken(loginUser);
         Map<String, Object> result = Maps.newHashMap();
         result.put("token", token);
-        result.put("uid", loginUser.getUser().getId());
-        result.put("nickName", loginUser.getUser().getWxNickname());
-        result.put("face", loginUser.getUser().getWxAvatarUrl());
-        result.put("isAutho", loginUser.getUser().getIsAutho());
+        result.put("user", loginUser.getUser());
+
         httpServletResponse.setContentType(ContentType.JSON.toString());
         AjaxResult  ajaxResult = AjaxResult.success(result);
         httpServletResponse.getWriter().write(JSON.toJSONString(ajaxResult));

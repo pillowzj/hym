@@ -9,6 +9,8 @@ import com.hym.common.utils.IdUtils;
 import com.hym.common.utils.StringUtils;
 import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;
+import com.hym.framework.security.LoginUser;
+import com.hym.framework.security.service.TokenService;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.domain.MyTask;
 import com.hym.project.domain.Task;
@@ -37,6 +39,8 @@ public class TaskController {
     private TaskService taskService;
     @Autowired
     private MyTaskService myTaskService;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/createTask")
     public AjaxResult createTask(){
@@ -77,11 +81,13 @@ public class TaskController {
     public AjaxResult getTastList() {
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject reqbody = JSON.parseObject(requestData.getData());
+        String token =reqbody.getString("token");
+        LoginUser loginUser = tokenService.psrseUser(token);
+        String uid = loginUser.getUser().getId();
         int pageNum = reqbody.getInteger("pageNum");
         int pageSize = reqbody.getInteger("pageSize");
         PageInfo<Task> tasks = taskService.selectAll(pageNum,pageSize);
 
-        String uid = reqbody.getString("uid");
         if (StringUtils.isEmpty(uid)) {
             return AjaxResult.success(tasks);
         }

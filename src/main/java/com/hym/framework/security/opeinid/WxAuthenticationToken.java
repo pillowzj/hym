@@ -21,7 +21,7 @@ public class WxAuthenticationToken extends AbstractAuthenticationToken {
         this.principal = principal;
         this.credentials = aCredentials;
         super.setAuthenticated(true);
-        System.out.println("----------WxAuthenticationToken------------");
+//        System.out.println("----------WxAuthenticationToken------------");
     }
     public Object getCredentials() {
         return this.credentials;

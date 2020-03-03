@@ -7,7 +7,6 @@ import com.hym.framework.security.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -27,7 +26,7 @@ public class MobileJwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private TokenService tokenService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("-----MobileJwtAuthenticationTokenFilter-----doFilterInternal------------");
+//        System.out.println("-----MobileJwtAuthenticationTokenFilter-----doFilterInternal------------");
         LoginUser loginUser = tokenService.getLoginUser(request);//根据token 查询redis 是否存在这个用户信息
 
         if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication())) {

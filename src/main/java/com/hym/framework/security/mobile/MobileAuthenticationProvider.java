@@ -26,8 +26,7 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
     private AssetService assetService;
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("----------MobileAuthenticationProvider------------");
-
+//        System.out.println("----------MobileAuthenticationProvider------------");
         MobileAuthenticationToken wxAppletAuthenticationToken = null;
 
         if (authentication instanceof MobileAuthenticationToken) {

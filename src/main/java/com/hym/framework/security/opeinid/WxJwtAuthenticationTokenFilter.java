@@ -25,7 +25,7 @@ public class WxJwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private TokenService tokenService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("-----WxJwtAuthenticationTokenFilter-----doFilterInternal------------");
+//        System.out.println("-----WxJwtAuthenticationTokenFilter-----doFilterInternal------------");
         LoginUser loginUser = tokenService.getLoginUser(request);//根据token 查询redis 是否存在这个用户信息
 
         if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication())) {

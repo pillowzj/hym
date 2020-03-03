@@ -39,7 +39,7 @@ public class MobileAuthenticationFilter extends AbstractAuthenticationProcessing
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
-        System.out.println("----------MobileAuthenticationFilter------------");
+//        System.out.println("----------MobileAuthenticationFilter------------");
         String cellPhone = httpServletRequest.getParameter("cellPhone");
         String verifyCode = httpServletRequest.getParameter("verifyCode");
         if (StringUtils.isBlank(cellPhone)) {

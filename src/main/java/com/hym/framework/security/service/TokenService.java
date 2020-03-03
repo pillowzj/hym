@@ -149,9 +149,7 @@ public class TokenService
     {
         long expireTime = loginUser.getExpireTime();
         long currentTime = System.currentTimeMillis();
-        if (expireTime - currentTime <= MILLIS_MINUTE_TEN)
-        {
-            System.out.println("----refreshToken---->"+(expireTime - currentTime));
+        if (expireTime - currentTime <= MILLIS_MINUTE_TEN) {
             refreshToken(loginUser);
         }
     }
@@ -169,7 +167,6 @@ public class TokenService
 //        loginUser.setExpireTime(loginUser.getLoginTime() + 12 * 60 * MILLIS_MINUTE); // 12小时
         // 根据uuid将loginUser缓存
         String userKey = getTokenKey(loginUser.getToken());
-        System.out.println("-----------Refresh Token----------->"+JSON.toJSON(loginUser));
         redisCache.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
 //        redisCache.setCacheObject(userKey, loginUser, 30*24*2*expireTime, TimeUnit.MINUTES);
 //        redisCache.setCacheObject(userKey, loginUser, 12 * 60, TimeUnit.MINUTES); // 12小时

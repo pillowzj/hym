@@ -39,7 +39,7 @@ public class SendMessage {
 
         if(true){
             String vCode ="6666";
-            redisCache.setCacheObject("Constant.SMS_PREFIX" + MobilePhone+vCode, "Constant.SMS_PREFIX" + MobilePhone+vCode, 5, TimeUnit.MINUTES);
+            redisCache.setCacheObject("Constant.SMS_PREFIX" + MobilePhone+vCode, "Constant.SMS_PREFIX" + MobilePhone+vCode, 2, TimeUnit.MINUTES);
         return true;
         }
         String url = "https://api.mysubmail.com/message/xsend.json";

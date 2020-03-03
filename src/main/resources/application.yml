@@ -91,6 +91,10 @@ spring:
         max-idle: 20
         max-wait: -1ms
         max-active: 200
+        testOnBorrow: true  # ljk add 03022020
+        testOnReturn: true
+        testWhileIdle: true
+
 # token配置
 token:
     # 令牌自定义标识

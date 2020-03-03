@@ -31,7 +31,7 @@ public class WxAuthenticationFilter extends AbstractAuthenticationProcessingFilt
     }
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
-        System.out.println("----------WxAuthenticationFilter------------");
+//        System.out.println("----------WxAuthenticationFilter------------");
         String code = httpServletRequest.getParameter("Code");
         if(StringUtils.isBlank(code)){
             throw new BaseException(StringUtils.format("code is null"));

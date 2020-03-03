@@ -30,7 +30,7 @@ public class WxAuthenticationSuccessHandler implements AuthenticationSuccessHand
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         String json = JSONObject.toJSONString(authentication.getPrincipal(), SerializerFeature.WriteMapNullValue);
-        System.out.println("-1---WxAuthenticationSuccessHandler-----------JSON.toJSONString(json)----》"+json);
+//        System.out.println("-1---WxAuthenticationSuccessHandler-----------JSON.toJSONString(json)----》"+json);
         LoginUser loginUser = JSON.parseObject(json, LoginUser.class);
         String token = tokenService.createToken(loginUser);
         Map<String, Object> result = Maps.newHashMap();

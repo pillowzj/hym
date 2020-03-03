@@ -7,6 +7,8 @@ import com.hym.common.utils.StringUtils;
 import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.redis.RedisCache;
+import com.hym.framework.security.LoginUser;
+import com.hym.framework.security.service.TokenService;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.domain.User;
 import com.hym.project.service.UserService;
@@ -23,6 +25,8 @@ public class WxLoginController {
     private RedisCache redisCache;
     @Autowired
     private UserService userService;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/wxLogin")
     public AjaxResult wxLogin() {
@@ -31,7 +35,9 @@ public class WxLoginController {
         if (StringUtils.isEmpty(reqbody)) {
             return AjaxResult.error();
         }
-        String uid = reqbody.getString("uid");
+        String token = reqbody.getString("token");
+        LoginUser loginUser = tokenService.psrseUser(token);
+        String uid = loginUser.getUser().getId();
         String name = reqbody.getString("name");
         String face = reqbody.getString("face");
         String cellPhone = reqbody.getString("cellPhone");
@@ -49,4 +55,15 @@ public class WxLoginController {
         }
         return AjaxResult.success(user);
     }
+
+    @PostMapping("/quit")
+    public AjaxResult quit(){
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
+        String token = reqbody.getString("token");
+       LoginUser user = tokenService.psrseUser(token);
+       tokenService.delLoginUser(user.getToken());
+        return AjaxResult.success();
+    }
+
 }

@@ -21,7 +21,7 @@ public class MobileAuthenticationToken extends AbstractAuthenticationToken {
         this.principal = principal;
         this.credentials = aCredentials;
         super.setAuthenticated(true);
-        System.out.println("----------MobileAuthenticationToken------------");
+//        System.out.println("----------MobileAuthenticationToken------------");
     }
     public Object getCredentials() {
         return this.credentials;
