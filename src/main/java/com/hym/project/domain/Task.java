@@ -1,59 +1,70 @@
 package com.hym.project.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 public class Task {
     private String id;
+
     private String uid;
+
     private String title;
+
+    private String industry;
 
     private String description;
 
     private String icon;
 
     private Integer count;
+
     private Integer people;
+
     private String rmbSum;
-    private String totalSum;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    private String price;
+
+    private String token;
+
+    private String tokenTotalSum;
+
     private Date startDate;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
     private Date endDate;
 
     private Integer status;
 
     private Integer isReceived;
 
-    private String token;
-
     private Integer commission;
 
     private String insertUser;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
     private Date insertDate;
 
     private String checker;
 
     private String releaseUser;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
     private Date releaseTime;
+
     public Task(){}
 
-    public Task(String id,String uid,String title, String description, String icon, Integer status, Integer people,String rmbSum,String totalSum, String token, Date insertDate) {
+    public Task(String id,String uid,String title,String industry, String description, String icon, Integer status, Integer people,String rmbSum, String price,  String token, String tokenTotalSum,Date insertDate) {
         this.id = id;
         this.uid = uid;
         this.title = title;
+        this.industry = industry;
         this.description = description;
         this.icon = icon;
         this.status = status;
         this.people = people;
-        this.totalSum = totalSum;
         this.rmbSum =rmbSum;
+        this.price = price;
         this.token = token;
+        this.tokenTotalSum = tokenTotalSum;
         this.insertDate = insertDate;
     }
+
 
     public String getId() {
         return id;
@@ -68,7 +79,7 @@ public class Task {
     }
 
     public void setUid(String uid) {
-        this.uid = uid;
+        this.uid = uid == null ? null : uid.trim();
     }
 
     public String getTitle() {
@@ -77,6 +88,14 @@ public class Task {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(String industry) {
+        this.industry = industry == null ? null : industry.trim();
     }
 
     public String getDescription() {
@@ -116,15 +135,31 @@ public class Task {
     }
 
     public void setRmbSum(String rmbSum) {
-        this.rmbSum = rmbSum;
+        this.rmbSum = rmbSum == null ? null : rmbSum.trim();
     }
 
-    public String getTotalSum() {
-        return totalSum;
+    public String getPrice() {
+        return price;
     }
 
-    public void setTotalSum(String totalSum) {
-        this.totalSum = totalSum;
+    public void setPrice(String price) {
+        this.price = price == null ? null : price.trim();
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getTokenTotalSum() {
+        return tokenTotalSum;
+    }
+
+    public void setTokenTotalSum(String tokenTotalSum) {
+        this.tokenTotalSum = tokenTotalSum == null ? null : tokenTotalSum.trim();
     }
 
     public Date getStartDate() {
@@ -157,14 +192,6 @@ public class Task {
 
     public void setIsReceived(Integer isReceived) {
         this.isReceived = isReceived;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public Integer getCommission() {

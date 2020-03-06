@@ -44,9 +44,16 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
             user.setIsAutho(WorkflowConstants.ZERO);
             user.setStatus(WorkflowConstants.ZERO);
             user.setInsertTime(new Date());
-            if (loginUserService.insert(user) > 0) {
-                this.createAsset(user);
-            }
+
+            Asset asset = new Asset();
+            asset.setId(user.getId());
+            asset.setUid(user.getId());
+            String tokenInit = new BigDecimal(Constants.ZERO).setScale(Constants.DECIMAL_POINT).toString();
+            asset.setFrozenToken(tokenInit);
+            asset.setToken(tokenInit);
+            asset.setInsertDate(new Date());
+            loginUserService.insert(user);
+            assetService.insert(asset);
         }
         loginUser.setUser(user);
         return new MobileAuthenticationToken(loginUser, null, null);
@@ -55,16 +62,5 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
     @Override
     public boolean supports(Class<?> authentication) {
         return (MobileAuthenticationToken.class.equals(authentication));
-    }
-
-    private void createAsset(User user) {
-        Asset asset = new Asset();
-        asset.setId(user.getId());
-        asset.setUid(user.getId());
-        String tokenInit = new BigDecimal(Constants.ZERO).setScale(Constants.DECIMAL_POINT).toString();
-        asset.setFrozenToken(tokenInit);
-        asset.setToken(tokenInit);
-        asset.setInsertDate(new Date());
-        assetService.insert(asset);
     }
 }

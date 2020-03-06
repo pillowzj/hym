@@ -104,5 +104,8 @@ public class Constants
      */
     public static final Integer DECIMAL_POINT = 4;
     public static final Integer ZERO = 0;
+
+    public static final Integer TEN_THOUSAND_X = 10000;
+    public static final String HYM_PRICE = "0.0100";    // 人民币
 }
 

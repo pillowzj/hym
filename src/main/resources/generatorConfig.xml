@@ -13,7 +13,7 @@
         </commentGenerator>
         <!--连接数据库-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://193.112.78.119:3306/hym" userId="root"
+                        connectionURL="jdbc:mysql://121.37.183.137:3306/hym" userId="root"
                         password="xiaoziAImeinv">
         </jdbcConnection>
         <!--生成java实体类model层-->
@@ -34,7 +34,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="banner" domainObjectName="Banner"
+        <table tableName="task" domainObjectName="Task"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

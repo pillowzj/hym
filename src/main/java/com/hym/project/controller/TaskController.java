@@ -3,6 +3,7 @@ package com.hym.project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.hym.common.constant.Constants;
 import com.hym.common.constant.WorkflowConstants;
 import com.hym.common.utils.Arith;
 import com.hym.common.utils.IdUtils;
@@ -46,26 +47,27 @@ public class TaskController {
     public AjaxResult createTask(){
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject reqbody = JSON.parseObject(requestData.getData());
-        System.out.println(reqbody);
         String uid = reqbody.getString("uid");
-        String type = reqbody.getString("type");
+        String industry = reqbody.getString("type");
         String title = reqbody.getString("title");
         String description = reqbody.getString("description");
         String icon = reqbody.getString("icon");
-        String token = reqbody.getString("token");
+        String price = reqbody.getString("price");
+        String token = Arith.mul(price,100);// 完成此任务获取的HYM 数量
         String rmbSum = reqbody.getString("rmbSum");
-        String totalSum = reqbody.getString("totalSum");
+        String tokenTotalSum = reqbody.getString("tokenTotalSum");
         Integer people = reqbody.getInteger("people");
-        people =  people*10000;
-        rmbSum =  Arith.mul(rmbSum,10000);
-        totalSum =  Arith.mul(totalSum,10000);
+        people =  people * Constants.TEN_THOUSAND_X;
+        rmbSum =  Arith.mul(rmbSum,Constants.TEN_THOUSAND_X);
+        tokenTotalSum =  Arith.mul(tokenTotalSum,Constants.TEN_THOUSAND_X);
 
         if(reqbody.containsKey("id")){
             String id = reqbody.getString("id");
-            Task task = new Task(id,uid,title,description,icon, WorkflowConstants.ZERO,people,rmbSum,totalSum,token,new Date());
+            Task task = new Task(IdUtils.fastSimpleUUID(),uid,title,industry,description,icon, WorkflowConstants.ZERO,people,rmbSum,price,token,tokenTotalSum,new Date());
             taskService.updateByPrimaryKeySelective(task);
         }else{
-            Task task = new Task(IdUtils.fastSimpleUUID(),uid,title,description,icon, WorkflowConstants.ZERO,people,rmbSum,totalSum,token,new Date());
+//            String id,String uid,String title, String description, String icon, Integer status, Integer people,String rmbSum, String prie,  String token, String tokenTotalSum,Date insertDate
+            Task task = new Task(IdUtils.fastSimpleUUID(),uid,title,industry,description,icon, WorkflowConstants.ZERO,people,rmbSum,price,token,tokenTotalSum,new Date());
             taskService.insert(task);
         }
         return AjaxResult.success();
@@ -98,7 +100,7 @@ public class TaskController {
         return AjaxResult.success(tasks);
     }
 
-    @GetMapping("/getCount")
+    @GetMapping("/getTaskCount")
     public AjaxResult getCount() {
         int count = taskService.getCount();
         int myCount = myTaskService.getCount("", WorkflowConstants.NINE);

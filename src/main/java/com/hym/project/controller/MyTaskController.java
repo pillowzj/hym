@@ -44,7 +44,7 @@ public class MyTaskController {
     /**
      * 领取任务
      *
-     * @param data
+     * @param
      * @return
      */
     @PostMapping("/createMyTask")
@@ -69,7 +69,7 @@ public class MyTaskController {
     /**
      * 我的任务
      *
-     * @param data
+     * @param
      * @return
      */
     @GetMapping("/getMyTask")
@@ -88,7 +88,7 @@ public class MyTaskController {
      * 提交任务结果
      * 若任务在规定的时间（30分钟内）没有完成，任务自动释放。
      *
-     * @param data
+     * @param
      * @return
      */
     @PostMapping("/finishMyTask")
@@ -98,22 +98,24 @@ public class MyTaskController {
         JSONObject reqbody = JSON.parseObject(requestData.getData());
         String uid = reqbody.getString("uid");
         String id = reqbody.getString("id");
-        String token = reqbody.getString("token");// my task id
+        String token = reqbody.getString("token");//获取token 数量
         List<String> pictrues = (List) reqbody.getJSONArray("pictrues");
 
         MyTask myTask = new MyTask();
         myTask.setId(id);
         myTask.setFinishDate(new Date());
-//        myTask.setFinalDate(new Date());
         myTask.setStatus(WorkflowConstants.ONE);
         myTask.setResult(pictrues.toString());
 
         // 更新账户信息
         Asset asset = assetService.selectByPrimaryKey(uid);
-        // 总token=获取当前任务的token+之前的token
 
-        asset.setToken(Arith.add(asset.getToken(),token));
+        // 完成任务 : 上传证明--> 冻结资产增加 可用资产不变
+        // 当任务审核通过时，冻结资产解冻为可用资产
+        // 当前任务终结 状态为3
 
+        asset.setFrozenToken(Arith.add(asset.getFrozenToken(),token));
+//        asset.setToken(Arith.add(asset.getToken(),token));
         try{
             myTaskService.updateByPrimaryKeySelective(myTask);
             // 记录交易信息
@@ -122,7 +124,6 @@ public class MyTaskController {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         throw  new RuntimeException("rockback-----");
         }
-//        String str = JSON.toJSONString(new ResponseWraper("200", "ok"));
         return AjaxResult.success();
     }
 }

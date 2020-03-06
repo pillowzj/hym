@@ -110,16 +110,6 @@ public class CommonController {
      *
      * @return
      */
-    @GetMapping(value = "/getVerifyCode_v1_wx")
-    public AjaxResult getVerifyCode0() {
-        SendMsg();
-        return AjaxResult.success();
-    }
-    @GetMapping(value = "/getVerifyCode_v1_mobile")
-    public AjaxResult getVerifyCode1() {
-        SendMsg();
-        return AjaxResult.success();
-    }
     @GetMapping(value = "/getVerifyCode")
     public AjaxResult getVerifyCode() {
         SendMsg();

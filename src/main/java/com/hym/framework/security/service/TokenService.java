@@ -1,6 +1,5 @@
 package com.hym.framework.security.service;
 
-import com.alibaba.fastjson.JSON;
 import com.hym.common.constant.Constants;
 import com.hym.common.utils.IdUtils;
 import com.hym.common.utils.ServletUtils;
@@ -159,8 +158,7 @@ public class TokenService
      * 
      * @param loginUser 登录信息
      */
-    public void refreshToken(LoginUser loginUser)
-    {
+    public void refreshToken(LoginUser loginUser){
         loginUser.setLoginTime(System.currentTimeMillis());
         loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
         //loginUser.setExpireTime(loginUser.getLoginTime() +30*24*2* expireTime * MILLIS_MINUTE);// one month

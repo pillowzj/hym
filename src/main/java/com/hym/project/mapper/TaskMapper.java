@@ -1,7 +1,6 @@
 package com.hym.project.mapper;
 
 import com.hym.project.domain.Task;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -14,11 +13,9 @@ public interface TaskMapper {
 
     Task selectByPrimaryKey(String id);
 
+    int updateByPrimaryKeySelective(Task record);
 
     List<Task> selectAll();
 
     int selectCount();
-    int updateByPrimaryKeySelective(Task record);
-
-    int updateByPrimaryKey(Task record);
 }
