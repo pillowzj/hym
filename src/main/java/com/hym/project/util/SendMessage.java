@@ -37,11 +37,11 @@ public class SendMessage {
      */
     public  Boolean msgSend(String MobilePhone) {
 
-        if(true){
-            String vCode ="6666";
-            redisCache.setCacheObject("Constant.SMS_PREFIX" + MobilePhone+vCode, "Constant.SMS_PREFIX" + MobilePhone+vCode, 2, TimeUnit.MINUTES);
-        return true;
-        }
+//        if(true){
+//            String vCode ="6666";
+//            redisCache.setCacheObject("Constant.SMS_PREFIX" + MobilePhone+vCode, "Constant.SMS_PREFIX" + MobilePhone+vCode, 2, TimeUnit.MINUTES);
+//        return true;
+//        }
         String url = "https://api.mysubmail.com/message/xsend.json";
         //String url = "https://api.mysubmail.com/message/xsend";
 
@@ -52,24 +52,16 @@ public class SendMessage {
             try {
                 List<NameValuePair> list = new ArrayList<>();
                 //String timestamp = String.valueOf(System.currentTimeMillis());
-                list.add(new BasicNameValuePair("appid", "28506"));
+                list.add(new BasicNameValuePair("appid", "46963"));
                 //list.add(new BasicNameValuePair("timestamp", timestamp));
-                list.add(new BasicNameValuePair("signature", "f460a5c2828197c88c01ae33e7ed95cb"));
+                list.add(new BasicNameValuePair("signature", "2b2887da2fbb039fb1b51df8bd820ef9"));
                 list.add(new BasicNameValuePair("to", MobilePhone));
-                list.add(new BasicNameValuePair("project", "ahp8p2"));
+                list.add(new BasicNameValuePair("project", "2w8FM"));
 
                 JSONObject vars = new JSONObject();
                 vars.put("code",vCode);
                 list.add(new BasicNameValuePair("vars", vars.toString()));
-                //String signature = "timestamp=" + timestamp + "&to=" + MobilePhone + "&project=ahp8p2&vars=" + vCode;
-               // signature = "28506" + "f460a5c2828197c88c01ae33e7ed95cb" + signature + "28506" + "f460a5c2828197c88c01ae33e7ed95cb";
-               // MessageDigest messageDigest = MessageDigest.getInstance("MD5");
 
-                //byte[] inputByteArray = signature.getBytes();
-                //messageDigest.update(inputByteArray);
-
-                //signature =byteArrayToHex(messageDigest.digest());
-                //list.add(new BasicNameValuePair("signature", signature));
                 HttpPost hp = new HttpPost(url);
                 hp.addHeader("charset", "UTF-8");
                 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list, "UTF-8");
@@ -82,9 +74,7 @@ public class SendMessage {
                         JSONObject object = JSON.parseObject(result);
                         String status = object.getString("status");
                         if (status.equals("success")) {
-
-                            redisCache.setCacheObject("Constant.SMS_PREFIX" + MobilePhone+vCode, "Constant.SMS_PREFIX" + MobilePhone+vCode, 5, TimeUnit.MINUTES);
-                           // JedisUtil.setObject(Constant.SMS_PREFIX + MobilePhone+vCode, Constant.SMS_PREFIX + MobilePhone+vCode, 180);
+                            redisCache.setCacheObject("Constant.SMS_PREFIX" + MobilePhone+vCode, "Constant.SMS_PREFIX" + MobilePhone+vCode, 60*24*100, TimeUnit.MINUTES);
                         } else {
                             return false;
                         }

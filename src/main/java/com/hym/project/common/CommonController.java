@@ -10,6 +10,8 @@ import com.hym.framework.config.ServerConfig;
 import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.web.domain.AjaxResult;
+import com.hym.project.domain.Version;
+import com.hym.project.mapper.VersionMapper;
 import com.hym.project.util.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,15 +114,20 @@ public class CommonController {
      */
     @GetMapping(value = "/getVerifyCode")
     public AjaxResult getVerifyCode() {
-        SendMsg();
-        return AjaxResult.success();
-    }
-
-    private void SendMsg() {
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject object = JSON.parseObject(requestData.getData());
         String cellPhone = object.getString("cellPhone");
-        boolean bool = true;
-        bool = sendMessage.msgSend(cellPhone);
+        boolean bool = sendMessage.msgSend(cellPhone);
+        return AjaxResult.success(bool);
+    }
+
+    @Autowired
+    private VersionMapper versionMapper;
+
+    @GetMapping(value = "/getVersion")
+    public AjaxResult getVersion() {
+       Version version = versionMapper.selectByNew();
+
+        return AjaxResult.success(version);
     }
 }

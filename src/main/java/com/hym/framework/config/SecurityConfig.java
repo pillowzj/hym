@@ -125,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public WxAuthenticationFilter wxAuthenticationFilter() {
         System.out.println("SecurityConfig----------------> wxAuthenticationFilter()");
-        WxAuthenticationFilter wxAuthenticationFilter = new WxAuthenticationFilter("/**/getOpenid");
+        WxAuthenticationFilter wxAuthenticationFilter = new WxAuthenticationFilter("/**/wx");
         wxAuthenticationFilter.setAuthenticationManager(authenticationManager);
         wxAuthenticationFilter.setAuthenticationSuccessHandler(wxAuthenticationSuccessHandler());
         return wxAuthenticationFilter;

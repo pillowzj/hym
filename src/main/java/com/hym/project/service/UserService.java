@@ -20,4 +20,6 @@ public interface UserService {
     User loginByCellPhone(String cellPhone);
 
     String getUserHMY(Map map);
+
+    String getInviteCode(String inviteCode);
 }

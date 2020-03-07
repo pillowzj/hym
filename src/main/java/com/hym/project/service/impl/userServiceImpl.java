@@ -19,7 +19,7 @@ public class userServiceImpl implements UserService {
     }
     @Override
     public int insert(User record) {
-        return 0;
+        return userMapper.insert(record);
     }
 
     @Override
@@ -40,5 +40,10 @@ public class userServiceImpl implements UserService {
     @Override
     public String getUserHMY(Map map) {
         return userMapper.selectUserHMYByStatus(map);
+    }
+
+    @Override
+    public String getInviteCode(String inviteCode) {
+        return userMapper.selectByInviteCode(inviteCode);
     }
 }

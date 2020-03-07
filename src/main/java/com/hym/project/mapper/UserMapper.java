@@ -20,4 +20,5 @@ public interface UserMapper {
     User selectByOpenID(String openid);
     User loginByCellPhone(String cellPhone);
     String selectUserHMYByStatus(Map map);
+    String selectByInviteCode(String inviteCode);
 }

@@ -40,6 +40,7 @@
     <result column="pay_type" jdbcType="INTEGER" property="payType" />
     <result column="pay_name" jdbcType="VARCHAR" property="payName" />
     <result column="pay_code" jdbcType="VARCHAR" property="payCode" />
+    <result column="is_latest" jdbcType="INTEGER" property="isLatest" />
     <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
     <result column="last_login_time" jdbcType="VARCHAR" property="lastLoginTime" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
@@ -49,8 +50,12 @@
     sessionKey, wx_avatar_url, mobile, email, my_invite_code, invited_code, channel, 
     user_type, id_number, name, gender, nation, birthday, address, id_positive, id_opposite, 
     id_hand, id_autho_issue, id_expir_date, speciality, profile, is_autho, status, university, 
-    education, major, pay_type, pay_name, pay_code, last_login_ip, last_login_time, insert_time
+    education, major, pay_type, pay_name, pay_code,is_latest, last_login_ip, last_login_time, insert_time
   </sql>
+
+  <select id="selectByInviteCode" parameterType="java.lang.String" resultType="java.lang.String">
+     select my_invite_code as inviteCode from user where my_invite_code= #{inviteCode,jdbcType=VARCHAR}
+  </select>
 
   <select id="selectByOpenID" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -93,7 +98,7 @@
       id_expir_date, speciality, profile, 
       is_autho, status, university, 
       education, major, pay_type, 
-      pay_name, pay_code, last_login_ip, 
+      pay_name, pay_code,is_latest, last_login_ip,
       last_login_time, insert_time)
     values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{tradePassword,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{sortNo,jdbcType=INTEGER}, 
@@ -107,7 +112,7 @@
       #{idExpirDate,jdbcType=VARCHAR}, #{speciality,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, 
       #{isAutho,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{university,jdbcType=VARCHAR}, 
       #{education,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER}, 
-      #{payName,jdbcType=VARCHAR}, #{payCode,jdbcType=VARCHAR}, #{lastLoginIp,jdbcType=VARCHAR}, 
+      #{payName,jdbcType=VARCHAR}, #{payCode,jdbcType=VARCHAR},#{isLatest,jdbcType=INTEGER}, #{lastLoginIp,jdbcType=VARCHAR},
       #{lastLoginTime,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hym.project.domain.User">
@@ -477,6 +482,9 @@
       <if test="payCode != null">
         pay_code = #{payCode,jdbcType=VARCHAR},
       </if>
+      <if test="isLatest != null">
+        is_latest =#{isLatest,jdbcType=INTEGER},
+      </if>
       <if test="lastLoginIp != null">
         last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
       </if>
@@ -528,6 +536,7 @@
       pay_type = #{payType,jdbcType=INTEGER},
       pay_name = #{payName,jdbcType=VARCHAR},
       pay_code = #{payCode,jdbcType=VARCHAR},
+      is_latest =#{isLatest,jdbcType=INTEGER},
       last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
       last_login_time = #{lastLoginTime,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP}

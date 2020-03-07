@@ -8,20 +8,18 @@ import com.hym.common.utils.StringUtils;
 import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.redis.RedisCache;
+import com.hym.framework.security.LoginUser;
+import com.hym.framework.security.service.TokenService;
 import com.hym.framework.web.domain.AjaxResult;
-import com.hym.project.domain.Asset;
 import com.hym.project.domain.User;
 import com.hym.project.service.AssetService;
 import com.hym.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/hym/user")
@@ -35,13 +33,19 @@ public class UserController {
 
     @Autowired
     private AssetService assetService;
+    @Autowired
+    private TokenService tokenService;
 
-    @GetMapping("/getUser")
-    public AjaxResult getUser(){
+    @PostMapping("/getUserInfo")
+    public AjaxResult getUserInfo() {
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject reqbody = JSON.parseObject(requestData.getData());
-        String uid = reqbody.getString("uid");
-        User user = userService.selectByPrimaryKey(uid);
+        if (StringUtils.isEmpty(reqbody)) {
+            return AjaxResult.error();
+        }
+        String token = reqbody.getString("token");
+        LoginUser loginUser = tokenService.psrseUser(token);
+        User user = userService.selectByPrimaryKey(loginUser.getUser().getId());
         return AjaxResult.success(user);
     }
 
@@ -64,31 +68,6 @@ public class UserController {
         return AjaxResult.success();
     }
 
-    @GetMapping("/getUserHMY")
-    public AjaxResult getUserHMY() {
-        RequestData requestData = ThreadCache.getPostRequestParams();
-        JSONObject reqbody = JSON.parseObject(requestData.getData());
-        String status = reqbody.getString("status");
-        String isAutho = reqbody.getString("isAutho");
-        Map map = new HashMap();
-        map.put("is_autho", isAutho);
-        map.put("status", status);
-        String id = userService.getUserHMY(map);
-        if(!StringUtils.isEmpty(id)){
-            return AjaxResult.error();
-        }
-        Asset asset = assetService.getUserHYMByPrimaryKey(id);
-        return AjaxResult.success(asset);
-    }
-
-    @RequestMapping("/tradeHYK")
-    public AjaxResult tradeHYK() {
-        RequestData requestData = ThreadCache.getPostRequestParams();
-        JSONObject reqbody = JSON.parseObject(requestData.getData());
-        String flag = reqbody.getString("flag");
-        String isAutho = reqbody.getString("isAutho");
-        return AjaxResult.success();
-    }
 
     /**
      * 提现前身份信息采集
@@ -183,6 +162,19 @@ public class UserController {
         user.setTradePassword(pwd);
         userService.updateByPrimaryKeySelective(user);
 
+        return AjaxResult.success();
+    }
+
+    @PostMapping("/updateVersion")
+    public AjaxResult updateVersion() {
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject json = JSON.parseObject(requestData.getData());
+        String token = json.getString("token");
+        LoginUser loginUser = tokenService.psrseUser(token);
+        User user = new User();
+        user.setId(loginUser.getUser().getId());
+        user.setIsLatest(1);
+        userService.updateByPrimaryKeySelective(user);
         return AjaxResult.success();
     }
 }

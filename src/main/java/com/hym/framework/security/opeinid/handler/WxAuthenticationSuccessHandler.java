@@ -34,7 +34,7 @@ public class WxAuthenticationSuccessHandler implements AuthenticationSuccessHand
         String token = tokenService.createToken(loginUser);
         Map<String, Object> result = Maps.newHashMap();
         result.put("token", token);
-//        result.put("uid", loginUser.getUser().getId());
+        result.put("user", loginUser.getUser());
         httpServletResponse.setContentType(ContentType.JSON.toString());
         AjaxResult  ajaxResult = AjaxResult.success(result);
         httpServletResponse.getWriter().write(JSON.toJSONString(ajaxResult));

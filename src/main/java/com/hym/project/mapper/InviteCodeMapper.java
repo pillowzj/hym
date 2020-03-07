@@ -6,7 +6,7 @@ public interface InviteCodeMapper {
 
     int insert(InviteCode record);
 
-    InviteCode selectMaxInviteCode();
+    InviteCode selectInviteCode();
 
     int updateByInviteCode(Integer inviteCode);
 

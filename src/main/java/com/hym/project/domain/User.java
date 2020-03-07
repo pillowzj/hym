@@ -85,6 +85,7 @@ public class User {
 
     private Date insertTime;
 
+    private int isLatest;
     public User() {
 
     }
@@ -420,5 +421,13 @@ public class User {
 
     public void setInsertTime(Date insertTime) {
         this.insertTime = insertTime;
+    }
+
+    public int getIsLatest() {
+        return isLatest;
+    }
+
+    public void setIsLatest(int isLatest) {
+        this.isLatest = isLatest;
     }
 }

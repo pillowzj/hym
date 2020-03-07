@@ -9,21 +9,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class InviteCodeServiceImpl implements InviteCodeService {
 
-   @Autowired
-   private InviteCodeMapper inviteCodeMapper;
+    @Autowired
+    private InviteCodeMapper inviteCodeMapper;
 
     @Override
     public int add(InviteCode record) {
         return inviteCodeMapper.insert(record);
     }
 
-
     @Override
-    public Integer getByInviteCode() {
-        InviteCode inviteCode = inviteCodeMapper.selectMaxInviteCode();
-        if(inviteCodeMapper.updateByInviteCode(inviteCode.getInviteCode())==1){
-            return inviteCode.getInviteCode();
-        }
-        return 0;
+    public InviteCode getByInviteCode() {
+        InviteCode inviteCode = inviteCodeMapper.selectInviteCode();
+        inviteCodeMapper.updateByInviteCode(inviteCode.getInviteCode());
+        return inviteCode;
     }
 }
