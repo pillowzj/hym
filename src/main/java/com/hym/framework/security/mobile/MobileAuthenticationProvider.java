@@ -8,7 +8,7 @@ import com.hym.common.utils.StringUtils;
 import com.hym.framework.security.LoginUser;
 import com.hym.project.domain.Asset;
 import com.hym.project.domain.User;
-import com.hym.project.login.service.LoginUserService;
+import com.hym.project.service.LoginUserService;
 import com.hym.project.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

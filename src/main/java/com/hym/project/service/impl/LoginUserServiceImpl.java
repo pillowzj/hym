@@ -1,7 +1,7 @@
-package com.hym.project.login.service.impl;
+package com.hym.project.service.impl;
 
 import com.hym.project.domain.User;
-import com.hym.project.login.service.LoginUserService;
+import com.hym.project.service.LoginUserService;
 import com.hym.project.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

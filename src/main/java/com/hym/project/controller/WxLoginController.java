@@ -1,4 +1,4 @@
-package com.hym.project.login.controller;
+package com.hym.project.controller;
 
 import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;

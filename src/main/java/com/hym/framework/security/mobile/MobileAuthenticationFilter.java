@@ -12,7 +12,7 @@ import com.hym.framework.security.service.TokenService;
 import com.hym.framework.storage.Storage;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.domain.User;
-import com.hym.project.login.service.LoginUserService;
+import com.hym.project.service.LoginUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

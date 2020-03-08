@@ -1,4 +1,4 @@
-package com.hym.project.common;
+package com.hym.project.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

@@ -52,10 +52,13 @@ public class MyTaskController {
     public AjaxResult createMyTask() {
         RequestData requestData = ThreadCache.getPostRequestParams();
         try {
-            invokeService.doInvoke(requestData.getData().toString());
+            invokeService.invoke(requestData.getData().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        JSONObject reqbody = JSON.parseObject(requestData.getData());
+//        String uid = jsonObject.getString("uid");
+//        String tid = jsonObject.getString("tid");
 //        Task task = taskService.selectByPrimaryKey(tid);
 //        MyTask myTask = new MyTask();
 //        myTask.setTid(tid);

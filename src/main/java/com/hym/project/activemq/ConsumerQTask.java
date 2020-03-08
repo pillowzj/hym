@@ -44,7 +44,6 @@ public class ConsumerQTask {
 
     @JmsListener(destination = "QTask")
     public void receiveMessageTx(String message) throws Exception {
-//        System.out.println("message--------->"+message);
         JSONObject jsonObject = JSON.parseObject(message);
         String uid = jsonObject.getString("uid");
         String tid = jsonObject.getString("tid");

@@ -1,4 +1,4 @@
-package com.hym.project.login.service;
+package com.hym.project.service;
 
 import com.hym.project.domain.User;
 

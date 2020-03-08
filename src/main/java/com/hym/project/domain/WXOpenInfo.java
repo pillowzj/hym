@@ -1,4 +1,4 @@
-package com.hym.project.login.domain;
+package com.hym.project.domain;
 
 
 /**
