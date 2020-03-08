@@ -10,10 +10,10 @@ import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.domain.Asset;
 import com.hym.project.domain.MyTask;
-import com.hym.project.domain.Task;
 import com.hym.project.service.AssetService;
 import com.hym.project.service.MyTaskService;
 import com.hym.project.service.TaskService;
+import com.hym.project.service.impl.InvokeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -35,12 +35,13 @@ import java.util.List;
 public class MyTaskController {
 
     @Autowired
-    MyTaskService myTaskService;
+    private MyTaskService myTaskService;
     @Autowired
-    TaskService taskService;
+    private TaskService taskService;
     @Autowired
     AssetService assetService;
-
+    @Autowired
+    private InvokeService invokeService;
     /**
      * 领取任务
      *
@@ -50,19 +51,20 @@ public class MyTaskController {
     @PostMapping("/createMyTask")
     public AjaxResult createMyTask() {
         RequestData requestData = ThreadCache.getPostRequestParams();
-        JSONObject reqbody = JSON.parseObject(requestData.getData());
-        String uid = reqbody.getString("uid");
-        String tid = reqbody.getString("tid");
-
-        Task task = taskService.selectByPrimaryKey(tid);
-        MyTask myTask = new MyTask();
-        myTask.setTid(tid);
-        myTask.setUid(uid);
-        myTask.setTitle(task.getTitle());
-        myTask.setToken(task.getToken());
-        myTask.setIcon(task.getIcon());
-        myTask.setInsertDate(new Date());
-        int flag = myTaskService.insert(myTask);
+        try {
+            invokeService.doInvoke(requestData.getData().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Task task = taskService.selectByPrimaryKey(tid);
+//        MyTask myTask = new MyTask();
+//        myTask.setTid(tid);
+//        myTask.setUid(uid);
+//        myTask.setTitle(task.getTitle());
+//        myTask.setToken(task.getToken());
+//        myTask.setIcon(task.getIcon());
+//        myTask.setInsertDate(new Date());
+//        int flag = myTaskService.insert(myTask);
         return AjaxResult.success();
     }
 

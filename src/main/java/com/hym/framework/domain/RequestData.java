@@ -27,6 +27,7 @@ import com.hym.project.domain.Message;
  */
 @JSONType(orders = {"data", "securityFactor", "signedData"})
 public class RequestData extends Message{
+	private String token;
 	private String securityFactor;
 	private String signedData;
 	private String data;
@@ -34,10 +35,19 @@ public class RequestData extends Message{
 	public RequestData() {
 	}
 
-	public RequestData(String securityFactor, String signedData, String data) {
+	public RequestData(String token,String securityFactor, String signedData, String data) {
+		this.token = token;
 		this.securityFactor = securityFactor;
 		this.signedData = signedData;
 		this.data = data;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public String getSecurityFactor() {

@@ -1,12 +1,16 @@
 package com.hym.framework.security.opeinid;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hym.common.constant.Constants;
 import com.hym.common.constant.WorkflowConstants;
+import com.hym.common.exception.PFException;
 import com.hym.common.utils.IdUtils;
 import com.hym.common.utils.StringUtils;
+import com.hym.framework.domain.RequestData;
 import com.hym.framework.redis.RedisCache;
 import com.hym.framework.security.LoginUser;
+import com.hym.framework.storage.Storage;
 import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.domain.Asset;
 import com.hym.project.domain.User;
@@ -44,6 +48,8 @@ public class WxAuthenticationFilter extends AbstractAuthenticationProcessingFilt
     private AssetService assetService;
     @Autowired
     private RedisCache redisCache;
+    @Autowired
+    private Storage storage;
 
     public WxAuthenticationFilter(String defaultFilterProcessesUrl) {
         super(defaultFilterProcessesUrl);
@@ -51,11 +57,35 @@ public class WxAuthenticationFilter extends AbstractAuthenticationProcessingFilt
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
 
-        String code = httpServletRequest.getParameter("wxCode");
-        String name = httpServletRequest.getParameter("name");
-        String face = httpServletRequest.getParameter("face");
-        String cellPhone = httpServletRequest.getParameter("cellPhone");
-        String verifyCode = httpServletRequest.getParameter("verifyCode");
+//        String code = httpServletRequest.getParameter("wxCode");
+//        String name = httpServletRequest.getParameter("name");
+//        String face = httpServletRequest.getParameter("face");
+//        String cellPhone = httpServletRequest.getParameter("cellPhone");
+//        String verifyCode = httpServletRequest.getParameter("verifyCode");
+        String code ="";
+        String name ="";
+        String face = "";
+        String cellPhone = "";
+        String verifyCode ="";
+        try {
+            RequestData requestData = this.storage.getRequestData(httpServletRequest);
+            JSONObject reqbody = JSON.parseObject(requestData.getData());
+             code = reqbody.getString("wxCode");
+             name =reqbody.getString("name");
+             face = reqbody.getString("face");
+             cellPhone = reqbody.getString("cellPhone");
+             verifyCode = reqbody.getString("verifyCode");
+        } catch (PFException e) {
+            e.printStackTrace();
+            AjaxResult ajaxResult = AjaxResult.error("参数有误");
+            httpServletResponse.setCharacterEncoding("UTF-8");
+            httpServletResponse.setContentType("text/html;charset=UTF-8");
+            httpServletResponse.getWriter().write(JSON.toJSONString(ajaxResult));
+            //throw new BaseException(StringUtils.format("code is null"));
+            return null;
+        }
+
+
         //1 验证码验证
         if(StringUtils.isBlank(code)){
             AjaxResult ajaxResult = AjaxResult.error("验证码不能为空");

@@ -48,6 +48,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
 		//在request中读取请求参数，写入线程缓存中
 		ThreadCache.setPostRequestParams(requestData);
 
+		String token =  requestData.getToken();
 		String securityFactor = requestData.getSecurityFactor();
 		String signedData = requestData.getSignedData();
 		String requestPara =  requestData.getData();
@@ -55,7 +56,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
 		String msg = "x";//checkMsg(securityFactor, signedData, requestPara);
 		if (StringUtils.isEmpty(msg)) {
 			//打印消息日志
-			RequestData data = new RequestData(securityFactor, signedData, requestPara);
+			RequestData data = new RequestData(token,securityFactor, signedData, requestPara);
 			String errMsg = data.toString() + " is invalid for invoke";
 //			log.error(errMsg);
 //			this.storage.setResponseWhenFailed(requestData.getRequestID(), errMsg, response);

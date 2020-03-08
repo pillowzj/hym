@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hym.common.constant.HttpStatus;
 import com.hym.common.constant.WorkflowConstants;
-import com.hym.common.utils.StringUtils;
 import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.redis.RedisCache;
@@ -39,11 +38,7 @@ public class UserController {
     @PostMapping("/getUserInfo")
     public AjaxResult getUserInfo() {
         RequestData requestData = ThreadCache.getPostRequestParams();
-        JSONObject reqbody = JSON.parseObject(requestData.getData());
-        if (StringUtils.isEmpty(reqbody)) {
-            return AjaxResult.error();
-        }
-        String token = reqbody.getString("token");
+        String token =requestData.getToken();
         LoginUser loginUser = tokenService.psrseUser(token);
         User user = userService.selectByPrimaryKey(loginUser.getUser().getId());
         return AjaxResult.success(user);
@@ -168,8 +163,7 @@ public class UserController {
     @PostMapping("/updateVersion")
     public AjaxResult updateVersion() {
         RequestData requestData = ThreadCache.getPostRequestParams();
-        JSONObject json = JSON.parseObject(requestData.getData());
-        String token = json.getString("token");
+        String token = requestData.getToken();
         LoginUser loginUser = tokenService.psrseUser(token);
         User user = new User();
         user.setId(loginUser.getUser().getId());

@@ -83,7 +83,7 @@ public class TaskController {
     public AjaxResult getTastList() {
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject reqbody = JSON.parseObject(requestData.getData());
-        String token =reqbody.getString("token");
+        String token =requestData.getToken();
         LoginUser loginUser = tokenService.psrseUser(token);
         String uid = loginUser.getUser().getId();
         int pageNum = reqbody.getInteger("pageNum");

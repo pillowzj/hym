@@ -1,13 +1,24 @@
 package com.hym;
 
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.jms.Queue;
+
 @EnableTransactionManagement
+@EnableJms
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class HymApplication {
+
+    @Bean
+    public Queue queueTx() {
+        return new ActiveMQQueue("QTask");
+    }
 
     public static void main(String[] args)
     {

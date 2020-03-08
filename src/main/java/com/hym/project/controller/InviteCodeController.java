@@ -44,14 +44,15 @@ public class InviteCodeController {
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject reqbody = JSON.parseObject(requestData.getData());
         String invitedCode = reqbody.getString("invitedCode");
-        String token = reqbody.getString("token");
+        String token = requestData.getToken();
         invitedCode = userService.getInviteCode(invitedCode);
         if(StringUtils.isEmpty(invitedCode)){
-            return AjaxResult.error("没有找到此邀请码,请核实后重新查询");
+            return AjaxResult.error("没有找到被邀请码,请核实后重新输入");
         }
         String myInviteCode = inviteCodeService.getByInviteCode().getInviteCode().toString();
         LoginUser loginUser = tokenService.psrseUser(token);
         User user = userService.selectByPrimaryKey(loginUser.getUser().getId());
+        user.setInvitedCode(invitedCode);
         user.setMyInviteCode(myInviteCode);
         userService.updateByPrimaryKeySelective(user);
         Map map = new HashMap<>();

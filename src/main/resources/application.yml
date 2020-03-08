@@ -37,6 +37,17 @@ logging:
 
 # Spring配置
 spring:
+  activemq:
+    broker-url: tcp://121.37.183.137:61616?wireFormat.maxInactivityDurationInitalDelay=30000
+    user: admin
+    password: admin
+    close-timeout: 30s
+    pool:
+      expiry-timeout: 300000
+  jms:
+    pub-sub-domain: false
+    listener:
+      max-concurrency: 1
   # 资源信息
   messages:
     # 国际化资源文件路径
