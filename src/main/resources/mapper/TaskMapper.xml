@@ -14,8 +14,8 @@
     <result column="price" jdbcType="VARCHAR" property="price" />
     <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="token_total_sum" jdbcType="VARCHAR" property="tokenTotalSum" />
-    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
-    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="is_received" jdbcType="INTEGER" property="isReceived" />
     <result column="commission" jdbcType="INTEGER" property="commission" />
@@ -27,7 +27,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, uid, title, industry, description, icon, count, people, rmb_sum, price, token, 
-    token_total_sum, start_date, end_date, status, is_received, commission, insert_user, 
+    token_total_sum, begin_time, end_date, status, is_received, commission, insert_user, 
     insert_date, checker, release_user, release_time
   </sql>
   <select id="selectCount"  resultType="java.lang.Integer">
@@ -55,7 +55,7 @@ select sum(people) count from task where status = 2
       industry, description, icon, 
       count, people, rmb_sum, 
       price, token, token_total_sum, 
-      start_date, end_date, status, 
+      begin_time, end_date, status, 
       is_received, commission, insert_user, 
       insert_date, checker, release_user, 
       release_time)
@@ -63,7 +63,7 @@ select sum(people) count from task where status = 2
       #{industry,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
       #{count,jdbcType=INTEGER}, #{people,jdbcType=INTEGER}, #{rmbSum,jdbcType=VARCHAR}, 
       #{price,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{tokenTotalSum,jdbcType=VARCHAR},
-      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
       #{isReceived,jdbcType=INTEGER}, #{commission,jdbcType=INTEGER}, #{insertUser,jdbcType=VARCHAR}, 
       #{insertDate,jdbcType=TIMESTAMP}, #{checker,jdbcType=VARCHAR}, #{releaseUser,jdbcType=VARCHAR}, 
       #{releaseTime,jdbcType=TIMESTAMP})
@@ -107,10 +107,10 @@ select sum(people) count from task where status = 2
       <if test="tokenTotalSum != null">
         token_total_sum,
       </if>
-      <if test="startDate != null">
-        start_date,
+      <if test="beginTime != null">
+        begin_time,
       </if>
-      <if test="endDate != null">
+      <if test="endTime != null">
         end_date,
       </if>
       <if test="status != null">
@@ -175,11 +175,11 @@ select sum(people) count from task where status = 2
       <if test="tokenTotalSum != null">
         #{tokenTotalSum,jdbcType=VARCHAR},
       </if>
-      <if test="startDate != null">
-        #{startDate,jdbcType=TIMESTAMP},
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="endDate != null">
-        #{endDate,jdbcType=TIMESTAMP},
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -243,11 +243,11 @@ select sum(people) count from task where status = 2
       <if test="tokenTotalSum != null">
         token_total_sum = #{tokenTotalSum,jdbcType=VARCHAR},
       </if>
-      <if test="startDate != null">
-        start_date = #{startDate,jdbcType=TIMESTAMP},
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="endDate != null">
-        end_date = #{endDate,jdbcType=TIMESTAMP},
+      <if test="endTime != null">
+        end_date = #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},

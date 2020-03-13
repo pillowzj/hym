@@ -27,9 +27,9 @@ public class Task {
 
     private String tokenTotalSum;
 
-    private Date startDate;
+    private Date beginTime;
 
-    private Date endDate;
+    private Date endTime;
 
     private Integer status;
 
@@ -162,20 +162,20 @@ public class Task {
         this.tokenTotalSum = tokenTotalSum == null ? null : tokenTotalSum.trim();
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getBeginTime() {
+        return beginTime;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public Integer getStatus() {

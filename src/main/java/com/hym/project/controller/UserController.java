@@ -4,20 +4,26 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hym.common.constant.HttpStatus;
 import com.hym.common.constant.WorkflowConstants;
+import com.hym.common.utils.IdUtils;
 import com.hym.framework.domain.RequestData;
 import com.hym.framework.domain.ThreadCache;
 import com.hym.framework.redis.RedisCache;
 import com.hym.framework.security.LoginUser;
 import com.hym.framework.security.service.TokenService;
 import com.hym.framework.web.domain.AjaxResult;
+import com.hym.project.domain.IdInfo;
+import com.hym.project.domain.PayCode;
 import com.hym.project.domain.User;
 import com.hym.project.service.AssetService;
+import com.hym.project.service.IdInfoService;
+import com.hym.project.service.PayCodeService;
 import com.hym.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -34,6 +40,12 @@ public class UserController {
     private AssetService assetService;
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private PayCodeService payCodeService;
+
+    @Autowired
+    private IdInfoService idInfoService;
 
     @PostMapping("/getUserInfo")
     public AjaxResult getUserInfo() {
@@ -77,36 +89,60 @@ public class UserController {
         List<String> idCards = (List) reqbody.getJSONArray("idCard");
         User user = userService.selectByPrimaryKey(uid);
         System.out.println("idCards--->" + JSON.toJSON(idCards));
-        if (idCards.size() > 0) {
-            user.setIdPositive(idCards.get(0));
-            user.setIdOpposite(idCards.get(1));
-//            user.setIdHand(idCards.get(2));
-        }
+
 //        String name = reqbody.getString("name");
 //        String idNumber = reqbody.getString("idNumber");
 //        String gender = reqbody.getString("gender");
 //        String nation = reqbody.getString("nation");
 //        String address = reqbody.getString("address");
 //        String birthDay = reqbody.getString("birthDay");
-//
 //        String idAuthoIssue = reqbody.getString("idAuthoIssue");
 //        String idExpirDate = reqbody.getString("idExpirDate");
 //        String idPositive = reqbody.getString("idPositive");
 //        String idOpposite = reqbody.getString("idOpposite");
 
-
-//        user.setAddress(address);
-//        user.setBirthday(birthDay);
-//        user.setGender(gender);
-//        user.setIdNumber(idNumber);
-//        user.setIdAuthoIssue(idAuthoIssue);
-//        user.setNation(nation);
-//        user.setName(name);
-//        user.setIdExpirDate(idExpirDate);
-//        user.setIdPositive(idPositive);
-//        user.setIdOpposite(idOpposite);
+//        info.setAddress(address);
+//        info.setBirthday(birthDay);
+//        info.setGender(gender);
+//        info.setIdNumber(idNumber);
+//        info.setIdAuthoIssue(idAuthoIssue);
+//        info.setNation(nation);
+//        info.setName(name);
+//        info.setIdExpirDate(idExpirDate);
+//        info.setIdPositive(idPositive);
+//        info.setIdOpposite(idOpposite);
+        IdInfo info = new IdInfo();
+        if (idCards.size() > 0) {
+            info.setId(IdUtils.fastSimpleUUID());
+            info.setUid(user.getId());
+            info.setIdPositive(idCards.get(0));
+            info.setIdOpposite(idCards.get(1));
+            info.setIdHand(idCards.get(2));
+            info.setInsertTime(new Date());
+        }
+        idInfoService.insert(info);
         user.setIsAutho(WorkflowConstants.TWO); // 收款码已绑定 身份证已验证
         userService.updateByPrimaryKeySelective(user);
+        return AjaxResult.success();
+    }
+
+    @PostMapping("/getPayCodeList")
+    public AjaxResult getPayCodeList(){
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
+        String uid = reqbody.getString("uid");
+
+        List<PayCode> payCodes = payCodeService.selectByUid(uid);
+        return AjaxResult.success(payCodes);
+    }
+
+    @PostMapping("/delPayCode")
+    public AjaxResult delPayCode(){
+        RequestData requestData = ThreadCache.getPostRequestParams();
+        JSONObject reqbody = JSON.parseObject(requestData.getData());
+        String id = reqbody.getString("id");
+
+        payCodeService.deleteByPrimaryKey(id);
         return AjaxResult.success();
     }
 
@@ -124,15 +160,23 @@ public class UserController {
         }
         String uid = reqbody.getString("uid");
         int payType = reqbody.getInteger("payType");
+        String name = reqbody.getString("name");
         String payName = reqbody.getString("payName");
         String payCode = reqbody.getString("payCode");
 
         User user = userService.selectByPrimaryKey(uid);
-        user.setPayCode(payCode);
-        user.setPayName(payName);
-        user.setPayType(payType);
+        PayCode pc = new PayCode();
+        pc.setId(IdUtils.fastSimpleUUID());
+        pc.setUid(user.getId());
+        pc.setPayType(payType);
+        pc.setName(name);
+        pc.setPayName(payName);
+        pc.setFlag(1);
+        pc.setPayCode(payCode);
+        pc.setInsertTime(new Date());
         user.setIsAutho(WorkflowConstants.ONE);//  1 已绑定收款码
         userService.updateByPrimaryKeySelective(user);
+        payCodeService.insert(pc);
         return AjaxResult.success();
     }
 

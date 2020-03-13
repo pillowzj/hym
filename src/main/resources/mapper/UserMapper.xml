@@ -19,17 +19,6 @@
     <result column="invited_code" jdbcType="VARCHAR" property="invitedCode" />
     <result column="channel" jdbcType="VARCHAR" property="channel" />
     <result column="user_type" jdbcType="VARCHAR" property="userType" />
-    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="gender" jdbcType="VARCHAR" property="gender" />
-    <result column="nation" jdbcType="VARCHAR" property="nation" />
-    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="id_positive" jdbcType="VARCHAR" property="idPositive" />
-    <result column="id_opposite" jdbcType="VARCHAR" property="idOpposite" />
-    <result column="id_hand" jdbcType="VARCHAR" property="idHand" />
-    <result column="id_autho_issue" jdbcType="VARCHAR" property="idAuthoIssue" />
-    <result column="id_expir_date" jdbcType="VARCHAR" property="idExpirDate" />
     <result column="speciality" jdbcType="VARCHAR" property="speciality" />
     <result column="profile" jdbcType="VARCHAR" property="profile" />
     <result column="is_autho" jdbcType="INTEGER" property="isAutho" />
@@ -37,9 +26,6 @@
     <result column="university" jdbcType="VARCHAR" property="university" />
     <result column="education" jdbcType="VARCHAR" property="education" />
     <result column="major" jdbcType="VARCHAR" property="major" />
-    <result column="pay_type" jdbcType="INTEGER" property="payType" />
-    <result column="pay_name" jdbcType="VARCHAR" property="payName" />
-    <result column="pay_code" jdbcType="VARCHAR" property="payCode" />
     <result column="is_latest" jdbcType="INTEGER" property="isLatest" />
     <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
     <result column="last_login_time" jdbcType="VARCHAR" property="lastLoginTime" />
@@ -48,33 +34,9 @@
   <sql id="Base_Column_List">
     id, username, password, trade_password, salt, sort_no, wx_nickname, unionid, openid, 
     sessionKey, wx_avatar_url, mobile, email, my_invite_code, invited_code, channel, 
-    user_type, id_number, name, gender, nation, birthday, address, id_positive, id_opposite, 
-    id_hand, id_autho_issue, id_expir_date, speciality, profile, is_autho, status, university, 
-    education, major, pay_type, pay_name, pay_code,is_latest, last_login_ip, last_login_time, insert_time
+    user_type, speciality, profile, is_autho, status, university, education, major, is_latest, 
+    last_login_ip, last_login_time, insert_time
   </sql>
-
-  <select id="selectByInviteCode" parameterType="java.lang.String" resultType="java.lang.String">
-     select my_invite_code as inviteCode from user where my_invite_code= #{inviteCode,jdbcType=VARCHAR}
-  </select>
-
-  <select id="selectByOpenID" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from user
-    where openid = #{openid,jdbcType=VARCHAR}
-  </select>
-  <select id="loginByCellPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from user
-    where mobile = #{mobile,jdbcType=VARCHAR}
-  </select>
-  <select id="selectUserHMYByStatus" parameterType="java.util.Map" resultType="java.lang.String">
-    select id  from user
-    where is_autho = #{is_autho,jdbcType=INTEGER} and status =  #{status,jdbcType=INTEGER}
-  </select>
-
-
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -91,29 +53,21 @@
       wx_nickname, unionid, openid, 
       sessionKey, wx_avatar_url, mobile, 
       email, my_invite_code, invited_code, 
-      channel, user_type, id_number, 
-      name, gender, nation, 
-      birthday, address, id_positive, 
-      id_opposite, id_hand, id_autho_issue, 
-      id_expir_date, speciality, profile, 
-      is_autho, status, university, 
-      education, major, pay_type, 
-      pay_name, pay_code,is_latest, last_login_ip,
-      last_login_time, insert_time)
+      channel, user_type, speciality, 
+      profile, is_autho, status, 
+      university, education, major, 
+      is_latest, last_login_ip, last_login_time, 
+      insert_time)
     values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{tradePassword,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{sortNo,jdbcType=INTEGER}, 
       #{wxNickname,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
       #{sessionkey,jdbcType=VARCHAR}, #{wxAvatarUrl,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{myInviteCode,jdbcType=VARCHAR}, #{invitedCode,jdbcType=VARCHAR}, 
-      #{channel,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, 
-      #{birthday,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{idPositive,jdbcType=VARCHAR}, 
-      #{idOpposite,jdbcType=VARCHAR}, #{idHand,jdbcType=VARCHAR}, #{idAuthoIssue,jdbcType=VARCHAR}, 
-      #{idExpirDate,jdbcType=VARCHAR}, #{speciality,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, 
-      #{isAutho,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{university,jdbcType=VARCHAR}, 
-      #{education,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER}, 
-      #{payName,jdbcType=VARCHAR}, #{payCode,jdbcType=VARCHAR},#{isLatest,jdbcType=INTEGER}, #{lastLoginIp,jdbcType=VARCHAR},
-      #{lastLoginTime,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP})
+      #{channel,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{speciality,jdbcType=VARCHAR}, 
+      #{profile,jdbcType=VARCHAR}, #{isAutho,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{university,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{isLatest,jdbcType=INTEGER}, #{lastLoginIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=VARCHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hym.project.domain.User">
     insert into user
@@ -169,39 +123,6 @@
       <if test="userType != null">
         user_type,
       </if>
-      <if test="idNumber != null">
-        id_number,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="gender != null">
-        gender,
-      </if>
-      <if test="nation != null">
-        nation,
-      </if>
-      <if test="birthday != null">
-        birthday,
-      </if>
-      <if test="address != null">
-        address,
-      </if>
-      <if test="idPositive != null">
-        id_positive,
-      </if>
-      <if test="idOpposite != null">
-        id_opposite,
-      </if>
-      <if test="idHand != null">
-        id_hand,
-      </if>
-      <if test="idAuthoIssue != null">
-        id_autho_issue,
-      </if>
-      <if test="idExpirDate != null">
-        id_expir_date,
-      </if>
       <if test="speciality != null">
         speciality,
       </if>
@@ -223,14 +144,8 @@
       <if test="major != null">
         major,
       </if>
-      <if test="payType != null">
-        pay_type,
-      </if>
-      <if test="payName != null">
-        pay_name,
-      </if>
-      <if test="payCode != null">
-        pay_code,
+      <if test="isLatest != null">
+        is_latest,
       </if>
       <if test="lastLoginIp != null">
         last_login_ip,
@@ -294,39 +209,6 @@
       <if test="userType != null">
         #{userType,jdbcType=VARCHAR},
       </if>
-      <if test="idNumber != null">
-        #{idNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null">
-        #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="nation != null">
-        #{nation,jdbcType=VARCHAR},
-      </if>
-      <if test="birthday != null">
-        #{birthday,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="idPositive != null">
-        #{idPositive,jdbcType=VARCHAR},
-      </if>
-      <if test="idOpposite != null">
-        #{idOpposite,jdbcType=VARCHAR},
-      </if>
-      <if test="idHand != null">
-        #{idHand,jdbcType=VARCHAR},
-      </if>
-      <if test="idAuthoIssue != null">
-        #{idAuthoIssue,jdbcType=VARCHAR},
-      </if>
-      <if test="idExpirDate != null">
-        #{idExpirDate,jdbcType=VARCHAR},
-      </if>
       <if test="speciality != null">
         #{speciality,jdbcType=VARCHAR},
       </if>
@@ -348,14 +230,8 @@
       <if test="major != null">
         #{major,jdbcType=VARCHAR},
       </if>
-      <if test="payType != null">
-        #{payType,jdbcType=INTEGER},
-      </if>
-      <if test="payName != null">
-        #{payName,jdbcType=VARCHAR},
-      </if>
-      <if test="payCode != null">
-        #{payCode,jdbcType=VARCHAR},
+      <if test="isLatest != null">
+        #{isLatest,jdbcType=INTEGER},
       </if>
       <if test="lastLoginIp != null">
         #{lastLoginIp,jdbcType=VARCHAR},
@@ -419,39 +295,6 @@
       <if test="userType != null">
         user_type = #{userType,jdbcType=VARCHAR},
       </if>
-      <if test="idNumber != null">
-        id_number = #{idNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null">
-        gender = #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="nation != null">
-        nation = #{nation,jdbcType=VARCHAR},
-      </if>
-      <if test="birthday != null">
-        birthday = #{birthday,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="idPositive != null">
-        id_positive = #{idPositive,jdbcType=VARCHAR},
-      </if>
-      <if test="idOpposite != null">
-        id_opposite = #{idOpposite,jdbcType=VARCHAR},
-      </if>
-      <if test="idHand != null">
-        id_hand = #{idHand,jdbcType=VARCHAR},
-      </if>
-      <if test="idAuthoIssue != null">
-        id_autho_issue = #{idAuthoIssue,jdbcType=VARCHAR},
-      </if>
-      <if test="idExpirDate != null">
-        id_expir_date = #{idExpirDate,jdbcType=VARCHAR},
-      </if>
       <if test="speciality != null">
         speciality = #{speciality,jdbcType=VARCHAR},
       </if>
@@ -473,17 +316,8 @@
       <if test="major != null">
         major = #{major,jdbcType=VARCHAR},
       </if>
-      <if test="payType != null">
-        pay_type = #{payType,jdbcType=INTEGER},
-      </if>
-      <if test="payName != null">
-        pay_name = #{payName,jdbcType=VARCHAR},
-      </if>
-      <if test="payCode != null">
-        pay_code = #{payCode,jdbcType=VARCHAR},
-      </if>
       <if test="isLatest != null">
-        is_latest =#{isLatest,jdbcType=INTEGER},
+        is_latest = #{isLatest,jdbcType=INTEGER},
       </if>
       <if test="lastLoginIp != null">
         last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
@@ -515,17 +349,6 @@
       invited_code = #{invitedCode,jdbcType=VARCHAR},
       channel = #{channel,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=VARCHAR},
-      id_number = #{idNumber,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=VARCHAR},
-      nation = #{nation,jdbcType=VARCHAR},
-      birthday = #{birthday,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      id_positive = #{idPositive,jdbcType=VARCHAR},
-      id_opposite = #{idOpposite,jdbcType=VARCHAR},
-      id_hand = #{idHand,jdbcType=VARCHAR},
-      id_autho_issue = #{idAuthoIssue,jdbcType=VARCHAR},
-      id_expir_date = #{idExpirDate,jdbcType=VARCHAR},
       speciality = #{speciality,jdbcType=VARCHAR},
       profile = #{profile,jdbcType=VARCHAR},
       is_autho = #{isAutho,jdbcType=INTEGER},
@@ -533,13 +356,31 @@
       university = #{university,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
       major = #{major,jdbcType=VARCHAR},
-      pay_type = #{payType,jdbcType=INTEGER},
-      pay_name = #{payName,jdbcType=VARCHAR},
-      pay_code = #{payCode,jdbcType=VARCHAR},
-      is_latest =#{isLatest,jdbcType=INTEGER},
+      is_latest = #{isLatest,jdbcType=INTEGER},
       last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
       last_login_time = #{lastLoginTime,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectByInviteCode" parameterType="java.lang.String" resultType="java.lang.String">
+     select my_invite_code as inviteCode from user where my_invite_code= #{inviteCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByOpenID" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where openid = #{openid,jdbcType=VARCHAR}
+  </select>
+  <select id="loginByCellPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+  <select id="selectUserHMYByStatus" parameterType="java.util.Map" resultType="java.lang.String">
+    select id  from user
+    where is_autho = #{is_autho,jdbcType=INTEGER} and status =  #{status,jdbcType=INTEGER}
+  </select>
+
 </mapper>

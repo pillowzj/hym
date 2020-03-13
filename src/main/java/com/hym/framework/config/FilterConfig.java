@@ -21,7 +21,7 @@ import java.util.Map;
  * @author hym
  */
 @Configuration
-public class FilterConfig  implements WebMvcConfigurer
+public class FilterConfig implements WebMvcConfigurer
 {
     @Value("${xss.enabled}")
     private String enabled;

@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.hym.project.domain;
+package com.hym.framework.domain;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Component;

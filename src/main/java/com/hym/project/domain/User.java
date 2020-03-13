@@ -37,28 +37,6 @@ public class User {
 
     private String userType;
 
-    private String idNumber;
-
-    private String name;
-
-    private String gender;
-
-    private String nation;
-
-    private String birthday;
-
-    private String address;
-
-    private String idPositive;
-
-    private String idOpposite;
-
-    private String idHand;
-
-    private String idAuthoIssue;
-
-    private String idExpirDate;
-
     private String speciality;
 
     private String profile;
@@ -73,11 +51,7 @@ public class User {
 
     private String major;
 
-    private Integer payType;
-
-    private String payName;
-
-    private String payCode;
+    private Integer isLatest;
 
     private String lastLoginIp;
 
@@ -85,16 +59,6 @@ public class User {
 
     private Date insertTime;
 
-    private int isLatest;
-    public User() {
-
-    }
-    public User(String id, String wxNickname, String wxAvatarUrl,String mobile) {
-        this.id = id;
-        this.wxNickname = wxNickname;
-        this.wxAvatarUrl = wxAvatarUrl;
-        this.mobile = mobile;
-    }
     public String getId() {
         return id;
     }
@@ -231,94 +195,6 @@ public class User {
         this.userType = userType == null ? null : userType.trim();
     }
 
-    public String getIdNumber() {
-        return idNumber;
-    }
-
-    public void setIdNumber(String idNumber) {
-        this.idNumber = idNumber == null ? null : idNumber.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender == null ? null : gender.trim();
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation == null ? null : nation.trim();
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday == null ? null : birthday.trim();
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
-
-    public String getIdPositive() {
-        return idPositive;
-    }
-
-    public void setIdPositive(String idPositive) {
-        this.idPositive = idPositive == null ? null : idPositive.trim();
-    }
-
-    public String getIdOpposite() {
-        return idOpposite;
-    }
-
-    public void setIdOpposite(String idOpposite) {
-        this.idOpposite = idOpposite == null ? null : idOpposite.trim();
-    }
-
-    public String getIdHand() {
-        return idHand;
-    }
-
-    public void setIdHand(String idHand) {
-        this.idHand = idHand == null ? null : idHand.trim();
-    }
-
-    public String getIdAuthoIssue() {
-        return idAuthoIssue;
-    }
-
-    public void setIdAuthoIssue(String idAuthoIssue) {
-        this.idAuthoIssue = idAuthoIssue == null ? null : idAuthoIssue.trim();
-    }
-
-    public String getIdExpirDate() {
-        return idExpirDate;
-    }
-
-    public void setIdExpirDate(String idExpirDate) {
-        this.idExpirDate = idExpirDate == null ? null : idExpirDate.trim();
-    }
-
     public String getSpeciality() {
         return speciality;
     }
@@ -375,28 +251,12 @@ public class User {
         this.major = major == null ? null : major.trim();
     }
 
-    public Integer getPayType() {
-        return payType;
+    public Integer getIsLatest() {
+        return isLatest;
     }
 
-    public void setPayType(Integer payType) {
-        this.payType = payType;
-    }
-
-    public String getPayName() {
-        return payName;
-    }
-
-    public void setPayName(String payName) {
-        this.payName = payName == null ? null : payName.trim();
-    }
-
-    public String getPayCode() {
-        return payCode;
-    }
-
-    public void setPayCode(String payCode) {
-        this.payCode = payCode == null ? null : payCode.trim();
+    public void setIsLatest(Integer isLatest) {
+        this.isLatest = isLatest;
     }
 
     public String getLastLoginIp() {
@@ -421,13 +281,5 @@ public class User {
 
     public void setInsertTime(Date insertTime) {
         this.insertTime = insertTime;
-    }
-
-    public int getIsLatest() {
-        return isLatest;
-    }
-
-    public void setIsLatest(int isLatest) {
-        this.isLatest = isLatest;
     }
 }

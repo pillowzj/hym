@@ -16,7 +16,6 @@ limitations under the License.
 package com.hym.framework.domain;
 
 import com.alibaba.fastjson.annotation.JSONType;
-import com.hym.project.domain.Message;
 
 /**
  * 请求数据
