@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hym.project.mapper.AppInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hym.project.domain.AppInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="tid" jdbcType="VARCHAR" property="tid" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="appid" jdbcType="VARCHAR" property="appid" />
+    <result column="pname" jdbcType="VARCHAR" property="pname" />
+    <result column="action" jdbcType="VARCHAR" property="action" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tid, app_name, appid, pname, action, remark, insert_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from app_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hym.project.domain.AppInfo">
+    insert into app_info (id, tid, app_name, 
+      appid, pname, action, 
+      remark, insert_date)
+    values (#{id,jdbcType=VARCHAR}, #{tid,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, 
+      #{appid,jdbcType=VARCHAR}, #{pname,jdbcType=VARCHAR}, #{action,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{insertDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.AppInfo">
+    update app_info
+    <set>
+      <if test="tid != null">
+        tid = #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null">
+        app_name = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        appid = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="pname != null">
+        pname = #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        action = #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="insertDate != null">
+        insert_date = #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

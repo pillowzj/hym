@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hym.project.mapper.IdInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hym.project.domain.IdInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="id_positive" jdbcType="VARCHAR" property="idPositive" />
+    <result column="id_opposite" jdbcType="VARCHAR" property="idOpposite" />
+    <result column="id_hand" jdbcType="VARCHAR" property="idHand" />
+    <result column="id_autho_issue" jdbcType="VARCHAR" property="idAuthoIssue" />
+    <result column="id_expir_date" jdbcType="VARCHAR" property="idExpirDate" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uid, id_number, name, gender, nation, birthday, address, id_positive, id_opposite, 
+    id_hand, id_autho_issue, id_expir_date, insert_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from id_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from id_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hym.project.domain.IdInfo">
+    insert into id_info (id, uid, id_number, 
+      name, gender, nation, 
+      birthday, address, id_positive, 
+      id_opposite, id_hand, id_autho_issue, 
+      id_expir_date, insert_time)
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{idPositive,jdbcType=VARCHAR}, 
+      #{idOpposite,jdbcType=VARCHAR}, #{idHand,jdbcType=VARCHAR}, #{idAuthoIssue,jdbcType=VARCHAR}, 
+      #{idExpirDate,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.IdInfo">
+    update id_info
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        id_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="idPositive != null">
+        id_positive = #{idPositive,jdbcType=VARCHAR},
+      </if>
+      <if test="idOpposite != null">
+        id_opposite = #{idOpposite,jdbcType=VARCHAR},
+      </if>
+      <if test="idHand != null">
+        id_hand = #{idHand,jdbcType=VARCHAR},
+      </if>
+      <if test="idAuthoIssue != null">
+        id_autho_issue = #{idAuthoIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="idExpirDate != null">
+        id_expir_date = #{idExpirDate,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null">
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
