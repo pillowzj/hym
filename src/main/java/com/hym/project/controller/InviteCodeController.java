@@ -13,7 +13,7 @@ import com.hym.project.domain.User;
 import com.hym.project.service.InviteCodeService;
 import com.hym.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +39,7 @@ public class InviteCodeController {
     @Autowired
     private TokenService tokenService;
 
-    @GetMapping("/getInvitedCode")
+    @PostMapping("/getInvitedCode")
     private AjaxResult getInvitedCode(){
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject reqbody = JSON.parseObject(requestData.getData());

@@ -12,7 +12,7 @@ public interface TaskService {
 
     Task selectByPrimaryKey(String id);
 
-    PageInfo<Task> selectAll(int pageNum, int pageSize);
+    PageInfo<Task> selectAll(int appType,int pageNum, int pageSize);
 
     int getCount();
 

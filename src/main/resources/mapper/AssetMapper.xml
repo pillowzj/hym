@@ -27,43 +27,6 @@
     values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{frozenToken,jdbcType=VARCHAR},
       #{token,jdbcType=VARCHAR}, #{insertDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.hym.project.domain.Asset">
-    insert into asset
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="uid != null">
-        uid,
-      </if>
-      <if test="frozenToken != null">
-        frozen_token,
-      </if>
-      <if test="token != null">
-        token,
-      </if>
-      <if test="insertDate != null">
-        insert_date,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="uid != null">
-        #{uid,jdbcType=VARCHAR},
-      </if>
-      <if test="frozenToken != null">
-        #{frozenToken,jdbcType=VARCHAR},
-      </if>
-      <if test="token != null">
-        #{token,jdbcType=VARCHAR},
-      </if>
-      <if test="insertDate != null">
-        #{insertDate,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.Asset">
     update asset
     <set>
@@ -80,14 +43,6 @@
         insert_date = #{insertDate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.hym.project.domain.Asset">
-    update asset
-    set uid = #{uid,jdbcType=VARCHAR},
-      frozen_token = #{frozenToken,jdbcType=VARCHAR},
-      token = #{token,jdbcType=VARCHAR},
-      insert_date = #{insertDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -32,7 +32,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-* 用于用户认证的filter，但是真正的认证逻辑会委托给{@link WxAuthenticationManager}
+* 用于用户认证的filter，但是真正的认证逻辑会委托给{@link }
  * @author lijun kou
  * @Date 03012020
 */
@@ -142,6 +142,7 @@ public class WxAuthenticationFilter extends AbstractAuthenticationProcessingFilt
             loginUserService.insert(user);
             assetService.insert(asset);
         }else{
+            user.setOpenid(wxOpenInfo.getOpenid());
             user.setSessionkey(wxOpenInfo.getSessionKey());
             userService.updateByPrimaryKeySelective(user);
         }

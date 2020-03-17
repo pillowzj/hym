@@ -11,6 +11,10 @@ public class Task {
 
     private String industry;
 
+    private Integer AppType;
+
+    private Integer type;
+
     private String description;
 
     private String icon;
@@ -31,6 +35,14 @@ public class Task {
 
     private Date endTime;
 
+    private String appName;
+
+    private String appid;
+
+    private String pname;
+
+    private String action;
+
     private Integer status;
 
     private Integer isReceived;
@@ -46,25 +58,6 @@ public class Task {
     private String releaseUser;
 
     private Date releaseTime;
-
-    public Task(){}
-
-    public Task(String id,String uid,String title,String industry, String description, String icon, Integer status, Integer people,String rmbSum, String price,  String token, String tokenTotalSum,Date insertDate) {
-        this.id = id;
-        this.uid = uid;
-        this.title = title;
-        this.industry = industry;
-        this.description = description;
-        this.icon = icon;
-        this.status = status;
-        this.people = people;
-        this.rmbSum =rmbSum;
-        this.price = price;
-        this.token = token;
-        this.tokenTotalSum = tokenTotalSum;
-        this.insertDate = insertDate;
-    }
-
 
     public String getId() {
         return id;
@@ -90,12 +83,28 @@ public class Task {
         this.title = title == null ? null : title.trim();
     }
 
+    public Integer getAppType() {
+        return AppType;
+    }
+
+    public void setAppType(Integer appType) {
+        AppType = appType;
+    }
+
     public String getIndustry() {
         return industry;
     }
 
     public void setIndustry(String industry) {
         this.industry = industry == null ? null : industry.trim();
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getDescription() {
@@ -151,7 +160,7 @@ public class Task {
     }
 
     public void setToken(String token) {
-        this.token = token;
+        this.token = token == null ? null : token.trim();
     }
 
     public String getTokenTotalSum() {
@@ -176,6 +185,38 @@ public class Task {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName == null ? null : appName.trim();
+    }
+
+    public String getAppid() {
+        return appid;
+    }
+
+    public void setAppid(String appid) {
+        this.appid = appid == null ? null : appid.trim();
+    }
+
+    public String getPname() {
+        return pname;
+    }
+
+    public void setPname(String pname) {
+        this.pname = pname == null ? null : pname.trim();
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action == null ? null : action.trim();
     }
 
     public Integer getStatus() {

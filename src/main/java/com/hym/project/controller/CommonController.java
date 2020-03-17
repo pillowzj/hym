@@ -14,7 +14,6 @@ import com.hym.project.util.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +43,7 @@ public class CommonController {
      * @param fileName 文件名称
      * @param delete   是否删除
      */
-    @GetMapping("common/download")
+    @PostMapping("common/download")
     public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
         try {
             if (!FileUtils.isValidFilename(fileName)) {
@@ -110,7 +109,7 @@ public class CommonController {
      *
      * @return
      */
-    @GetMapping(value = "/getVerifyCode")
+    @PostMapping(value = "/getVerifyCode")
     public AjaxResult getVerifyCode() {
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject object = JSON.parseObject(requestData.getData());

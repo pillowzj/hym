@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.hym.common.exception.PFException;
+import com.hym.common.utils.StringUtils;
+import com.hym.common.utils.security.Md5Utils;
 import com.hym.framework.domain.RequestData;
 import org.springframework.stereotype.Component;
 
@@ -51,17 +53,27 @@ public class Storage {
                 }
                 requestPara = sb.toString();
                 JSONObject reqData = JSON.parseObject(requestPara, Feature.OrderedField);
-            } else if (GET.name().equals(method)) {
-                JSONObject jsonObject = new JSONObject();
-                request.getParameterMap().forEach((k, v) -> jsonObject.put(k, request.getParameter(k)));
-
-                requestPara = JSON.toJSONString(jsonObject);
             } else {
                 throw new Exception("No accept request method:[" + method + "]");
             }
             String securityFactor = request.getHeader(SECURITY_FACTOR);
             String signedData = request.getHeader(SIGNED_DATA);
             String token = request.getHeader(AUTHORIZATION);
+            // 对数据签名验证
+            // 。。。
+            String str ="kouliang+xoF8npYJcIUfZ/urky3zGn1R6y+608ccKMOqiNOgsqde8yTvi6yNrvg82eHFnKq";
+            if(StringUtils.isEmpty(requestPara)){
+                str = Md5Utils.hash(str);
+            }else {
+                str = Md5Utils.hash(requestPara+str);
+            }
+
+            System.out.println("request Data--->"+requestPara);
+            System.out.println("clent 签名：--->"+signedData);
+            System.out.println("server 签名：--->"+str);
+            if(!str.equals(signedData)){
+                throw new PFException("权限不够");
+            }
             return new RequestData(token, securityFactor, signedData, requestPara);
         } catch (Exception e) {
             throw new PFException(e);

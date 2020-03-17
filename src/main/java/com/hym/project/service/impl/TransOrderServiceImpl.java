@@ -3,15 +3,13 @@ package com.hym.project.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hym.common.constant.Constants;
-import com.hym.common.utils.Arith;
+import com.hym.common.constant.WorkflowConstants;
 import com.hym.common.utils.IdUtils;
-import com.hym.project.domain.Asset;
 import com.hym.project.domain.TransOrder;
 import com.hym.project.mapper.TransOrderMapper;
 import com.hym.project.service.AssetService;
 import com.hym.project.service.TansOrderService;
 import com.hym.project.service.UserService;
-import com.hym.project.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,16 +43,16 @@ public class TransOrderServiceImpl implements TansOrderService {
      * @return
      */
     @Override
-    public int submitMyOrder(String sellUid, String hymPrice, String hymCount, String totalSum, String fee, String isAutho, String status) {
+    public int submitSellHYM(String sellUid, String hymPrice, String hymCount, String totalSum, String fee, String isAutho, String status) {
 
 
-        Asset myAsset = assetService.selectByPrimaryKey(sellUid);
-
-        myAsset.setToken(Arith.sub(myAsset.getToken(), hymCount));
-        // 冻结hymCount
-        myAsset.setFrozenToken(Arith.add(myAsset.getFrozenToken(), hymCount));
-
-        assetService.updateByPrimaryKeySelective(myAsset);
+//        Asset myAsset = assetService.selectByPrimaryKey(sellUid);
+//
+//        myAsset.setToken(Arith.sub(myAsset.getToken(), hymCount));
+//        // 冻结hymCount,等到收到款之后，冻结资产清
+//        myAsset.setFrozenToken(Arith.add(myAsset.getFrozenToken(), hymCount));
+//
+//        assetService.updateByPrimaryKeySelective(myAsset);
 
         // 插入订单
         TransOrder order = new TransOrder();
@@ -66,9 +64,8 @@ public class TransOrderServiceImpl implements TansOrderService {
         order.setFee(new BigDecimal(fee).setScale(Constants.DECIMAL_POINT).toString());
         order.setSellerId(sellUid);
         order.setBuyerId("0f803c86-0b23-4173-bcdd-b3b43262654f");
-        order.setStatus(1);// 交易中
+        order.setStatus(WorkflowConstants.ONE);// 0 初始化 1 待付款  2已付款 3 交易完成
         order.setInsertDate(new Date());
-
         transOrderMapper.insert(order);
 
         // 调用支付接口
@@ -103,8 +100,7 @@ public class TransOrderServiceImpl implements TansOrderService {
 
     @Override
     public PageInfo<TransOrder> getOrderBySellerId(String sellerId, int pageNum, int pageSize) {
-        int total = transOrderMapper.selectCountById(sellerId);
-        pageNum = Page.getPageNum(pageNum, pageSize, total);
+
         PageHelper.startPage(pageNum, pageSize);
         List<TransOrder> list = transOrderMapper.selectById(sellerId);
         PageInfo<TransOrder> page = new PageInfo<TransOrder>(list);

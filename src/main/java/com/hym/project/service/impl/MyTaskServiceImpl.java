@@ -4,10 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hym.common.utils.IdUtils;
 import com.hym.project.domain.MyTask;
+import com.hym.project.domain.vo.MyTaskVO;
 import com.hym.project.mapper.MyTaskMapper;
 import com.hym.project.service.AssetService;
 import com.hym.project.service.MyTaskService;
-import com.hym.project.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,23 +48,19 @@ public class MyTaskServiceImpl implements MyTaskService {
     }
 
     @Override
-    public PageInfo<MyTask> selectMyTask(String uid,int status,int pageNum,int pageSize) {
-        Map map1 = new HashMap();
-        map1.put("uid",uid);
-        map1.put("status",status);
-        int total = myTaskMapper.selectCount(map1);
-        pageNum = Page.getPageNum(pageNum, pageSize, total);
+    public PageInfo<MyTaskVO> selectMyTask(String uid, int status, int pageNum, int pageSize) {
+
         PageHelper.startPage(pageNum,pageSize);
         Map map = new HashMap();
         map.put("uid",uid);
         map.put("status",status);
-        List<MyTask> list = myTaskMapper.selectMyTask(map);
-        PageInfo<MyTask> page = new PageInfo<MyTask>(list);
+        List<MyTaskVO> list = myTaskMapper.selectMyTask(map);
+        PageInfo<MyTaskVO> page = new PageInfo<MyTaskVO>(list);
         return page;
     }
 
     @Override
-    public List<MyTask> selectMyTask(String uid,int status) {
+    public List<MyTaskVO> selectMyTask(String uid,int status) {
         Map map = new HashMap();
         map.put("uid",uid);
         map.put("status",status);

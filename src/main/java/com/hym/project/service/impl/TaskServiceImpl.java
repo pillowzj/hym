@@ -5,11 +5,12 @@ import com.github.pagehelper.PageInfo;
 import com.hym.project.domain.Task;
 import com.hym.project.mapper.TaskMapper;
 import com.hym.project.service.TaskService;
-import com.hym.project.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -33,11 +34,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public PageInfo<Task> selectAll(int pageNum,int pageSize) {
-        int total = taskMapper.selectCount();
-        pageNum = Page.getPageNum(pageNum, pageSize, total);
+    public PageInfo<Task> selectAll(int appType,int pageNum,int pageSize) {
+
         PageHelper.startPage(pageNum,pageSize);
-        List<Task> list = taskMapper.selectAll();
+        Map map = new HashMap();
+        map.put("appType",appType);
+        List<Task> list = taskMapper.selectAll(map);
         PageInfo<Task> page = new PageInfo<Task>(list);
         return page;
     }

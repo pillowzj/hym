@@ -292,13 +292,19 @@
             <groupId>com.baidu.aip</groupId>
             <artifactId>java-sdk</artifactId>
             <version>4.12.0</version>
+            <exclusions>
+                <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-openid -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-openid</artifactId>
-            <version>5.2.2.RELEASE</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-openid</artifactId>-->
+<!--            <version>5.2.2.RELEASE</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>cn.hutool</groupId>

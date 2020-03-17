@@ -14,22 +14,59 @@
     <result column="finish_date" jdbcType="TIMESTAMP" property="finishDate" />
     <result column="final_date" jdbcType="TIMESTAMP" property="finalDate" />
   </resultMap>
+  <resultMap id="BaseResultMapVO" type="com.hym.project.domain.vo.MyTaskVO">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="tid" jdbcType="VARCHAR" property="tid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="app_type" jdbcType="INTEGER" property="appType" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="people" jdbcType="INTEGER" property="people" />
+    <result column="rmb_sum" jdbcType="VARCHAR" property="rmbSum" />
+    <result column="price" jdbcType="VARCHAR" property="price" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="token_total_sum" jdbcType="VARCHAR" property="tokenTotalSum" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="appid" jdbcType="VARCHAR" property="appid" />
+    <result column="pname" jdbcType="VARCHAR" property="pname" />
+    <result column="action" jdbcType="VARCHAR" property="action" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_received" jdbcType="INTEGER" property="isReceived" />
+    <result column="commission" jdbcType="INTEGER" property="commission" />
+    <result column="insert_user" jdbcType="VARCHAR" property="insertUser" />
+    <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
+    <result column="checker" jdbcType="VARCHAR" property="checker" />
+    <result column="release_user" jdbcType="VARCHAR" property="releaseUser" />
+    <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, uid, tid, title, status, icon, result, token, insert_date, finish_date, final_date
   </sql>
 
-  <select id="selectMyTask" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from my_task where 1=1
-
+  <select id="selectMyTask" parameterType="java.util.Map" resultMap="BaseResultMapVO">
+   SELECT
+	m.id, m.tid, m.uid, t.title, t.industry,
+	t.app_type, t.type, t.description, t.icon, t.people, t.price,
+	t.token, t.begin_time, t.end_time, t.app_name, t.appid,
+	t.pname, t.action, m.status, t.commission, m.insert_date
+FROM
+	task t
+	right JOIN my_task m ON t.id = m.tid
+    WHERE 1=1
     <if test="status != 9" >
       and status =  #{status,jdbcType=INTEGER}
     </if>
     <if test="uid != null and '' != uid" >
-      and uid =  #{uid,jdbcType=VARCHAR}
+      and m.uid =  #{uid,jdbcType=VARCHAR}
     </if>
-
+     order by insert_date
   </select>
 
   <select id="selectCount"  parameterType="java.util.Map" resultType="java.lang.Integer" >
@@ -42,8 +79,6 @@
       and uid =  #{uid,jdbcType=VARCHAR}
     </if>
   </select>
-
-
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -63,79 +98,6 @@
       #{title,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
       #{result,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{insertDate,jdbcType=TIMESTAMP},
       #{finishDate,jdbcType=TIMESTAMP}, #{finalDate,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.hym.project.domain.MyTask">
-    insert into my_task
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="uid != null">
-        uid,
-      </if>
-      <if test="tid != null">
-        tid,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="icon != null">
-        icon,
-      </if>
-      <if test="result != null">
-        result,
-      </if>
-      <if test="token != null">
-        token,
-      </if>
-      <if test="insertDate != null">
-        insert_date,
-      </if>
-      <if test="finishDate != null">
-        finish_date,
-      </if>
-      <if test="finalDate != null">
-        final_date,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="uid != null">
-        #{uid,jdbcType=VARCHAR},
-      </if>
-      <if test="tid != null">
-        #{tid,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="icon != null">
-        #{icon,jdbcType=VARCHAR},
-      </if>
-      <if test="result != null">
-        #{result,jdbcType=VARCHAR},
-      </if>
-      <if test="token != null">
-        #{token,jdbcType=VARCHAR},
-      </if>
-      <if test="insertDate != null">
-        #{insertDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="finishDate != null">
-        #{finishDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="finalDate != null">
-        #{finalDate,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.MyTask">
     update my_task
@@ -171,20 +133,6 @@
         final_date = #{finalDate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.hym.project.domain.MyTask">
-    update my_task
-    set uid = #{uid,jdbcType=VARCHAR},
-      tid = #{tid,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      icon = #{icon,jdbcType=VARCHAR},
-      result = #{result,jdbcType=VARCHAR},
-      token = #{token,jdbcType=VARCHAR},
-      insert_date = #{insertDate,jdbcType=TIMESTAMP},
-      finish_date = #{finishDate,jdbcType=TIMESTAMP},
-      final_date = #{finalDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

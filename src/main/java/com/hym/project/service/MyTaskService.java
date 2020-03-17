@@ -2,7 +2,7 @@ package com.hym.project.service;
 
 import com.github.pagehelper.PageInfo;
 import com.hym.project.domain.MyTask;
-import org.apache.ibatis.annotations.Select;
+import com.hym.project.domain.vo.MyTaskVO;
 
 import java.util.List;
 
@@ -16,11 +16,13 @@ public interface MyTaskService {
 
     MyTask selectByPrimaryKey(String id);
 
+    PageInfo<MyTaskVO> selectMyTask(String uid, int status, int pageNum, int pageSize);
 
-    PageInfo<MyTask> selectMyTask(String uid,int status, int pageNum, int pageSize);
-    List<MyTask> selectMyTask(String uid,int status);
+    List<MyTaskVO> selectMyTask(String uid,int status);
 
     int updateByPrimaryKeySelective(MyTask record);
+
     int getCount(String uid,int status);
+
     int updateByPrimaryKey(MyTask record);
 }

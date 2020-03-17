@@ -3,8 +3,6 @@ package com.hym.project.service;
 import com.github.pagehelper.PageInfo;
 import com.hym.project.domain.TransOrder;
 
-import java.util.List;
-
 public interface TansOrderService {
 
     int deleteByPrimaryKey(String id);
@@ -19,5 +17,5 @@ public interface TansOrderService {
 
     PageInfo<TransOrder> getOrderBySellerId(String sellerId, int pageNum, int pageSize);
 
-    int submitMyOrder (String uid,String hymPrice,String hymCount,String totalSum,String fee,String isAutho,String status);
+    int submitSellHYM (String uid,String hymPrice,String hymCount,String totalSum,String fee,String isAutho,String status);
 }

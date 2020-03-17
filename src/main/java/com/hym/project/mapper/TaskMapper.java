@@ -3,9 +3,9 @@ package com.hym.project.mapper;
 import com.hym.project.domain.Task;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TaskMapper {
-    int deleteByPrimaryKey(String id);
 
     int insert(Task record);
 
@@ -15,7 +15,7 @@ public interface TaskMapper {
 
     int updateByPrimaryKeySelective(Task record);
 
-    List<Task> selectAll();
+    List<Task> selectAll(Map map);
 
     int selectCount();
 }

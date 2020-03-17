@@ -1,5 +1,12 @@
 package com.hym.framework.web.exception;
 
+import com.hym.common.constant.HttpStatus;
+import com.hym.common.exception.BaseException;
+import com.hym.common.exception.CustomException;
+import com.hym.common.exception.DemoModeException;
+import com.hym.common.exception.PFException;
+import com.hym.common.utils.StringUtils;
+import com.hym.framework.web.domain.AjaxResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -10,12 +17,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import com.hym.common.constant.HttpStatus;
-import com.hym.common.exception.BaseException;
-import com.hym.common.exception.CustomException;
-import com.hym.common.exception.DemoModeException;
-import com.hym.common.utils.StringUtils;
-import com.hym.framework.web.domain.AjaxResult;
 
 /**
  * 全局异常处理器
@@ -32,6 +33,11 @@ public class GlobalExceptionHandler
      */
     @ExceptionHandler(BaseException.class)
     public AjaxResult baseException(BaseException e)
+    {
+        return AjaxResult.error(e.getMessage());
+    }
+    @ExceptionHandler(PFException.class)
+    public AjaxResult PFException(PFException e)
     {
         return AjaxResult.error(e.getMessage());
     }

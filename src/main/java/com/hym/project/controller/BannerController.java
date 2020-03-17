@@ -8,7 +8,7 @@ import com.hym.framework.web.domain.AjaxResult;
 import com.hym.project.domain.Banner;
 import com.hym.project.service.BannerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +20,7 @@ public class BannerController {
 
     @Autowired
     private BannerService bannerService;
-    @GetMapping("/getById")
+    @PostMapping("/getById")
     public AjaxResult getById(){
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject reqbody = JSON.parseObject(requestData.getData());
@@ -28,7 +28,7 @@ public class BannerController {
         Banner banner = bannerService.getByPrimaryKey(id);
         return AjaxResult.success(banner);
     }
-    @GetMapping("/getByStatus")
+    @PostMapping("/getByStatus")
     public AjaxResult getByStatus(){
         RequestData requestData = ThreadCache.getPostRequestParams();
         JSONObject reqbody = JSON.parseObject(requestData.getData());

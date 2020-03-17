@@ -1,7 +1,7 @@
 package com.hym.project.mapper;
 
 import com.hym.project.domain.MyTask;
-import org.apache.ibatis.annotations.Select;
+import com.hym.project.domain.vo.MyTaskVO;
 
 import java.util.List;
 import java.util.Map;
@@ -21,5 +21,5 @@ public interface MyTaskMapper {
 
      int selectCount(Map map);
 
-    List<MyTask> selectMyTask(Map map);
+    List<MyTaskVO> selectMyTask(Map map);
 }

@@ -38,7 +38,8 @@ public class FilterConfig implements WebMvcConfigurer
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(securityInterceptor)
-                .addPathPatterns("/api/hym/**");
+                .addPathPatterns("/api/hym/**")
+                .excludePathPatterns("/api/hym/comm/**");    //对应的不拦截的请求
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

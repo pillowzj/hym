@@ -174,7 +174,10 @@ public class UserController {
         pc.setFlag(1);
         pc.setPayCode(payCode);
         pc.setInsertTime(new Date());
-        user.setIsAutho(WorkflowConstants.ONE);//  1 已绑定收款码
+        if(user.getIsAutho() != WorkflowConstants.TWO){
+            user.setIsAutho(WorkflowConstants.ONE);//  1 绑定收款码
+        }
+
         userService.updateByPrimaryKeySelective(user);
         payCodeService.insert(pc);
         return AjaxResult.success();

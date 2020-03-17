@@ -6,6 +6,8 @@
     <result column="uid" jdbcType="VARCHAR" property="uid" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="app_type" jdbcType="INTEGER" property="appType" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="count" jdbcType="INTEGER" property="count" />
@@ -15,7 +17,11 @@
     <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="token_total_sum" jdbcType="VARCHAR" property="tokenTotalSum" />
     <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
-    <result column="end_date" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="appid" jdbcType="VARCHAR" property="appid" />
+    <result column="pname" jdbcType="VARCHAR" property="pname" />
+    <result column="action" jdbcType="VARCHAR" property="action" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="is_received" jdbcType="INTEGER" property="isReceived" />
     <result column="commission" jdbcType="INTEGER" property="commission" />
@@ -26,20 +32,10 @@
     <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, uid, title, industry, description, icon, count, people, rmb_sum, price, token, 
-    token_total_sum, begin_time, end_date, status, is_received, commission, insert_user, 
-    insert_date, checker, release_user, release_time
+    id, uid, title, industry, app_type,type, description, icon, count, people, rmb_sum, price,
+    token, token_total_sum, begin_time, end_time, app_name, appid, pname, action, status, 
+    is_received, commission, insert_user, insert_date, checker, release_user, release_time
   </sql>
-  <select id="selectCount"  resultType="java.lang.Integer">
---   select count(1) count from task where status = 2
-select sum(people) count from task where status = 2
-</select>
-  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from task where status = 2
-  </select>
-
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -52,160 +48,25 @@ select sum(people) count from task where status = 2
   </delete>
   <insert id="insert" parameterType="com.hym.project.domain.Task">
     insert into task (id, uid, title, 
-      industry, description, icon, 
-      count, people, rmb_sum, 
-      price, token, token_total_sum, 
-      begin_time, end_date, status, 
-      is_received, commission, insert_user, 
-      insert_date, checker, release_user, 
-      release_time)
+      industry,app_type type, description,
+      icon, count, people, 
+      rmb_sum, price, token, 
+      token_total_sum, begin_time, end_time, 
+      app_name, appid, pname, 
+      action, status, is_received, 
+      commission, insert_user, insert_date, 
+      checker, release_user, release_time
+      )
     values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{industry,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
-      #{count,jdbcType=INTEGER}, #{people,jdbcType=INTEGER}, #{rmbSum,jdbcType=VARCHAR}, 
-      #{price,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{tokenTotalSum,jdbcType=VARCHAR},
-      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{isReceived,jdbcType=INTEGER}, #{commission,jdbcType=INTEGER}, #{insertUser,jdbcType=VARCHAR}, 
-      #{insertDate,jdbcType=TIMESTAMP}, #{checker,jdbcType=VARCHAR}, #{releaseUser,jdbcType=VARCHAR}, 
-      #{releaseTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.hym.project.domain.Task">
-    insert into task
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="uid != null">
-        uid,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="industry != null">
-        industry,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="icon != null">
-        icon,
-      </if>
-      <if test="count != null">
-        count,
-      </if>
-      <if test="people != null">
-        people,
-      </if>
-      <if test="rmbSum != null">
-        rmb_sum,
-      </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="token != null">
-        token,
-      </if>
-      <if test="tokenTotalSum != null">
-        token_total_sum,
-      </if>
-      <if test="beginTime != null">
-        begin_time,
-      </if>
-      <if test="endTime != null">
-        end_date,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="isReceived != null">
-        is_received,
-      </if>
-      <if test="commission != null">
-        commission,
-      </if>
-      <if test="insertUser != null">
-        insert_user,
-      </if>
-      <if test="insertDate != null">
-        insert_date,
-      </if>
-      <if test="checker != null">
-        checker,
-      </if>
-      <if test="releaseUser != null">
-        release_user,
-      </if>
-      <if test="releaseTime != null">
-        release_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="uid != null">
-        #{uid,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="industry != null">
-        #{industry,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="icon != null">
-        #{icon,jdbcType=VARCHAR},
-      </if>
-      <if test="count != null">
-        #{count,jdbcType=INTEGER},
-      </if>
-      <if test="people != null">
-        #{people,jdbcType=INTEGER},
-      </if>
-      <if test="rmbSum != null">
-        #{rmbSum,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=VARCHAR},
-      </if>
-      <if test="token != null">
-        #{token,jdbcType=VARCHAR},
-      </if>
-      <if test="tokenTotalSum != null">
-        #{tokenTotalSum,jdbcType=VARCHAR},
-      </if>
-      <if test="beginTime != null">
-        #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="isReceived != null">
-        #{isReceived,jdbcType=INTEGER},
-      </if>
-      <if test="commission != null">
-        #{commission,jdbcType=INTEGER},
-      </if>
-      <if test="insertUser != null">
-        #{insertUser,jdbcType=VARCHAR},
-      </if>
-      <if test="insertDate != null">
-        #{insertDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="checker != null">
-        #{checker,jdbcType=VARCHAR},
-      </if>
-      <if test="releaseUser != null">
-        #{releaseUser,jdbcType=VARCHAR},
-      </if>
-      <if test="releaseTime != null">
-        #{releaseTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
+      #{industry,jdbcType=VARCHAR}, #{app_type,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+      #{icon,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{people,jdbcType=INTEGER}, 
+      #{rmbSum,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
+      #{tokenTotalSum,jdbcType=VARCHAR}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{appName,jdbcType=VARCHAR}, #{appid,jdbcType=VARCHAR}, #{pname,jdbcType=VARCHAR}, 
+      #{action,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isReceived,jdbcType=INTEGER}, 
+      #{commission,jdbcType=INTEGER}, #{insertUser,jdbcType=VARCHAR}, #{insertDate,jdbcType=TIMESTAMP}, 
+      #{checker,jdbcType=VARCHAR}, #{releaseUser,jdbcType=VARCHAR}, #{releaseTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.Task">
     update task
@@ -218,6 +79,12 @@ select sum(people) count from task where status = 2
       </if>
       <if test="industry != null">
         industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="app_type != null">
+        app_type = #{appType,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
@@ -247,7 +114,19 @@ select sum(people) count from task where status = 2
         begin_time = #{beginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="endTime != null">
-        end_date = #{endTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appName != null">
+        app_name = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        appid = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="pname != null">
+        pname = #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        action = #{action,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -277,4 +156,13 @@ select sum(people) count from task where status = 2
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
+  <select id="selectCount" resultType="java.lang.Integer">
+--   select count(1) count from task where status = 2
+select sum(people) count from task where status = 2
+</select>
+  <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task where status = 2 and app_type = #{appType,jdbcType=INTEGER} order by insert_date
+  </select>
 </mapper>
