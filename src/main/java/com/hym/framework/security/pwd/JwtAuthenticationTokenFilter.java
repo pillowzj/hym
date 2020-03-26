@@ -21,15 +21,14 @@ import java.io.IOException;
  * 
  * @author hym
  */
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
-{
+public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
     private TokenService tokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        System.out.println("request.getHeader(\"Authorization\")--->"+request.getHeader("Authorization"));
+        // System.out.println("request.getHeader(\"Authorization\")--->"+request.getHeader("Authorization"));
         LoginUser loginUser = tokenService.getLoginUser(request);//根据token 查询redis 是否存在这个用户信息
         if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication())) {
             tokenService.verifyToken(loginUser);

@@ -71,7 +71,8 @@ public class MyTaskController {
         String uid = reqbody.getString("uid");
         int pageNum = reqbody.getInteger("pageNum");
         int pageSize = reqbody.getInteger("pageSize");
-        PageInfo<MyTaskVO> myTasks = myTaskService.selectMyTask(uid, WorkflowConstants.NINE, pageNum, pageSize);
+        int status = reqbody.getInteger("status");
+        PageInfo<MyTaskVO> myTasks = myTaskService.selectMyTask(uid, status, pageNum, pageSize);
         return AjaxResult.success(myTasks);
     }
 

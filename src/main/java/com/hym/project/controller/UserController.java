@@ -164,6 +164,7 @@ public class UserController {
         String payName = reqbody.getString("payName");
         String payCode = reqbody.getString("payCode");
 
+
         User user = userService.selectByPrimaryKey(uid);
         PayCode pc = new PayCode();
         pc.setId(IdUtils.fastSimpleUUID());
@@ -174,8 +175,12 @@ public class UserController {
         pc.setFlag(1);
         pc.setPayCode(payCode);
         pc.setInsertTime(new Date());
-        if(user.getIsAutho() != WorkflowConstants.TWO){
+        if(reqbody.containsKey("weixin")){// 微信登录不进行身份验证
+            user.setIsAutho(WorkflowConstants.TWO);//  1 绑定收款码
+        }else if(user.getIsAutho() != WorkflowConstants.TWO){
             user.setIsAutho(WorkflowConstants.ONE);//  1 绑定收款码
+        }else{
+
         }
 
         userService.updateByPrimaryKeySelective(user);
