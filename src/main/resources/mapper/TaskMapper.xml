@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hym.project.mapper.TaskMapper">
-  <resultMap id="BaseResultMap" type="com.hym.project.domain.Task">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="uid" jdbcType="VARCHAR" property="uid" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="industry" jdbcType="VARCHAR" property="industry" />
-    <result column="app_type" jdbcType="INTEGER" property="appType" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="count" jdbcType="INTEGER" property="count" />
-    <result column="people" jdbcType="INTEGER" property="people" />
-    <result column="rmb_sum" jdbcType="VARCHAR" property="rmbSum" />
-    <result column="price" jdbcType="VARCHAR" property="price" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
-    <result column="token_total_sum" jdbcType="VARCHAR" property="tokenTotalSum" />
-    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="app_name" jdbcType="VARCHAR" property="appName" />
-    <result column="appid" jdbcType="VARCHAR" property="appid" />
-    <result column="pname" jdbcType="VARCHAR" property="pname" />
-    <result column="action" jdbcType="VARCHAR" property="action" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="is_received" jdbcType="INTEGER" property="isReceived" />
-    <result column="commission" jdbcType="INTEGER" property="commission" />
-    <result column="insert_user" jdbcType="VARCHAR" property="insertUser" />
-    <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate" />
-    <result column="checker" jdbcType="VARCHAR" property="checker" />
-    <result column="release_user" jdbcType="VARCHAR" property="releaseUser" />
-    <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.hym.project.domain.Task">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="uid" jdbcType="VARCHAR" property="uid"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="industry" jdbcType="VARCHAR" property="industry"/>
+        <result column="app_type" jdbcType="INTEGER" property="appType"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="people" jdbcType="INTEGER" property="people"/>
+        <result column="rmb_sum" jdbcType="VARCHAR" property="rmbSum"/>
+        <result column="price" jdbcType="VARCHAR" property="price"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="token_total_sum" jdbcType="VARCHAR" property="tokenTotalSum"/>
+        <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="app_name" jdbcType="VARCHAR" property="appName"/>
+        <result column="appid" jdbcType="VARCHAR" property="appid"/>
+        <result column="pname" jdbcType="VARCHAR" property="pname"/>
+        <result column="action" jdbcType="VARCHAR" property="action"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="is_received" jdbcType="INTEGER" property="isReceived"/>
+        <result column="commission" jdbcType="INTEGER" property="commission"/>
+        <result column="insert_user" jdbcType="VARCHAR" property="insertUser"/>
+        <result column="insert_date" jdbcType="TIMESTAMP" property="insertDate"/>
+        <result column="checker" jdbcType="VARCHAR" property="checker"/>
+        <result column="release_user" jdbcType="VARCHAR" property="releaseUser"/>
+        <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, uid, title, industry, app_type,type, description, icon, count, people, rmb_sum, price,
     token, token_total_sum, begin_time, end_time, app_name, appid, pname, action, status, 
     is_received, commission, insert_user, insert_date, checker, release_user, release_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from task
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from task
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from task
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.hym.project.domain.Task">
+    <insert id="insert" parameterType="com.hym.project.domain.Task">
     insert into task (id, uid, title, 
       industry,app_type type, description,
       icon, count, people, 
@@ -68,101 +68,124 @@
       #{checker,jdbcType=VARCHAR}, #{releaseUser,jdbcType=VARCHAR}, #{releaseTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.Task">
-    update task
-    <set>
-      <if test="uid != null">
-        uid = #{uid,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="industry != null">
-        industry = #{industry,jdbcType=VARCHAR},
-      </if>
-      <if test="app_type != null">
-        app_type = #{appType,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="icon != null">
-        icon = #{icon,jdbcType=VARCHAR},
-      </if>
-      <if test="count != null">
-        count = #{count,jdbcType=INTEGER},
-      </if>
-      <if test="people != null">
-        people = #{people,jdbcType=INTEGER},
-      </if>
-      <if test="rmbSum != null">
-        rmb_sum = #{rmbSum,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        price = #{price,jdbcType=VARCHAR},
-      </if>
-      <if test="token != null">
-        token = #{token,jdbcType=VARCHAR},
-      </if>
-      <if test="tokenTotalSum != null">
-        token_total_sum = #{tokenTotalSum,jdbcType=VARCHAR},
-      </if>
-      <if test="beginTime != null">
-        begin_time = #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        end_time = #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="appName != null">
-        app_name = #{appName,jdbcType=VARCHAR},
-      </if>
-      <if test="appid != null">
-        appid = #{appid,jdbcType=VARCHAR},
-      </if>
-      <if test="pname != null">
-        pname = #{pname,jdbcType=VARCHAR},
-      </if>
-      <if test="action != null">
-        action = #{action,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="isReceived != null">
-        is_received = #{isReceived,jdbcType=INTEGER},
-      </if>
-      <if test="commission != null">
-        commission = #{commission,jdbcType=INTEGER},
-      </if>
-      <if test="insertUser != null">
-        insert_user = #{insertUser,jdbcType=VARCHAR},
-      </if>
-      <if test="insertDate != null">
-        insert_date = #{insertDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="checker != null">
-        checker = #{checker,jdbcType=VARCHAR},
-      </if>
-      <if test="releaseUser != null">
-        release_user = #{releaseUser,jdbcType=VARCHAR},
-      </if>
-      <if test="releaseTime != null">
-        release_time = #{releaseTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hym.project.domain.Task">
+        update task
+        <set>
+            <if test="uid != null">
+                uid = #{uid,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="industry != null">
+                industry = #{industry,jdbcType=VARCHAR},
+            </if>
+            <if test="app_type != null">
+                app_type = #{appType,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="people != null">
+                people = #{people,jdbcType=INTEGER},
+            </if>
+            <if test="rmbSum != null">
+                rmb_sum = #{rmbSum,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                token = #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="tokenTotalSum != null">
+                token_total_sum = #{tokenTotalSum,jdbcType=VARCHAR},
+            </if>
+            <if test="beginTime != null">
+                begin_time = #{beginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appName != null">
+                app_name = #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appid != null">
+                appid = #{appid,jdbcType=VARCHAR},
+            </if>
+            <if test="pname != null">
+                pname = #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="action != null">
+                action = #{action,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="isReceived != null">
+                is_received = #{isReceived,jdbcType=INTEGER},
+            </if>
+            <if test="commission != null">
+                commission = #{commission,jdbcType=INTEGER},
+            </if>
+            <if test="insertUser != null">
+                insert_user = #{insertUser,jdbcType=VARCHAR},
+            </if>
+            <if test="insertDate != null">
+                insert_date = #{insertDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checker != null">
+                checker = #{checker,jdbcType=VARCHAR},
+            </if>
+            <if test="releaseUser != null">
+                release_user = #{releaseUser,jdbcType=VARCHAR},
+            </if>
+            <if test="releaseTime != null">
+                release_time = #{releaseTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
 
-  <select id="selectCount" resultType="java.lang.Integer">
+    <select id="selectCount" resultType="java.lang.Integer">
 --   select count(1) count from task where status = 2
 select sum(people) count from task where status = 2
 </select>
-  <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from task where status = 2 and app_type = #{appType,jdbcType=INTEGER} order by insert_date
+    </select>
+
+    <select id="selectPeople" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from task where status = 2 and app_type = #{appType,jdbcType=INTEGER} order by insert_date
+   people,count
+    from task where id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <update id="updateCount">
+    update task
+    <set>
+        count = count + 1,
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    <update id="updateStatus">
+        update task
+        <set>
+            status = 3,
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
 </mapper>
